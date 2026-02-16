@@ -27,6 +27,12 @@
       --accent-lift-dim: rgba(245,158,11,0.1);
       --accent-lift-glow: rgba(245,158,11,0.3);
       --accent-lift-strong: rgba(245,158,11,0.18);
+      --accent-warmup: #fb7185;
+      --accent-warmup-dim: rgba(251,113,133,0.1);
+      --accent-warmup-glow: rgba(251,113,133,0.3);
+      --accent-mobility: #a78bfa;
+      --accent-mobility-dim: rgba(167,139,250,0.1);
+      --accent-mobility-glow: rgba(167,139,250,0.3);
       --accent-cardio: #22d3ee;
       --accent-cardio-dim: rgba(34,211,238,0.08);
       --accent-cardio-glow: rgba(34,211,238,0.25);
@@ -296,7 +302,9 @@
       animation: blockReveal 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
     }
 
-    .initial-load .block:nth-child(2) { animation-delay: 0.1s; }
+    .initial-load .block:nth-child(2) { animation-delay: 0.08s; }
+    .initial-load .block:nth-child(3) { animation-delay: 0.16s; }
+    .initial-load .block:nth-child(4) { animation-delay: 0.24s; }
 
     @keyframes blockReveal {
       from { opacity: 0; transform: translateY(12px); }
@@ -323,6 +331,14 @@
       flex-shrink: 0;
     }
 
+    .block--warmup .block-dot {
+      background: var(--accent-warmup);
+      box-shadow: 0 0 10px var(--accent-warmup-glow), 0 0 30px rgba(251,113,133,0.1);
+    }
+    .block--mobility .block-dot {
+      background: var(--accent-mobility);
+      box-shadow: 0 0 10px var(--accent-mobility-glow), 0 0 30px rgba(167,139,250,0.1);
+    }
     .block--lift .block-dot {
       background: var(--accent-lift);
       box-shadow: 0 0 10px var(--accent-lift-glow), 0 0 30px rgba(245,158,11,0.1);
@@ -340,6 +356,8 @@
       text-transform: uppercase;
     }
 
+    .block--warmup .block-name { color: var(--accent-warmup); }
+    .block--mobility .block-name { color: var(--accent-mobility); }
     .block--lift .block-name { color: var(--accent-lift); }
     .block--cardio .block-name { color: var(--accent-cardio); }
 
@@ -534,6 +552,16 @@
       border-radius: 6px;
     }
 
+    .tag--warmup {
+      background: var(--accent-warmup-dim);
+      color: var(--accent-warmup);
+      border: 1px solid rgba(251,113,133,0.08);
+    }
+    .tag--mobility {
+      background: var(--accent-mobility-dim);
+      color: var(--accent-mobility);
+      border: 1px solid rgba(167,139,250,0.08);
+    }
     .tag--lift {
       background: var(--accent-lift-dim);
       color: var(--accent-lift);
@@ -819,12 +847,55 @@
 
 const ATHLETE = 'Ricardo';
 
+// Aquecimento e Mobilidade variam conforme o foco do dia
+const WARMUP_POSTERIOR = {
+  type: 'warmup', label: 'Bloco 1 — Aquecimento',
+  title: 'Ativação Geral', duration: '5-8 min',
+  exercises: [
+    { name: 'Polichinelo', muscle: 'Corpo todo', duration: '~2 min', equipment: 'Nenhum', tip: 'Ritmo constante. Braços completos acima da cabeça.' },
+    { name: 'Corrida Estacionária', muscle: 'Cardio', duration: '~2 min', equipment: 'Nenhum', tip: 'Joelhos elevados, braços acompanhando. Aumente a intensidade gradualmente.' },
+    { name: 'Agachamento Livre', muscle: 'Pernas / Core', duration: '~2 min', equipment: 'Nenhum', tip: 'Sem peso, foco na amplitude. Desça devagar, suba com controle.' },
+  ]
+};
+
+const WARMUP_ANTERIOR = {
+  type: 'warmup', label: 'Bloco 1 — Aquecimento',
+  title: 'Ativação Geral', duration: '5-8 min',
+  exercises: [
+    { name: 'Polichinelo', muscle: 'Corpo todo', duration: '~2 min', equipment: 'Nenhum', tip: 'Ritmo constante. Braços completos acima da cabeça.' },
+    { name: 'Escalador', muscle: 'Core / Cardio', duration: '~2 min', equipment: 'Nenhum', tip: 'Posição de prancha. Alterne os joelhos em direção ao peito com ritmo.' },
+    { name: 'Flexão Leve', muscle: 'Peitoral / Tríceps', duration: '~2 min', equipment: 'Nenhum', tip: 'Pode ser no joelho. Foco em aquecer ombros e peito.' },
+  ]
+};
+
+const MOBILITY_POSTERIOR = {
+  type: 'mobility', label: 'Bloco 2 — Mobilidade',
+  title: 'Mobilidade — Cadeia Posterior', duration: '5-8 min',
+  exercises: [
+    { name: 'Gato-Vaca', muscle: 'Coluna', duration: '~2 min', equipment: 'Nenhum', tip: 'Quatro apoios. Alterne flexão e extensão da coluna com a respiração.' },
+    { name: '90/90 de Quadril', muscle: 'Quadril', duration: '~2 min', equipment: 'Nenhum', tip: 'Sentado, perna da frente e de trás a 90°. Mantenha o tronco ereto e alterne os lados.' },
+    { name: 'Alongamento de Posterior', muscle: 'Post. coxa', duration: '~2 min', equipment: 'Nenhum', tip: 'Em pé, pé no step ou banco baixo. Incline o tronco mantendo as costas retas.' },
+  ]
+};
+
+const MOBILITY_ANTERIOR = {
+  type: 'mobility', label: 'Bloco 2 — Mobilidade',
+  title: 'Mobilidade — Cadeia Anterior', duration: '5-8 min',
+  exercises: [
+    { name: 'Rotação Torácica', muscle: 'Coluna / Ombros', duration: '~2 min', equipment: 'Nenhum', tip: 'Quatro apoios, mão na nuca. Gire abrindo o cotovelo pro teto. Alterne os lados.' },
+    { name: 'Flexor de Quadril', muscle: 'Quadril', duration: '~2 min', equipment: 'Nenhum', tip: 'Ajoelhado, uma perna à frente. Avance o quadril sem arquear a lombar.' },
+    { name: 'Passa-e-Repassa', muscle: 'Ombros', duration: '~2 min', equipment: 'Bastão ou toalha', tip: 'Segure largo, passe o bastão por cima da cabeça e para trás. Movimentos lentos e controlados.' },
+  ]
+};
+
 const WEEK = [
   {
     day: 'Seg', date: '2026-02-16', num: 16, rest: false,
     blocks: [
+      WARMUP_POSTERIOR,
+      MOBILITY_POSTERIOR,
       {
-        type: 'lift', label: 'Bloco 1 — MaxLift',
+        type: 'lift', label: 'Bloco 3 — MaxLift',
         title: 'Treino 1 — Cadeia Posterior', mix: 'Mix 1', duration: '25-30 min',
         exercises: [
           { name: 'Stiff', muscle: 'Post. coxa / Glúteos', duration: '~5 min', equipment: 'Barra ou halteres', tip: 'Mantenha as costas retas. Desça controlando até sentir o alongamento dos posteriores.' },
@@ -836,7 +907,7 @@ const WEEK = [
         ]
       },
       {
-        type: 'cardio', label: 'Bloco 2 — Cardio',
+        type: 'cardio', label: 'Bloco 4 — Cardio',
         title: 'MaxFight', mix: 'Mix 1', duration: '25-30 min',
         exercises: [
           { name: 'Jab + Cross', muscle: 'Soco', duration: '~4 min', equipment: 'Nenhum', tip: 'Gire o quadril no cross. Mãos voltam à guarda após cada soco.' },
@@ -852,8 +923,10 @@ const WEEK = [
   {
     day: 'Ter', date: '2026-02-17', num: 17, rest: false,
     blocks: [
+      WARMUP_ANTERIOR,
+      MOBILITY_ANTERIOR,
       {
-        type: 'lift', label: 'Bloco 1 — MaxLift',
+        type: 'lift', label: 'Bloco 3 — MaxLift',
         title: 'Treino 2 — Cadeia Anterior', mix: 'Mix 1', duration: '25-30 min',
         exercises: [
           { name: 'Agachamento', muscle: 'Quadríceps / Glúteos', duration: '~5 min', equipment: 'Barra, halteres ou peso corporal', tip: 'Joelhos na direção dos pés. Desça até paralelo ou abaixo.' },
@@ -863,7 +936,7 @@ const WEEK = [
         ]
       },
       {
-        type: 'cardio', label: 'Bloco 2 — Cardio',
+        type: 'cardio', label: 'Bloco 4 — Cardio',
         title: 'MaxStep', mix: 'Mix 1', duration: '25-30 min',
         exercises: [
           { name: 'Basic Step + V-Step', muscle: 'Base', duration: '~5 min', equipment: 'Plataforma de step', tip: 'Pise com o pé inteiro no step. Mantenha a postura ereta.' },
@@ -879,8 +952,10 @@ const WEEK = [
   {
     day: 'Qui', date: '2026-02-19', num: 19, rest: false,
     blocks: [
+      WARMUP_POSTERIOR,
+      MOBILITY_POSTERIOR,
       {
-        type: 'lift', label: 'Bloco 1 — MaxLift',
+        type: 'lift', label: 'Bloco 3 — MaxLift',
         title: 'Treino 1 — Cadeia Posterior', mix: 'Mix 2', duration: '25-30 min',
         exercises: [
           { name: 'Leg Curl', muscle: 'Post. coxa', duration: '~5 min', equipment: 'Máquina ou elástico', tip: 'Controle a fase excêntrica. Não deixe o peso cair.' },
@@ -892,7 +967,7 @@ const WEEK = [
         ]
       },
       {
-        type: 'cardio', label: 'Bloco 2 — Cardio',
+        type: 'cardio', label: 'Bloco 4 — Cardio',
         title: 'MaxFight', mix: 'Mix 2', duration: '25-30 min',
         exercises: [
           { name: 'Jab + Cross + Hook', muscle: 'Combo', duration: '~5 min', equipment: 'Nenhum', tip: 'Fluidez entre os golpes. Cada soco começa no quadril.' },
@@ -908,8 +983,10 @@ const WEEK = [
   {
     day: 'Sex', date: '2026-02-20', num: 20, rest: false,
     blocks: [
+      WARMUP_ANTERIOR,
+      MOBILITY_ANTERIOR,
       {
-        type: 'lift', label: 'Bloco 1 — MaxLift',
+        type: 'lift', label: 'Bloco 3 — MaxLift',
         title: 'Treino 2 — Cadeia Anterior', mix: 'Mix 2', duration: '25-30 min',
         exercises: [
           { name: 'Avanço', muscle: 'Quadríceps / Glúteos', duration: '~5 min', equipment: 'Halteres ou peso corporal', tip: 'Passo à frente controlado. Joelho não ultrapassa a ponta do pé.' },
@@ -919,7 +996,7 @@ const WEEK = [
         ]
       },
       {
-        type: 'cardio', label: 'Bloco 2 — Cardio',
+        type: 'cardio', label: 'Bloco 4 — Cardio',
         title: 'MaxStep', mix: 'Mix 2', duration: '25-30 min',
         exercises: [
           { name: 'Leg Curl Step', muscle: 'Intermediário', duration: '~5 min', equipment: 'Plataforma de step', tip: 'Suba e flexione a perna atrás no ritmo. Alterne as pernas.' },
@@ -934,7 +1011,7 @@ const WEEK = [
 ];
 
 // ─── State ───
-const STORAGE_KEY = 'maxresults-ricardo-2026-02-16';
+const STORAGE_KEY = 'maxresults-ricardo-2026-02-16-v2';
 let currentDayIndex = 0; // default Monday the 16th
 let completedExercises = loadProgress();
 
@@ -1019,7 +1096,7 @@ function renderWorkout() {
         <div class="block-progress ${blockDone ? 'done' : ''}">${doneCount}/${total}</div>
       </div>
       <div class="block-subtitle">${block.title}</div>
-      <div class="block-meta">${block.mix} &middot; ${block.duration}</div>
+      <div class="block-meta">${block.mix ? block.mix + ' &middot; ' : ''}${block.duration}</div>
       ${block.exercises.map((ex, ei) => {
         const key = exerciseKey(currentDayIndex, bi, ei);
         const done = completedExercises[key];
