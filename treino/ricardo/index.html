@@ -686,13 +686,18 @@
 
     /* Detail panel */
     .exercise-detail {
-      max-height: 0;
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.25s ease;
       overflow: hidden;
-      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .exercise.expanded .exercise-detail {
-      max-height: 200px;
+      grid-template-rows: 1fr;
+    }
+
+    .exercise-detail > .detail-inner {
+      overflow: hidden;
     }
 
     .detail-inner {
@@ -1319,7 +1324,34 @@ function toggleExercise(key) {
     completedExercises[key] = true;
   }
   saveProgress();
-  render();
+
+  // In-place update: toggle completed class on the exercise
+  const el = document.getElementById('ex-' + key);
+  if (el) {
+    el.classList.toggle('completed', !!completedExercises[key]);
+  }
+
+  // Update block progress counters and day switcher without full re-render
+  updateBlockProgress();
+  updateProgress();
+  renderDaySwitcher();
+}
+
+function updateBlockProgress() {
+  const day = WEEK[currentDayIndex];
+  if (day.rest) return;
+  document.querySelectorAll('.block').forEach((blockEl, bi) => {
+    const block = day.blocks[bi];
+    if (!block) return;
+    const total = block.exercises.length;
+    const doneCount = block.exercises.filter((_, ei) => completedExercises[exerciseKey(currentDayIndex, bi, ei)]).length;
+    const blockDone = doneCount === total;
+    const badge = blockEl.querySelector('.block-progress');
+    if (badge) {
+      badge.textContent = `${doneCount}/${total}`;
+      badge.classList.toggle('done', blockDone);
+    }
+  });
 }
 
 function toggleDetail(key) {
