@@ -112,9 +112,9 @@
 
     .brand {
       font-family: var(--font-display);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 4px;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 3px;
       text-transform: uppercase;
       background: linear-gradient(135deg, var(--accent-lift), #fbbf24);
       -webkit-background-clip: text;
@@ -214,6 +214,102 @@
       min-width: 36px;
       text-align: right;
       transition: color 0.3s;
+    }
+
+    /* ─── Weekly Goal ─── */
+    .week-goal {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .week-goal::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-lift), var(--accent-cardio));
+    }
+
+    .week-goal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .week-goal-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .week-goal-badge {
+      font-family: var(--font-display);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--accent-lift-dim);
+      color: var(--accent-lift);
+      border: 1px solid rgba(245,158,11,0.08);
+    }
+
+    .week-goal-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .week-goal-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .week-goal-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .week-goal-icon.strength {
+      background: var(--accent-lift-dim);
+    }
+    .week-goal-icon.cardio {
+      background: var(--accent-cardio-dim);
+    }
+    .week-goal-icon.assessment {
+      background: var(--accent-mobility-dim);
+    }
+
+    .week-goal-text {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-dim);
+      line-height: 1.3;
+    }
+
+    .week-goal-text strong {
+      color: var(--text);
+      font-weight: 700;
     }
 
     /* ─── Day Switcher ─── */
@@ -815,6 +911,9 @@
     </div>
   </div>
 
+  <!-- Weekly Goal -->
+  <div class="week-goal" id="weekGoal"></div>
+
   <!-- Day Switcher -->
   <nav class="day-switcher" id="daySwitcher"></nav>
 
@@ -846,6 +945,12 @@
 // Ricardo: 4x/week, no MaxBalance, cardio = MaxFight + MaxStep alternating
 
 const ATHLETE = 'Ricardo';
+
+const WEEKLY_GOALS = [
+  { icon: '🏋️', type: 'strength', text: '<strong>Força:</strong> Aumentar carga do Stiff em 2,5 kg' },
+  { icon: '🫀', type: 'cardio', text: '<strong>Cardio:</strong> Manter FC entre 140-160 bpm no MaxFight' },
+  { icon: '📋', type: 'assessment', text: '<strong>Avaliação:</strong> Agendar avaliação física para semana que vem' },
+];
 
 // Aquecimento e Mobilidade variam conforme o foco do dia
 const WARMUP_POSTERIOR = {
@@ -1043,10 +1148,29 @@ function findCurrentDay() {
 
 // ─── Render ───
 function render() {
+  renderWeekGoal();
   renderDaySwitcher();
   renderWorkout();
   updateProgress();
   renderWeekOverview();
+}
+
+function renderWeekGoal() {
+  const el = document.getElementById('weekGoal');
+  el.innerHTML = `
+    <div class="week-goal-header">
+      <span class="week-goal-label">Meta da Semana</span>
+      <span class="week-goal-badge">Sem 16-20 Fev</span>
+    </div>
+    <div class="week-goal-items">
+      ${WEEKLY_GOALS.map(g => `
+        <div class="week-goal-item">
+          <div class="week-goal-icon ${g.type}">${g.icon}</div>
+          <div class="week-goal-text">${g.text}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
 }
 
 function renderDaySwitcher() {
