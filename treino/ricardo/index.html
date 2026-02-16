@@ -290,10 +290,13 @@
     /* ─── Block Section ─── */
     .block {
       margin-top: 28px;
+    }
+
+    .initial-load .block {
       animation: blockReveal 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
     }
 
-    .block:nth-child(2) { animation-delay: 0.1s; }
+    .initial-load .block:nth-child(2) { animation-delay: 0.1s; }
 
     @keyframes blockReveal {
       from { opacity: 0; transform: translateY(12px); }
@@ -381,15 +384,18 @@
       margin-bottom: 8px;
       overflow: hidden;
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .initial-load .exercise {
       animation: exerciseReveal 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
     }
 
-    .exercise:nth-child(2) { animation-delay: 0.04s; }
-    .exercise:nth-child(3) { animation-delay: 0.08s; }
-    .exercise:nth-child(4) { animation-delay: 0.12s; }
-    .exercise:nth-child(5) { animation-delay: 0.16s; }
-    .exercise:nth-child(6) { animation-delay: 0.20s; }
-    .exercise:nth-child(7) { animation-delay: 0.24s; }
+    .initial-load .exercise:nth-child(2) { animation-delay: 0.04s; }
+    .initial-load .exercise:nth-child(3) { animation-delay: 0.08s; }
+    .initial-load .exercise:nth-child(4) { animation-delay: 0.12s; }
+    .initial-load .exercise:nth-child(5) { animation-delay: 0.16s; }
+    .initial-load .exercise:nth-child(6) { animation-delay: 0.20s; }
+    .initial-load .exercise:nth-child(7) { animation-delay: 0.24s; }
 
     @keyframes exerciseReveal {
       from { opacity: 0; transform: translateY(8px); }
@@ -785,11 +791,11 @@
   <nav class="day-switcher" id="daySwitcher"></nav>
 
   <!-- Workout Content -->
-  <main id="workoutContent"></main>
+  <main id="workoutContent" class="initial-load"></main>
 
   <!-- Session Complete Banner -->
   <div class="session-complete" id="sessionComplete">
-    <h3>Sessao Concluida!</h3>
+    <h3>Sessão Concluída!</h3>
     <p>Bom treino, Ricardo. Descanse bem.</p>
   </div>
 
@@ -801,7 +807,7 @@
   <div class="week-overview" id="weekOverview"></div>
 
   <footer class="footer">
-    Metodologia MaxResults &middot; Luisao Ribeiro<br>
+    Metodologia MaxResults &middot; Luisão Ribeiro<br>
     Gerado em 16/02/2026
   </footer>
 </div>
@@ -1130,6 +1136,10 @@ document.getElementById('weekToggle').addEventListener('click', function() {
 // ─── Init ───
 currentDayIndex = findCurrentDay();
 render();
+// Remove initial-load class after animations complete to prevent blink on re-renders
+setTimeout(() => {
+  document.getElementById('workoutContent').classList.remove('initial-load');
+}, 600);
 </script>
 
 </body>
