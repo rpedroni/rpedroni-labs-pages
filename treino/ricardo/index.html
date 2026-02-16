@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Ricardo — Treino | MaxResults</title>
+  <meta name="theme-color" content="#0a0a0b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0b;
+      --surface: #141416;
+      --surface-2: #1c1c1f;
+      --surface-3: #242428;
+      --border: #2a2a2e;
+      --border-light: #333338;
+      --text: #f0f0f0;
+      --text-dim: #c0c0c4;
+      --text-muted: #7a7a7e;
+      --accent-lift: #f59e0b;
+      --accent-lift-dim: rgba(245,158,11,0.12);
+      --accent-lift-glow: rgba(245,158,11,0.25);
+      --accent-cardio: #06b6d4;
+      --accent-cardio-dim: rgba(6,182,212,0.12);
+      --accent-cardio-glow: rgba(6,182,212,0.25);
+      --green: #22c55e;
+      --green-dim: rgba(34,197,94,0.12);
+      --radius: 14px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100dvh;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 16px 100px;
+    }
+
+    /* ─── Sticky Header ─── */
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,11,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 16px 0 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .brand {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent-lift);
+    }
+
+    .header-date {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .header-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-lift);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .header-title .athlete { color: var(--text); }
+    .header-title .separator { color: var(--text-muted); margin: 0 6px; }
+    .header-title .day { color: var(--text-dim); font-weight: 600; }
+
+    /* Progress Bar */
+    .progress-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 6px;
+      background: var(--surface-2);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--accent-lift), var(--green));
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 0%;
+    }
+
+    .progress-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      white-space: nowrap;
+      min-width: 32px;
+      text-align: right;
+    }
+
+    /* ─── Day Switcher ─── */
+    .day-switcher {
+      display: flex;
+      gap: 4px;
+      padding: 16px 0 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .day-switcher::-webkit-scrollbar { display: none; }
+
+    .day-btn {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 8px 4px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.15s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .day-btn .day-num {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-dim);
+    }
+
+    .day-btn.active {
+      background: var(--accent-lift-dim);
+      border-color: var(--accent-lift);
+      color: var(--accent-lift);
+    }
+    .day-btn.active .day-num { color: var(--accent-lift); }
+
+    .day-btn.rest {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    .day-btn.completed-day::after {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+      margin-top: 2px;
+    }
+
+    /* ─── Block Section ─── */
+    .block {
+      margin-top: 20px;
+    }
+
+    .block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .block-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .block-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .block--lift .block-dot { background: var(--accent-lift); box-shadow: 0 0 8px var(--accent-lift-glow); }
+    .block--cardio .block-dot { background: var(--accent-cardio); box-shadow: 0 0 8px var(--accent-cardio-glow); }
+
+    .block-name {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .block--lift .block-name { color: var(--accent-lift); }
+    .block--cardio .block-name { color: var(--accent-cardio); }
+
+    .block-subtitle {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .block-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .block-progress {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--surface-2);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    .block-progress.done {
+      background: var(--green-dim);
+      color: var(--green);
+    }
+
+    /* ─── Exercise Item ─── */
+    .exercise {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .exercise.completed {
+      border-color: var(--green-dim);
+    }
+
+    .exercise-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* Checkbox */
+    .check {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .check svg {
+      width: 14px;
+      height: 14px;
+      stroke: transparent;
+      stroke-width: 3;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.2s;
+    }
+
+    .exercise.completed .check {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .exercise.completed .check svg {
+      stroke: #fff;
+    }
+
+    .exercise-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .exercise-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .exercise-name {
+      font-size: 15px;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+
+    .exercise.completed .exercise-name {
+      opacity: 0.5;
+    }
+
+    .exercise-duration {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .exercise-tags {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 5px;
+    }
+
+    .tag--lift { background: var(--accent-lift-dim); color: var(--accent-lift); }
+    .tag--cardio { background: var(--accent-cardio-dim); color: var(--accent-cardio); }
+
+    /* Expand chevron */
+    .expand-chevron {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: var(--text-muted);
+      transition: transform 0.2s;
+    }
+
+    .exercise.expanded .expand-chevron {
+      transform: rotate(180deg);
+    }
+
+    /* Detail panel */
+    .exercise-detail {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .exercise.expanded .exercise-detail {
+      max-height: 200px;
+    }
+
+    .detail-inner {
+      padding: 0 16px 14px;
+      padding-left: 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .detail-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .detail-label {
+      color: var(--text-muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .detail-value {
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+
+    /* ─── Rest Day Message ─── */
+    .rest-message {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .rest-message h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .rest-message p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* ─── Session Complete ─── */
+    .session-complete {
+      display: none;
+      text-align: center;
+      padding: 32px 20px;
+      margin-top: 20px;
+      background: var(--green-dim);
+      border: 1px solid rgba(34,197,94,0.2);
+      border-radius: var(--radius);
+    }
+
+    .session-complete.visible { display: block; }
+
+    .session-complete h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 4px;
+    }
+
+    .session-complete p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ─── Footer ─── */
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    /* ─── Week Overview Toggle ─── */
+    .week-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px;
+      margin-top: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      transition: color 0.15s;
+    }
+
+    .week-toggle:hover { color: var(--text-dim); }
+
+    .week-toggle svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.2s;
+    }
+
+    .week-toggle.open svg { transform: rotate(180deg); }
+
+    .week-overview {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .week-overview.open { max-height: 800px; }
+
+    .week-day-summary {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .week-day-summary:last-child { border-bottom: none; }
+
+    .week-day-label {
+      font-size: 13px;
+      font-weight: 700;
+      width: 40px;
+      flex-shrink: 0;
+    }
+
+    .week-day-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      flex: 1;
+    }
+
+    .week-day-status {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .week-day-status.today { color: var(--accent-lift); }
+    .week-day-status.rest { color: var(--text-muted); opacity: 0.5; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="sticky-header">
+    <div class="header-top">
+      <div class="brand">MaxResults</div>
+      <div class="header-date" id="headerDate"></div>
+    </div>
+    <div class="header-title">
+      <img class="avatar" src="https://github.com/rpedroni.png" alt="Ricardo" width="36" height="36">
+      <div><span class="athlete">Ricardo</span><span class="separator">/</span><span class="day" id="headerDay"></span></div>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-label" id="progressLabel">0%</div>
+    </div>
+  </div>
+
+  <!-- Day Switcher -->
+  <nav class="day-switcher" id="daySwitcher"></nav>
+
+  <!-- Workout Content -->
+  <main id="workoutContent"></main>
+
+  <!-- Session Complete Banner -->
+  <div class="session-complete" id="sessionComplete">
+    <h3>Sessão Concluída!</h3>
+    <p>Bom treino, Ricardo. Descanse bem.</p>
+  </div>
+
+  <!-- Week Overview -->
+  <button class="week-toggle" id="weekToggle">
+    Ver semana completa
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  </button>
+  <div class="week-overview" id="weekOverview"></div>
+
+  <footer class="footer">
+    Metodologia MaxResults &middot; Luisão Ribeiro<br>
+    Gerado em 16/02/2026
+  </footer>
+</div>
+
+<script>
+// ─── Workout Data ───
+// Week of Feb 16-20, 2026 (Mon-Fri)
+// Ricardo: 4x/week, no MaxBalance, cardio = MaxFight + MaxStep alternating
+
+const ATHLETE = 'Ricardo';
+
+const WEEK = [
+  {
+    day: 'Seg', date: '2026-02-16', num: 16, rest: false,
+    blocks: [
+      {
+        type: 'lift', label: 'Bloco 1 — MaxLift',
+        title: 'Treino 1 — Cadeia Posterior', mix: 'Mix 1', duration: '25-30 min',
+        exercises: [
+          { name: 'Stiff', muscle: 'Post. coxa / Glúteos', duration: '~5 min', equipment: 'Barra ou halteres', tip: 'Mantenha as costas retas. Desça controlando até sentir o alongamento dos posteriores.' },
+          { name: 'Elevação Pélvica', muscle: 'Glúteos', duration: '~5 min', equipment: 'Barra ou peso corporal', tip: 'Contraia os glúteos no topo. Não hiperextenda a lombar.' },
+          { name: 'Remada Curvada', muscle: 'Costas', duration: '~4 min', equipment: 'Barra ou halteres', tip: 'Tronco inclinado ~45°, puxe em direção ao umbigo.' },
+          { name: 'Rosca Direta', muscle: 'Bíceps', duration: '~4 min', equipment: 'Barra ou halteres', tip: 'Cotovelos fixos ao lado do corpo. Sem balançar o tronco.' },
+          { name: 'Crunch', muscle: 'Abdômen', duration: '~4 min', equipment: 'Peso corporal', tip: 'Suba apenas as escápulas do chão. Expire na subida.' },
+          { name: 'Elevação de Panturrilha', muscle: 'Panturrilha', duration: '~3 min', equipment: 'Peso corporal ou step', tip: 'Amplitude total: desça o calcanhar abaixo do step, suba na ponta.' },
+        ]
+      },
+      {
+        type: 'cardio', label: 'Bloco 2 — Cardio',
+        title: 'MaxFight', mix: 'Mix 1', duration: '25-30 min',
+        exercises: [
+          { name: 'Jab + Cross', muscle: 'Soco', duration: '~4 min', equipment: 'Nenhum', tip: 'Gire o quadril no cross. Mãos voltam à guarda após cada soco.' },
+          { name: 'Hook + Uppercut', muscle: 'Soco', duration: '~4 min', equipment: 'Nenhum', tip: 'Hook: cotovelo a 90°, gire o tronco. Uppercut: suba do quadril.' },
+          { name: 'Front Kick', muscle: 'Chute', duration: '~4 min', equipment: 'Nenhum', tip: 'Eleve o joelho antes de estender. Chute com a planta do pé.' },
+          { name: 'Knee Strike', muscle: 'Joelho', duration: '~4 min', equipment: 'Nenhum', tip: 'Puxe os braços para baixo enquanto sobe o joelho. Contraia o core.' },
+          { name: 'Combo 1-2-3', muscle: 'Combo', duration: '~5 min', equipment: 'Nenhum', tip: 'Jab + Cross + Hook em sequência fluida. Mantenha o ritmo da música.' },
+          { name: 'Defesa / Esquiva', muscle: 'Defesa', duration: '~4 min', equipment: 'Nenhum', tip: 'Flexione os joelhos ao esquivar, não a lombar. Olhos no oponente.' },
+        ]
+      }
+    ]
+  },
+  {
+    day: 'Ter', date: '2026-02-17', num: 17, rest: false,
+    blocks: [
+      {
+        type: 'lift', label: 'Bloco 1 — MaxLift',
+        title: 'Treino 2 — Cadeia Anterior', mix: 'Mix 1', duration: '25-30 min',
+        exercises: [
+          { name: 'Agachamento', muscle: 'Quadríceps / Glúteos', duration: '~5 min', equipment: 'Barra, halteres ou peso corporal', tip: 'Joelhos na direção dos pés. Desça até paralelo ou abaixo.' },
+          { name: 'Supino Reto', muscle: 'Peitoral', duration: '~5 min', equipment: 'Barra ou halteres', tip: 'Escápulas retraídas e firmes no banco. Desça até o peito.' },
+          { name: 'Desenvolvimento', muscle: 'Ombros', duration: '~5 min', equipment: 'Halteres ou barra', tip: 'Não arqueie a lombar. Suba até extensão completa dos braços.' },
+          { name: 'Tríceps Testa', muscle: 'Tríceps', duration: '~5 min', equipment: 'Barra ou halteres', tip: 'Cotovelos apontando para o teto, fixos. Desça até a testa, suba controlando.' },
+        ]
+      },
+      {
+        type: 'cardio', label: 'Bloco 2 — Cardio',
+        title: 'MaxStep', mix: 'Mix 1', duration: '25-30 min',
+        exercises: [
+          { name: 'Basic Step + V-Step', muscle: 'Base', duration: '~5 min', equipment: 'Plataforma de step', tip: 'Pise com o pé inteiro no step. Mantenha a postura ereta.' },
+          { name: 'Knee Lift', muscle: 'Intermediário', duration: '~5 min', equipment: 'Plataforma de step', tip: 'Eleve o joelho ao nível do quadril. Use os braços para equilíbrio.' },
+          { name: 'Repeater', muscle: 'Intermediário', duration: '~5 min', equipment: 'Plataforma de step', tip: 'Repetições rápidas e ritmadas. Mantenha o core ativado.' },
+          { name: 'Over the Top', muscle: 'Avançado', duration: '~5 min', equipment: 'Plataforma de step', tip: 'Passe de um lado ao outro com controle. Aterrisse suavemente.' },
+          { name: 'Propulsão', muscle: 'Avançado', duration: '~5 min', equipment: 'Plataforma de step', tip: 'Saltos controlados. Aterrisse com os joelhos levemente flexionados.' },
+        ]
+      }
+    ]
+  },
+  { day: 'Qua', date: '2026-02-18', num: 18, rest: true },
+  {
+    day: 'Qui', date: '2026-02-19', num: 19, rest: false,
+    blocks: [
+      {
+        type: 'lift', label: 'Bloco 1 — MaxLift',
+        title: 'Treino 1 — Cadeia Posterior', mix: 'Mix 2', duration: '25-30 min',
+        exercises: [
+          { name: 'Leg Curl', muscle: 'Post. coxa', duration: '~5 min', equipment: 'Máquina ou elástico', tip: 'Controle a fase excêntrica. Não deixe o peso cair.' },
+          { name: 'Afundo', muscle: 'Glúteos / Post. coxa', duration: '~5 min', equipment: 'Halteres ou peso corporal', tip: 'Passo amplo. Joelho de trás quase toca o chão. Tronco ereto.' },
+          { name: 'Pulldown', muscle: 'Costas', duration: '~4 min', equipment: 'Máquina ou elástico', tip: 'Puxe até a altura do queixo. Sinta a contração nas costas, não nos braços.' },
+          { name: 'Rosca Martelo', muscle: 'Bíceps', duration: '~4 min', equipment: 'Halteres', tip: 'Pegada neutra. Cotovelos fixos, suba controlando.' },
+          { name: 'Prancha', muscle: 'Core', duration: '~4 min', equipment: 'Peso corporal', tip: 'Corpo reto da cabeça aos pés. Não deixe o quadril cair nem subir.' },
+          { name: 'Elevação de Panturrilha', muscle: 'Panturrilha', duration: '~3 min', equipment: 'Peso corporal ou step', tip: 'Varie entre pés paralelos e em V para diferentes ênfases.' },
+        ]
+      },
+      {
+        type: 'cardio', label: 'Bloco 2 — Cardio',
+        title: 'MaxFight', mix: 'Mix 2', duration: '25-30 min',
+        exercises: [
+          { name: 'Jab + Cross + Hook', muscle: 'Combo', duration: '~5 min', equipment: 'Nenhum', tip: 'Fluidez entre os golpes. Cada soco começa no quadril.' },
+          { name: 'Roundhouse Kick', muscle: 'Chute', duration: '~5 min', equipment: 'Nenhum', tip: 'Gire o pé de apoio. O chute vem do quadril, não do joelho.' },
+          { name: 'Elbow Strike', muscle: 'Cotovelo', duration: '~4 min', equipment: 'Nenhum', tip: 'Curta distância. Gire o tronco para gerar potência.' },
+          { name: 'Side Kick', muscle: 'Chute', duration: '~4 min', equipment: 'Nenhum', tip: 'Eleve o joelho, estenda lateralmente. Chute com a lâmina do pé.' },
+          { name: 'Combo 1-2', muscle: 'Combo', duration: '~4 min', equipment: 'Nenhum', tip: 'Jab + Cross. Velocidade e ritmo. Mãos voltam à guarda.' },
+          { name: 'Defesa / Esquiva', muscle: 'Defesa', duration: '~3 min', equipment: 'Nenhum', tip: 'Bobbing e weaving. Mantenha os joelhos flexionados.' },
+        ]
+      }
+    ]
+  },
+  {
+    day: 'Sex', date: '2026-02-20', num: 20, rest: false,
+    blocks: [
+      {
+        type: 'lift', label: 'Bloco 1 — MaxLift',
+        title: 'Treino 2 — Cadeia Anterior', mix: 'Mix 2', duration: '25-30 min',
+        exercises: [
+          { name: 'Avanço', muscle: 'Quadríceps / Glúteos', duration: '~5 min', equipment: 'Halteres ou peso corporal', tip: 'Passo à frente controlado. Joelho não ultrapassa a ponta do pé.' },
+          { name: 'Supino Inclinado', muscle: 'Peitoral superior', duration: '~5 min', equipment: 'Halteres ou barra', tip: 'Banco a ~30-45°. Desça até o peito, suba sem travar os cotovelos.' },
+          { name: 'Elevação Lateral', muscle: 'Ombros', duration: '~5 min', equipment: 'Halteres', tip: 'Cotovelos levemente flexionados. Suba até a linha dos ombros, não acima.' },
+          { name: 'Tríceps Corda', muscle: 'Tríceps', duration: '~5 min', equipment: 'Cabo ou elástico', tip: 'Abra as mãos no final do movimento. Cotovelos fixos ao lado do corpo.' },
+        ]
+      },
+      {
+        type: 'cardio', label: 'Bloco 2 — Cardio',
+        title: 'MaxStep', mix: 'Mix 2', duration: '25-30 min',
+        exercises: [
+          { name: 'Leg Curl Step', muscle: 'Intermediário', duration: '~5 min', equipment: 'Plataforma de step', tip: 'Suba e flexione a perna atrás no ritmo. Alterne as pernas.' },
+          { name: 'L-Step', muscle: 'Avançado', duration: '~5 min', equipment: 'Plataforma de step', tip: 'Desenhe um L com os pés no step. Mantenha o ritmo constante.' },
+          { name: 'Straddle', muscle: 'Avançado', duration: '~5 min', equipment: 'Plataforma de step', tip: 'Abra e feche as pernas sobre o step. Core ativado.' },
+          { name: 'Propulsão', muscle: 'Avançado', duration: '~5 min', equipment: 'Plataforma de step', tip: 'Saltos explosivos. Aterrisse com controle.' },
+          { name: 'Repeater', muscle: 'Intermediário', duration: '~5 min', equipment: 'Plataforma de step', tip: 'Alta velocidade. Mantenha o centro de gravidade sobre o step.' },
+        ]
+      }
+    ]
+  },
+];
+
+// ─── State ───
+const STORAGE_KEY = 'maxresults-ricardo-2026-02-16';
+let currentDayIndex = 0; // default Monday the 16th
+let completedExercises = loadProgress();
+
+function loadProgress() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  } catch { return {}; }
+}
+
+function saveProgress() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(completedExercises));
+}
+
+function exerciseKey(dayIndex, blockIndex, exIndex) {
+  return `${dayIndex}-${blockIndex}-${exIndex}`;
+}
+
+// ─── Find today's workout ───
+function findCurrentDay() {
+  const today = new Date().toISOString().split('T')[0];
+  const exactIdx = WEEK.findIndex(d => d.date === today && !d.rest);
+  if (exactIdx !== -1) return exactIdx;
+  // next upcoming workout
+  for (let i = 0; i < WEEK.length; i++) {
+    if (WEEK[i].date >= today && !WEEK[i].rest) return i;
+  }
+  return 0;
+}
+
+// ─── Render ───
+function render() {
+  renderDaySwitcher();
+  renderWorkout();
+  updateProgress();
+  renderWeekOverview();
+}
+
+function renderDaySwitcher() {
+  const nav = document.getElementById('daySwitcher');
+  nav.innerHTML = WEEK.map((d, i) => {
+    const classes = ['day-btn'];
+    if (i === currentDayIndex) classes.push('active');
+    if (d.rest) classes.push('rest');
+    if (!d.rest && isDayComplete(i)) classes.push('completed-day');
+    return `<button class="${classes.join(' ')}" ${d.rest ? 'disabled' : ''} onclick="selectDay(${i})">
+      ${d.day}<span class="day-num">${d.num}</span>
+    </button>`;
+  }).join('');
+}
+
+function renderWorkout() {
+  const day = WEEK[currentDayIndex];
+  const content = document.getElementById('workoutContent');
+
+  document.getElementById('headerDay').textContent = day.rest
+    ? `${day.day} — Descanso`
+    : `${day.day} ${day.num}/02`;
+  document.getElementById('headerDate').textContent = 'Semana 16-20 Fev 2026';
+
+  if (day.rest) {
+    content.innerHTML = `<div class="rest-message">
+      <h2>Dia de Descanso</h2>
+      <p>Recuperação é parte do treino.</p>
+    </div>`;
+    document.getElementById('sessionComplete').classList.remove('visible');
+    return;
+  }
+
+  content.innerHTML = day.blocks.map((block, bi) => {
+    const doneCount = block.exercises.filter((_, ei) => completedExercises[exerciseKey(currentDayIndex, bi, ei)]).length;
+    const total = block.exercises.length;
+    const blockDone = doneCount === total;
+
+    return `<section class="block block--${block.type}">
+      <div class="block-header">
+        <div class="block-info">
+          <div class="block-dot"></div>
+          <div>
+            <div class="block-name">${block.label}</div>
+          </div>
+        </div>
+        <div class="block-progress ${blockDone ? 'done' : ''}">${doneCount}/${total}</div>
+      </div>
+      <div class="block-subtitle">${block.title}</div>
+      <div class="block-meta">${block.mix} &middot; ${block.duration}</div>
+      ${block.exercises.map((ex, ei) => {
+        const key = exerciseKey(currentDayIndex, bi, ei);
+        const done = completedExercises[key];
+        const tagClass = block.type === 'lift' ? 'tag--lift' : 'tag--cardio';
+        return `<div class="exercise ${done ? 'completed' : ''}" data-key="${key}" id="ex-${key}">
+          <div class="exercise-main" onclick="toggleDetail('${key}')">
+            <div class="check" onclick="event.stopPropagation(); toggleExercise('${key}')">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div class="exercise-content">
+              <div class="exercise-top">
+                <span class="exercise-name">${ex.name}</span>
+                <span class="exercise-duration">${ex.duration}</span>
+              </div>
+              <div class="exercise-tags">
+                <span class="tag ${tagClass}">${ex.muscle}</span>
+              </div>
+            </div>
+            <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+          <div class="exercise-detail">
+            <div class="detail-inner">
+              <div class="detail-row">
+                <span class="detail-label">Equipamento:</span>
+                <span class="detail-value">${ex.equipment}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Dica:</span>
+                <span class="detail-value">${ex.tip}</span>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      }).join('')}
+    </section>`;
+  }).join('');
+}
+
+function updateProgress() {
+  const day = WEEK[currentDayIndex];
+  if (day.rest) {
+    document.getElementById('progressFill').style.width = '0%';
+    document.getElementById('progressLabel').textContent = '—';
+    return;
+  }
+
+  const totalExercises = day.blocks.reduce((sum, b) => sum + b.exercises.length, 0);
+  const doneExercises = day.blocks.reduce((sum, b, bi) =>
+    sum + b.exercises.filter((_, ei) => completedExercises[exerciseKey(currentDayIndex, bi, ei)]).length, 0);
+
+  const pct = totalExercises > 0 ? Math.round((doneExercises / totalExercises) * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = pct + '%';
+
+  const complete = document.getElementById('sessionComplete');
+  if (pct === 100) {
+    complete.classList.add('visible');
+  } else {
+    complete.classList.remove('visible');
+  }
+}
+
+function isDayComplete(dayIndex) {
+  const day = WEEK[dayIndex];
+  if (day.rest || !day.blocks) return false;
+  return day.blocks.every((b, bi) =>
+    b.exercises.every((_, ei) => completedExercises[exerciseKey(dayIndex, bi, ei)])
+  );
+}
+
+function renderWeekOverview() {
+  const overview = document.getElementById('weekOverview');
+  overview.innerHTML = WEEK.filter(d => !d.rest).map(d => {
+    const idx = WEEK.indexOf(d);
+    const isCurrent = idx === currentDayIndex;
+    return `<div class="week-day-summary">
+      <div class="week-day-label">${d.day}</div>
+      <div class="week-day-desc">${d.blocks.map(b => b.title).join(' + ')}</div>
+      <div class="week-day-status ${isCurrent ? 'today' : ''}">${isDayComplete(idx) ? '&#10003;' : isCurrent ? 'Atual' : d.day}</div>
+    </div>`;
+  }).join('');
+}
+
+// ─── Interactions ───
+function selectDay(index) {
+  if (WEEK[index].rest) return;
+  currentDayIndex = index;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleExercise(key) {
+  if (completedExercises[key]) {
+    delete completedExercises[key];
+  } else {
+    completedExercises[key] = true;
+  }
+  saveProgress();
+  render();
+}
+
+function toggleDetail(key) {
+  const el = document.getElementById('ex-' + key);
+  el.classList.toggle('expanded');
+}
+
+// Week overview toggle
+document.getElementById('weekToggle').addEventListener('click', function() {
+  this.classList.toggle('open');
+  document.getElementById('weekOverview').classList.toggle('open');
+  this.childNodes[0].textContent = this.classList.contains('open') ? 'Esconder semana ' : 'Ver semana completa ';
+});
+
+// ─── Init ───
+currentDayIndex = findCurrentDay();
+render();
+</script>
+
+</body>
+</html>
