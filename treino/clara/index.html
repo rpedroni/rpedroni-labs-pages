@@ -797,6 +797,254 @@
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 100px; }
+
+    /* ─── Assessment Section ─── */
+    .assess-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px;
+      margin-top: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-muted);
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      transition: all 0.2s;
+      letter-spacing: 0.2px;
+    }
+    .assess-toggle:active { transform: scale(0.98); }
+    .assess-toggle:hover { color: var(--text-dim); border-color: var(--border-light); }
+    .assess-toggle svg { width: 16px; height: 16px; transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
+    .assess-toggle.open svg { transform: rotate(180deg); }
+
+    .assess-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    .assess-panel.open { max-height: 4000px; }
+
+    .assess-section { padding: 20px 0 0; }
+    .assess-section-title {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .assess-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 10px;
+    }
+
+    .assess-basics {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    .assess-basics .ab-item { text-align: center; }
+    .assess-basics .ab-value {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .assess-basics .ab-unit {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .assess-basics .ab-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .assess-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .assess-meta-row:last-child { border-bottom: none; }
+    .assess-meta-label { color: var(--text-muted); font-weight: 500; }
+    .assess-meta-value { color: var(--text-dim); font-weight: 600; }
+
+    .assess-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .assess-grid-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: var(--surface-2);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+    }
+    .assess-grid-item .agi-label { color: var(--text-dim); font-weight: 500; }
+    .assess-grid-item .agi-value { color: var(--text); font-family: var(--font-display); font-weight: 700; font-size: 13px; }
+
+    .assess-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .assess-stat {
+      background: var(--surface-2);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      text-align: center;
+    }
+    .assess-stat .as-value {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .assess-stat .as-sub {
+      font-size: 10px;
+      color: var(--accent-lift);
+      font-weight: 600;
+      margin-top: 1px;
+    }
+    .assess-stat .as-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .assess-donut-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+    }
+    .assess-donut {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .assess-donut::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(
+        #f59e0b 0% var(--fat-pct),
+        var(--green) var(--fat-pct) 100%
+      );
+    }
+    .assess-donut::after {
+      content: '';
+      position: absolute;
+      inset: 30px;
+      border-radius: 50%;
+      background: var(--surface);
+    }
+    .assess-donut-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+    .assess-donut-inner .adi-pct {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .assess-donut-inner .adi-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    .assess-donut-legend {
+      display: flex;
+      gap: 20px;
+      margin-top: 14px;
+    }
+    .assess-donut-legend span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+    .assess-donut-legend .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .assess-donut-legend .dot.fat { background: #f59e0b; }
+    .assess-donut-legend .dot.lean { background: var(--green); }
+
+    .assess-bars {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 32px;
+      height: 180px;
+      padding: 16px 0;
+    }
+    .assess-bar-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .assess-bar {
+      width: 56px;
+      border-radius: 8px 8px 4px 4px;
+      transition: height 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .assess-bar.lean { background: linear-gradient(180deg, var(--green), rgba(52,211,153,0.6)); }
+    .assess-bar.fat { background: linear-gradient(180deg, #f59e0b, rgba(245,158,11,0.6)); }
+    .assess-bar-val {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .assess-bar-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    /* ─── End Assessment Section ─── */
   </style>
 </head>
 <body>
@@ -834,6 +1082,12 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
   </button>
   <div class="week-overview" id="weekOverview"></div>
+
+  <button class="assess-toggle" id="assessToggle">
+    📊 Avaliação Física
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  </button>
+  <div class="assess-panel" id="assessPanel"></div>
 
   <footer class="footer">
     Metodologia MaxResults &middot; Luisão Ribeiro<br>
@@ -1251,6 +1505,152 @@ document.getElementById('weekToggle').addEventListener('click', function() {
 currentDayIndex = findCurrentDay();
 render();
 setTimeout(() => { document.getElementById('workoutContent').classList.remove('initial-load'); }, 600);
+
+// ─── Assessment Section ───
+const ASSESSMENT = {
+  date: '11/12/2025',
+  protocol: 'Pollock, 1984 — 7 Dobras',
+  nextAssessment: '11/03/2026',
+  basics: { age: 56, height: 153, weight: 53.15 },
+  perimetry: [
+    { label: 'Ombro', value: 98.5 },
+    { label: 'Tórax', value: 89 },
+    { label: 'Braço Esq.', value: 28.5 },
+    { label: 'Braço Dir.', value: 28.5 },
+    { label: 'Cintura', value: 75.5 },
+    { label: 'Abdômen', value: 88 },
+    { label: 'Quadril', value: 90 },
+    { label: 'Coxa Esq.', value: 48 },
+    { label: 'Coxa Dir.', value: 48 },
+    { label: 'Perna Esq.', value: 34 },
+    { label: 'Perna Dir.', value: 34 },
+  ],
+  skinfolds: [
+    { label: 'Tricipital', value: 13.5 },
+    { label: 'Subescapular', value: 17 },
+    { label: 'Supra-ilíaca', value: 13.3 },
+    { label: 'Peitoral', value: 6.2 },
+    { label: 'Axilar Média', value: 14.5 },
+    { label: 'Abdominal', value: 22 },
+    { label: 'Coxa', value: 18 },
+  ],
+  results: {
+    imc: { value: 22.70, classification: 'Peso normal' },
+    rcq: { value: 0.84, classification: 'Moderado' },
+    sumPerimetry: 662.00,
+    sumSkinfolds: 104.50,
+    idealFat: 10,
+    leanMass: 41.01,
+    fatMass: 12.14,
+    idealWeight: 50,
+    excessFat: 2.14,
+    fatPercent: 22.85,
+    leanPercent: 77.15,
+  },
+  objective: 'Emagrecimento',
+  targetFatPercent: 20,
+};
+
+function renderAssessment(a) {
+  const r = a.results;
+  const maxBar = Math.max(r.leanMass, r.fatMass);
+  const leanH = Math.round((r.leanMass / maxBar) * 140);
+  const fatH = Math.round((r.fatMass / maxBar) * 140);
+
+  return `
+    <div class="assess-section">
+      <div class="assess-section-title">Dados Básicos</div>
+      <div class="assess-card">
+        <div class="assess-basics">
+          <div class="ab-item"><div class="ab-value">${a.basics.age}</div><div class="ab-label">Idade</div></div>
+          <div class="ab-item"><div class="ab-value">${a.basics.height}<span class="ab-unit">cm</span></div><div class="ab-label">Altura</div></div>
+          <div class="ab-item"><div class="ab-value">${a.basics.weight}<span class="ab-unit">kg</span></div><div class="ab-label">Peso</div></div>
+        </div>
+      </div>
+      <div class="assess-card">
+        <div class="assess-meta-row"><span class="assess-meta-label">Data da Avaliação</span><span class="assess-meta-value">${a.date}</span></div>
+        <div class="assess-meta-row"><span class="assess-meta-label">Protocolo</span><span class="assess-meta-value">${a.protocol}</span></div>
+        <div class="assess-meta-row"><span class="assess-meta-label">Objetivo</span><span class="assess-meta-value">${a.objective}</span></div>
+        <div class="assess-meta-row"><span class="assess-meta-label">Próxima Avaliação</span><span class="assess-meta-value">${a.nextAssessment}</span></div>
+      </div>
+    </div>
+
+    <div class="assess-section">
+      <div class="assess-section-title">Perimetria (cm)</div>
+      <div class="assess-card">
+        <div class="assess-grid">
+          ${a.perimetry.map(p => `<div class="assess-grid-item"><span class="agi-label">${p.label}</span><span class="agi-value">${p.value}</span></div>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="assess-section">
+      <div class="assess-section-title">Dobras Cutâneas (mm)</div>
+      <div class="assess-card">
+        <div class="assess-grid">
+          ${a.skinfolds.map(s => `<div class="assess-grid-item"><span class="agi-label">${s.label}</span><span class="agi-value">${s.value}</span></div>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="assess-section">
+      <div class="assess-section-title">Resultados</div>
+      <div class="assess-card">
+        <div class="assess-stats">
+          <div class="assess-stat"><div class="as-value">${r.imc.value}</div><div class="as-sub">${r.imc.classification}</div><div class="as-label">IMC</div></div>
+          <div class="assess-stat"><div class="as-value">${r.rcq.value}</div><div class="as-sub">${r.rcq.classification}</div><div class="as-label">RCQ</div></div>
+          <div class="assess-stat"><div class="as-value">${r.sumSkinfolds}<span class="ab-unit">mm</span></div><div class="as-label">Σ Dobras</div></div>
+          <div class="assess-stat"><div class="as-value">${r.sumPerimetry}<span class="ab-unit">cm</span></div><div class="as-label">Σ Perímetros</div></div>
+          <div class="assess-stat"><div class="as-value">${r.idealWeight}<span class="ab-unit">kg</span></div><div class="as-label">Peso Ideal</div></div>
+          <div class="assess-stat"><div class="as-value">${r.excessFat}<span class="ab-unit">kg</span></div><div class="as-sub">Excesso gordura</div><div class="as-label">A perder</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="assess-section">
+      <div class="assess-section-title">Composição Corporal</div>
+      <div class="assess-card">
+        <div class="assess-donut-wrap">
+          <div class="assess-donut" style="--fat-pct: ${r.fatPercent}%">
+            <div class="assess-donut-inner">
+              <div class="adi-pct">${r.fatPercent}%</div>
+              <div class="adi-label">Gordura</div>
+            </div>
+          </div>
+          <div class="assess-donut-legend">
+            <span><span class="dot fat"></span>Gordura ${r.fatPercent}%</span>
+            <span><span class="dot lean"></span>Magra ${r.leanPercent}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="assess-section">
+      <div class="assess-section-title">Massa Magra vs Massa Gorda</div>
+      <div class="assess-card">
+        <div class="assess-bars">
+          <div class="assess-bar-col">
+            <div class="assess-bar-val">${r.leanMass} kg</div>
+            <div class="assess-bar lean" style="height: ${leanH}px"></div>
+            <div class="assess-bar-label">Magra</div>
+          </div>
+          <div class="assess-bar-col">
+            <div class="assess-bar-val">${r.fatMass} kg</div>
+            <div class="assess-bar fat" style="height: ${fatH}px"></div>
+            <div class="assess-bar-label">Gorda</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+document.getElementById('assessPanel').innerHTML = renderAssessment(ASSESSMENT);
+document.getElementById('assessToggle').addEventListener('click', function() {
+  this.classList.toggle('open');
+  document.getElementById('assessPanel').classList.toggle('open');
+});
+// ─── End Assessment Section ───
 </script>
 
 </body>
