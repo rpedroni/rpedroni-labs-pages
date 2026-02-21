@@ -1004,32 +1004,32 @@ const TREINO_3 = [
 
 const WEEK = [
   {
-    day: 'Seg', date: '2026-02-24', num: 24, rest: false,
+    day: 'Seg', date: '2026-02-23', num: 23, rest: false,
     label: 'Treino 1 — Frente',
     blocks: TREINO_1
   },
   {
-    day: 'Ter', date: '2026-02-25', num: 25, rest: false,
+    day: 'Ter', date: '2026-02-24', num: 24, rest: false,
     label: 'Treino 2 — Parte de Trás',
     blocks: TREINO_2
   },
   {
-    day: 'Qua', date: '2026-02-26', num: 26, rest: false,
+    day: 'Qua', date: '2026-02-25', num: 25, rest: false,
     label: 'Treino 3 — H.I.I.T.',
     blocks: TREINO_3
   },
   {
-    day: 'Qui', date: '2026-02-27', num: 27, rest: false,
+    day: 'Qui', date: '2026-02-26', num: 26, rest: false,
     label: 'Treino 1 — Frente',
     blocks: TREINO_1
   },
   {
-    day: 'Sex', date: '2026-02-28', num: 28, rest: false,
+    day: 'Sex', date: '2026-02-27', num: 27, rest: false,
     label: 'Treino 2 — Parte de Trás',
     blocks: TREINO_2
   },
   {
-    day: 'Sáb', date: '2026-03-01', num: 1, rest: false,
+    day: 'Sáb', date: '2026-02-28', num: 28, rest: false,
     label: 'Treino 3 — H.I.I.T. (opcional)',
     blocks: TREINO_3
   },
@@ -1074,7 +1074,7 @@ function renderWeekGoal() {
   el.innerHTML = `
     <div class="week-goal-header">
       <span class="week-goal-label">Meta da Semana</span>
-      <span class="week-goal-badge">Sem 24 Fev – 01 Mar</span>
+      <span class="week-goal-badge">Sem 23-28 Fev</span>
     </div>
     <div class="week-goal-items">
       ${WEEKLY_GOALS.map(g => `
@@ -1107,7 +1107,7 @@ function renderWorkout() {
   document.getElementById('headerDay').textContent = day.rest
     ? `${day.day} — Descanso`
     : `${day.day} ${day.num}/${day.date.split('-')[1]}`;
-  document.getElementById('headerDate').textContent = 'Semana 24 Fev – 01 Mar 2026';
+  document.getElementById('headerDate').textContent = 'Semana 23-28 Fev 2026';
 
   if (day.rest) {
     content.innerHTML = `<div class="rest-message"><h2>Dia de Descanso</h2><p>Recuperação é parte do treino.</p></div>`;
