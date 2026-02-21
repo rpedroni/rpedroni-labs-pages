@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Clara — Treino | MaxResults</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#08080a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #08080a;
+      --surface: #111114;
+      --surface-2: #19191d;
+      --surface-3: #222226;
+      --border: rgba(255,255,255,0.06);
+      --border-light: rgba(255,255,255,0.1);
+      --text: #ededef;
+      --text-dim: #b0b0b6;
+      --text-muted: #6b6b73;
+      --accent-lift: #f59e0b;
+      --accent-lift-dim: rgba(245,158,11,0.1);
+      --accent-lift-glow: rgba(245,158,11,0.3);
+      --accent-lift-strong: rgba(245,158,11,0.18);
+      --accent-warmup: #fb7185;
+      --accent-warmup-dim: rgba(251,113,133,0.1);
+      --accent-warmup-glow: rgba(251,113,133,0.3);
+      --accent-mobility: #a78bfa;
+      --accent-mobility-dim: rgba(167,139,250,0.1);
+      --accent-mobility-glow: rgba(167,139,250,0.3);
+      --accent-cardio: #22d3ee;
+      --accent-cardio-dim: rgba(34,211,238,0.08);
+      --accent-cardio-glow: rgba(34,211,238,0.25);
+      --accent-cardio-strong: rgba(34,211,238,0.15);
+      --green: #34d399;
+      --green-dim: rgba(52,211,153,0.1);
+      --green-glow: rgba(52,211,153,0.3);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100dvh;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 128px 128px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 300px;
+      background: radial-gradient(ellipse, rgba(245,158,11,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 20px 120px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8,8,10,0.82);
+      backdrop-filter: blur(24px) saturate(1.6);
+      -webkit-backdrop-filter: blur(24px) saturate(1.6);
+      padding: 20px 0 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .brand {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--accent-lift), #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-date {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    .header-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-title .athlete { color: var(--text); }
+    .header-title .separator { color: var(--text-muted); margin: 0 4px; font-weight: 400; }
+    .header-title .day { color: var(--text-dim); font-weight: 500; font-size: 20px; }
+
+    .progress-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 5px;
+      background: var(--surface-2);
+      border-radius: 100px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--accent-lift), var(--green));
+      transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      width: 0%;
+      position: relative;
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 10px var(--green-glow);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .progress-bar-container:has(.progress-fill:not([style*="width: 0%"])) .progress-fill::after {
+      opacity: 1;
+    }
+
+    .progress-label {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      white-space: nowrap;
+      min-width: 36px;
+      text-align: right;
+      transition: color 0.3s;
+    }
+
+    .week-goal {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .week-goal::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-lift), var(--accent-cardio));
+    }
+
+    .week-goal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .week-goal-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .week-goal-badge {
+      font-family: var(--font-display);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--accent-lift-dim);
+      color: var(--accent-lift);
+      border: 1px solid rgba(245,158,11,0.08);
+    }
+
+    .week-goal-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .week-goal-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .week-goal-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .week-goal-icon.strength { background: var(--accent-lift-dim); }
+    .week-goal-icon.cardio { background: var(--accent-cardio-dim); }
+    .week-goal-icon.assessment { background: var(--accent-mobility-dim); }
+    .week-goal-icon.fat { background: var(--accent-warmup-dim); }
+
+    .week-goal-text {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-dim);
+      line-height: 1.3;
+    }
+
+    .week-goal-text strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .day-switcher {
+      display: flex;
+      gap: 6px;
+      padding: 20px 0 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .day-switcher::-webkit-scrollbar { display: none; }
+
+    .day-btn {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 10px 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      -webkit-appearance: none;
+      appearance: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .day-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, var(--accent-lift-dim) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .day-btn .day-num {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-dim);
+      position: relative;
+    }
+
+    .day-btn.active {
+      background: var(--surface-2);
+      border-color: rgba(245,158,11,0.3);
+      color: var(--accent-lift);
+      box-shadow: 0 0 24px rgba(245,158,11,0.08), inset 0 1px 0 rgba(245,158,11,0.1);
+    }
+    .day-btn.active::before { opacity: 1; }
+    .day-btn.active .day-num { color: var(--accent-lift); }
+
+    .day-btn.rest { opacity: 0.3; cursor: default; }
+
+    .day-btn.completed-day::after {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green-glow);
+      margin-top: 2px;
+      position: relative;
+    }
+
+    .block { margin-top: 28px; }
+
+    .initial-load .block { animation: blockReveal 0.5s cubic-bezier(0.4, 0, 0.2, 1) both; }
+    .initial-load .block:nth-child(2) { animation-delay: 0.08s; }
+    .initial-load .block:nth-child(3) { animation-delay: 0.16s; }
+    .initial-load .block:nth-child(4) { animation-delay: 0.24s; }
+    .initial-load .block:nth-child(5) { animation-delay: 0.32s; }
+    .initial-load .block:nth-child(6) { animation-delay: 0.40s; }
+    .initial-load .block:nth-child(7) { animation-delay: 0.48s; }
+
+    @keyframes blockReveal {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .block-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .block-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .block--warmup .block-dot { background: var(--accent-warmup); box-shadow: 0 0 10px var(--accent-warmup-glow), 0 0 30px rgba(251,113,133,0.1); }
+    .block--mobility .block-dot { background: var(--accent-mobility); box-shadow: 0 0 10px var(--accent-mobility-glow), 0 0 30px rgba(167,139,250,0.1); }
+    .block--lift .block-dot { background: var(--accent-lift); box-shadow: 0 0 10px var(--accent-lift-glow), 0 0 30px rgba(245,158,11,0.1); }
+    .block--cardio .block-dot { background: var(--accent-cardio); box-shadow: 0 0 10px var(--accent-cardio-glow), 0 0 30px rgba(34,211,238,0.1); }
+
+    .block-name {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .block--warmup .block-name { color: var(--accent-warmup); }
+    .block--mobility .block-name { color: var(--accent-mobility); }
+    .block--lift .block-name { color: var(--accent-lift); }
+    .block--cardio .block-name { color: var(--accent-cardio); }
+
+    .block-subtitle {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 2px;
+    }
+
+    .block-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      letter-spacing: 0.2px;
+    }
+
+    .block-progress {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: var(--surface-2);
+      padding: 5px 12px;
+      border-radius: 100px;
+      letter-spacing: 0.5px;
+      transition: all 0.3s;
+    }
+
+    .block-progress.done {
+      background: var(--green-dim);
+      color: var(--green);
+      box-shadow: 0 0 12px rgba(52,211,153,0.15);
+    }
+
+    .exercise {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .initial-load .exercise { animation: exerciseReveal 0.4s cubic-bezier(0.4, 0, 0.2, 1) both; }
+    .initial-load .exercise:nth-child(2) { animation-delay: 0.04s; }
+    .initial-load .exercise:nth-child(3) { animation-delay: 0.08s; }
+    .initial-load .exercise:nth-child(4) { animation-delay: 0.12s; }
+    .initial-load .exercise:nth-child(5) { animation-delay: 0.16s; }
+    .initial-load .exercise:nth-child(6) { animation-delay: 0.20s; }
+    .initial-load .exercise:nth-child(7) { animation-delay: 0.24s; }
+
+    @keyframes exerciseReveal {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .exercise:active { transform: scale(0.985); }
+
+    .exercise.completed {
+      border-color: rgba(52,211,153,0.12);
+      background: linear-gradient(135deg, var(--surface) 0%, rgba(52,211,153,0.03) 100%);
+    }
+
+    .exercise-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .check {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .check:active { transform: scale(0.85); }
+
+    .check svg {
+      width: 14px;
+      height: 14px;
+      stroke: transparent;
+      stroke-width: 3;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .exercise.completed .check {
+      background: var(--green);
+      border-color: var(--green);
+      box-shadow: 0 0 16px var(--green-glow);
+      transform: scale(1);
+    }
+
+    .exercise.completed .check svg {
+      stroke: #fff;
+      stroke-dasharray: 20;
+      animation: checkDraw 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes checkDraw {
+      from { stroke-dashoffset: 20; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    .exercise.completed .check::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid var(--green);
+      animation: checkPulse 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes checkPulse {
+      0% { transform: scale(0.8); opacity: 0.8; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+
+    .exercise-content { flex: 1; min-width: 0; }
+
+    .exercise-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .exercise-name {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      transition: all 0.25s;
+    }
+
+    .exercise.completed .exercise-name {
+      opacity: 0.4;
+      text-decoration: line-through;
+      text-decoration-color: rgba(52,211,153,0.3);
+      text-decoration-thickness: 1.5px;
+    }
+
+    .exercise-duration {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .exercise-tags {
+      display: flex;
+      gap: 6px;
+      margin-top: 5px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .tag--warmup { background: var(--accent-warmup-dim); color: var(--accent-warmup); border: 1px solid rgba(251,113,133,0.08); }
+    .tag--mobility { background: var(--accent-mobility-dim); color: var(--accent-mobility); border: 1px solid rgba(167,139,250,0.08); }
+    .tag--lift { background: var(--accent-lift-dim); color: var(--accent-lift); border: 1px solid rgba(245,158,11,0.08); }
+    .tag--cardio { background: var(--accent-cardio-dim); color: var(--accent-cardio); border: 1px solid rgba(34,211,238,0.06); }
+    .tag--superset { background: rgba(251,191,36,0.08); color: #fbbf24; border: 1px solid rgba(251,191,36,0.08); }
+
+    .expand-chevron {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      color: var(--text-muted);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0.5;
+    }
+
+    .exercise.expanded .expand-chevron { transform: rotate(180deg); opacity: 0.8; }
+
+    .exercise-detail {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.25s ease;
+      overflow: hidden;
+    }
+
+    .exercise.expanded .exercise-detail { grid-template-rows: 1fr; }
+
+    .exercise-detail > .detail-inner { overflow: hidden; }
+
+    .detail-inner {
+      padding: 0 16px 16px;
+      padding-left: 58px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .detail-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .detail-label {
+      color: var(--text-muted);
+      font-weight: 500;
+      white-space: nowrap;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .detail-value {
+      color: var(--text-dim);
+      font-weight: 400;
+      font-size: 13px;
+    }
+
+    .rest-message {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .rest-message h2 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .rest-message p { color: var(--text-muted); font-size: 14px; }
+
+    .session-complete {
+      display: none;
+      text-align: center;
+      padding: 36px 24px;
+      margin-top: 28px;
+      background: linear-gradient(135deg, rgba(52,211,153,0.06) 0%, rgba(52,211,153,0.02) 100%);
+      border: 1px solid rgba(52,211,153,0.15);
+      border-radius: var(--radius);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .session-complete::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 100px;
+      background: radial-gradient(ellipse, rgba(52,211,153,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .session-complete.visible {
+      display: block;
+      animation: completeReveal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes completeReveal {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .session-complete h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--green);
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+      position: relative;
+    }
+
+    .session-complete p { font-size: 13px; color: var(--text-muted); position: relative; }
+
+    .footer {
+      text-align: center;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 11px;
+      line-height: 1.8;
+      letter-spacing: 0.3px;
+    }
+
+    .week-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px;
+      margin-top: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-muted);
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      transition: all 0.2s;
+      letter-spacing: 0.2px;
+    }
+
+    .week-toggle:active { transform: scale(0.98); }
+    .week-toggle:hover { color: var(--text-dim); border-color: var(--border-light); }
+
+    .week-toggle svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .week-toggle.open svg { transform: rotate(180deg); }
+
+    .week-overview {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .week-overview.open { max-height: 800px; }
+
+    .week-day-summary {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .week-day-summary:last-child { border-bottom: none; }
+
+    .week-day-label {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      width: 40px;
+      flex-shrink: 0;
+    }
+
+    .week-day-desc { font-size: 12px; color: var(--text-muted); flex: 1; }
+
+    .week-day-status {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .week-day-status.today { color: var(--accent-lift); }
+    .week-day-status.rest { color: var(--text-muted); opacity: 0.5; }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 100px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="sticky-header">
+    <div class="header-top">
+      <div class="brand">MaxResults</div>
+      <div class="header-date" id="headerDate"></div>
+    </div>
+    <div class="header-title">
+      <div><span class="athlete">Clara</span><span class="separator">/</span><span class="day" id="headerDay"></span></div>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-label" id="progressLabel">0%</div>
+    </div>
+  </div>
+
+  <div class="week-goal" id="weekGoal"></div>
+
+  <nav class="day-switcher" id="daySwitcher"></nav>
+
+  <main id="workoutContent" class="initial-load"></main>
+
+  <div class="session-complete" id="sessionComplete">
+    <h3>Sessão Concluída! 💪</h3>
+    <p>Ótimo treino, Clara! Descanse e se hidrate bem.</p>
+  </div>
+
+  <button class="week-toggle" id="weekToggle">
+    Ver semana completa
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  </button>
+  <div class="week-overview" id="weekOverview"></div>
+
+  <footer class="footer">
+    Metodologia MaxResults &middot; Luisão Ribeiro<br>
+    Gerado em 21/02/2026
+  </footer>
+</div>
+
+<script>
+const ATHLETE = 'Clara';
+
+const WEEKLY_GOALS = [
+  { icon: '🔥', type: 'fat', text: '<strong>Emagrecimento:</strong> Manter consistência nos 5 treinos da semana' },
+  { icon: '🏋️', type: 'strength', text: '<strong>Força:</strong> Focar na execução correta, respeitar o joelho direito' },
+  { icon: '🫀', type: 'cardio', text: '<strong>Cardio:</strong> Manter intensidade alta no HIIT — 3 rounds completos' },
+  { icon: '🧘', type: 'assessment', text: '<strong>Mobilidade:</strong> Alongar bem antes de cada treino (condromalacia)' },
+];
+
+// ─── Treino 1 — Frente ───
+const TREINO_1 = [
+  {
+    type: 'warmup', label: 'Bloco 1 — Aquecimento',
+    title: 'MaxLift Mix 4 — Aquecimento', duration: '5-8 min',
+    exercises: [
+      { name: 'MaxLift Mix 4 – Aquecimento', muscle: 'Corpo todo', duration: '~5 min', equipment: 'Aula em vídeo', tip: 'Siga o vídeo da aula MaxLift Mix 4. Foco em aquecer articulações e elevar a frequência cardíaca.' },
+    ]
+  },
+  {
+    type: 'mobility', label: 'Bloco 2 — Mobilidade',
+    title: 'Alongamentos — Cadeia Anterior', duration: '5-8 min',
+    exercises: [
+      { name: 'Alongamento de Coxa – I', muscle: 'Quadríceps', duration: '~2 min', equipment: 'Nenhum', tip: '⚠️ Condromalacia: segure com cuidado, sem forçar o joelho direito. Mantenha o quadril neutro.' },
+      { name: 'Alongamento Flexor do Quadril', muscle: 'Flexor do quadril', duration: '~2 min', equipment: 'Nenhum', tip: 'Ajoelhada, avance o quadril sem arquear a lombar. Mantenha 30s cada lado.' },
+      { name: 'Alongamento de Adutores I', muscle: 'Adutores', duration: '~2 min', equipment: 'Nenhum', tip: 'Pernas afastadas, desça lateralmente. Mantenha o tronco ereto.' },
+    ]
+  },
+  {
+    type: 'lift', label: 'Bloco 3 — Superset A',
+    title: 'Agachamento Smith + Salto Corda', duration: '~10 min',
+    exercises: [
+      { name: 'Agachamento Smith', muscle: 'Quadríceps / Glúteos', duration: '3-4 séries', equipment: 'Smith Machine', tip: '⚠️ Condromalacia: não desça além de 90°. Mantenha os pés ligeiramente à frente da barra. Se sentir dor no joelho direito, reduza a amplitude.' },
+      { name: 'Salto Grande de Corda', muscle: 'Cardio / Pernas', duration: '1 min entre séries', equipment: 'Corda', tip: 'Aterrisse com os joelhos levemente flexionados. Ritmo constante.' },
+    ]
+  },
+  {
+    type: 'lift', label: 'Bloco 4 — Superset B',
+    title: 'Cadeira Extensora + Des. Arnold', duration: '~10 min',
+    exercises: [
+      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '3-4 séries', equipment: 'Máquina extensora', tip: '⚠️ Condromalacia: use carga leve-moderada. Evite extensão completa — pare ~10° antes de travar o joelho. Movimento controlado, sem solavancos.' },
+      { name: 'Desenvolvimento Arnold Sentado', muscle: 'Ombros', duration: '3-4 séries', equipment: 'Halteres + banco', tip: 'Comece com halteres à frente, gire e empurre para cima. Não arqueie a lombar.' },
+    ]
+  },
+  {
+    type: 'lift', label: 'Bloco 5 — MaxLift',
+    title: 'MaxLift Mix 4 — Peitoral', duration: '15-20 min',
+    exercises: [
+      { name: 'MaxLift Mix 4 – Peitoral', muscle: 'Peitoral / Tríceps', duration: '~15 min', equipment: 'Aula em vídeo', tip: 'Siga a aula MaxLift Mix 4 – bloco de Peitoral. Mantenha a postura e o ritmo da música.' },
+    ]
+  },
+  {
+    type: 'lift', label: 'Bloco 6 — Superset C',
+    title: 'Tríceps Francês + Adução Quadril', duration: '~10 min',
+    exercises: [
+      { name: 'Tríceps Francês Sentado', muscle: 'Tríceps', duration: '3-4 séries', equipment: 'Halter ou barra', tip: 'Cotovelos apontando para cima, fixos. Desça atrás da cabeça com controle.' },
+      { name: 'Adução de Quadril Máquina', muscle: 'Adutores', duration: '3-4 séries', equipment: 'Máquina adutora', tip: 'Movimento controlado. Não use impulso. Mantenha as costas apoiadas no banco.' },
+    ]
+  },
+  {
+    type: 'cardio', label: 'Bloco 7 — Cardio',
+    title: 'Bike Spinning', duration: '20-30 min',
+    exercises: [
+      { name: 'Bike Spinning', muscle: 'Cardio / Pernas', duration: '20-30 min', equipment: 'Bicicleta ergométrica', tip: '⚠️ Condromalacia: ajuste o banco na altura correta (joelho quase estendido no ponto mais baixo). Evite carga excessiva. Pedale com cadência constante.' },
+    ]
+  }
+];
+
+// ─── Treino 2 — Parte de Trás ───
+const TREINO_2 = [
+  {
+    type: 'warmup', label: 'Bloco 1 — Aquecimento',
+    title: 'Ativação Geral', duration: '5-8 min',
+    exercises: [
+      { name: 'Giros dos Braços Frente e Trás', muscle: 'Ombros', duration: '~2 min', equipment: 'Nenhum', tip: 'Braços estendidos, gire em círculos amplos. Alterne a direção.' },
+      { name: 'Balanço Frontal das Pernas', muscle: 'Quadril / Pernas', duration: '~2 min', equipment: 'Nenhum', tip: 'Segure em um apoio. Balance a perna para frente e para trás com controle. Alterne.' },
+      { name: 'MaxLift Mix 4 – Aquecimento', muscle: 'Corpo todo', duration: '~5 min', equipment: 'Aula em vídeo', tip: 'Siga o vídeo da aula MaxLift Mix 4 para completar o aquecimento.' },
+    ]
+  },
+  {
+    type: 'mobility', label: 'Bloco 2 — Mobilidade',
+    title: 'Alongamentos — Cadeia Posterior', duration: '5-8 min',
+    exercises: [
+      { name: 'Alongamento de Tríceps', muscle: 'Tríceps', duration: '~2 min', equipment: 'Nenhum', tip: 'Braço atrás da cabeça, puxe o cotovelo com a outra mão. 30s cada lado.' },
+      { name: 'Alongamento de Glúteos II', muscle: 'Glúteos', duration: '~2 min', equipment: 'Nenhum', tip: 'Deitada, cruze o tornozelo sobre o joelho oposto e puxe a coxa. Mantenha 30s.' },
+      { name: 'Abdução de Quadril Unilateral', muscle: 'Glúteo médio', duration: '~2 min', equipment: 'Nenhum', tip: 'Em pé, eleve a perna lateralmente com controle. Ative o glúteo médio.' },
+    ]
+  },
+  {
+    type: 'lift', label: 'Bloco 3 — Superset A',
+    title: 'Levantamento Terra + Abdominal', duration: '~10 min',
+    exercises: [
+      { name: 'Levantamento Terra', muscle: 'Post. coxa / Costas', duration: '3-4 séries', equipment: 'Barra ou halteres', tip: 'Costas retas, empurre o chão com os pés. Não arredonde a lombar. Desça controlando.' },
+      { name: 'Abdominal Supra Banco Declinado', muscle: 'Abdômen superior', duration: '3-4 séries', equipment: 'Banco declinado', tip: 'Suba até as escápulas saírem do banco. Expire na subida, controle a descida.' },
+    ]
+  },
+  {
+    type: 'lift', label: 'Bloco 4 — Superset B',
+    title: 'Cadeira Flexora + Crucifixo Inverso', duration: '~10 min',
+    exercises: [
+      { name: 'Cadeira Flexora', muscle: 'Post. coxa', duration: '3-4 séries', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica. Não deixe o peso cair. Mantenha o quadril no banco.' },
+      { name: 'Crucifixo Inverso Máquina', muscle: 'Deltóide posterior', duration: '3-4 séries', equipment: 'Máquina peck-deck', tip: 'Abra os braços até sentir a contração nas costas. Cotovelos levemente flexionados.' },
+    ]
+  },
+  {
+    type: 'lift', label: 'Bloco 5 — Superset C',
+    title: 'Barra Fixa + Glúteo Gráviton', duration: '~10 min',
+    exercises: [
+      { name: 'Barra Fixa Gráviton', muscle: 'Costas / Bíceps', duration: '3-4 séries', equipment: 'Gráviton', tip: 'Puxe até o queixo passar da barra. Desça controlando. Use a assistência necessária.' },
+      { name: 'Glúteo Gráviton', muscle: 'Glúteos', duration: '3-4 séries', equipment: 'Gráviton', tip: 'Empurre a plataforma com um pé, estendendo o quadril. Contraia o glúteo no topo.' },
+    ]
+  },
+  {
+    type: 'lift', label: 'Bloco 6 — Superset D',
+    title: 'Rosca Alternada + Abdominal Infra', duration: '~10 min',
+    exercises: [
+      { name: 'Rosca Alternada com Halteres', muscle: 'Bíceps', duration: '3-4 séries', equipment: 'Halteres', tip: 'Cotovelos fixos ao lado do corpo. Alterne os braços. Sem balançar o tronco.' },
+      { name: 'Abdominal Infra no Banco Declinado', muscle: 'Abdômen inferior', duration: '3-4 séries', equipment: 'Banco declinado', tip: 'Eleve os quadris do banco usando o abdômen inferior. Movimento curto e controlado.' },
+    ]
+  },
+  {
+    type: 'lift', label: 'Bloco 7 — MaxLift',
+    title: 'MaxLift Mix 4 — Posteriores', duration: '15-20 min',
+    exercises: [
+      { name: 'MaxLift Mix 4 – Posteriores', muscle: 'Cadeia posterior', duration: '~15 min', equipment: 'Aula em vídeo', tip: 'Siga a aula MaxLift Mix 4 – bloco de Posteriores. Mantenha a postura e o ritmo.' },
+    ]
+  },
+  {
+    type: 'cardio', label: 'Bloco 8 — Cardio',
+    title: 'Corrida', duration: '20-30 min',
+    exercises: [
+      { name: 'Corrida', muscle: 'Cardio', duration: '20-30 min', equipment: 'Esteira', tip: '⚠️ Condromalacia: prefira a esteira (amortecimento). Comece devagar e aumente gradualmente. Se sentir desconforto no joelho, reduza a velocidade ou troque por caminhada inclinada.' },
+    ]
+  }
+];
+
+// ─── Treino 3 — H.I.I.T. ───
+const TREINO_3 = [
+  {
+    type: 'warmup', label: 'Bloco 1 — Aquecimento',
+    title: 'Ativação para HIIT', duration: '5-8 min',
+    exercises: [
+      { name: 'Giros dos Braços Frente e Trás', muscle: 'Ombros', duration: '~2 min', equipment: 'Nenhum', tip: 'Braços estendidos, gire em círculos amplos. Alterne a direção.' },
+      { name: 'Frankenstein', muscle: 'Post. coxa / Quadril', duration: '~2 min', equipment: 'Nenhum', tip: 'Caminhe elevando a perna estendida até a mão oposta. Mantenha a postura ereta.' },
+      { name: 'Good Morning', muscle: 'Post. coxa / Lombar', duration: '~2 min', equipment: 'Nenhum', tip: 'Mãos atrás da cabeça, incline o tronco mantendo as costas retas. Sem peso.' },
+    ]
+  },
+  {
+    type: 'cardio', label: 'Bloco 2 — Circuito HIIT',
+    title: 'H.I.I.T. — 3 Rounds', duration: '~20 min',
+    meta: '3 rounds · 5 estações x 1 min · Sem descanso entre estações · 1 min descanso entre rounds',
+    exercises: [
+      { name: 'Wall Ball (3kg)', muscle: 'Corpo todo', duration: '1 min', equipment: 'Bola 3kg', tip: '⚠️ Condromalacia: agache até ~90° no máximo. Foque na extensão dos braços ao jogar a bola. Se doer o joelho, reduza a amplitude do agachamento.' },
+      { name: 'Sumô Deadlift High Pull (16kg)', muscle: 'Post. coxa / Trapézio', duration: '1 min', equipment: 'Kettlebell 16kg', tip: 'Pés afastados, puxe o kettlebell até o queixo. Mantenha as costas retas e use a força do quadril.' },
+      { name: 'Box Jump', muscle: 'Pernas / Explosão', duration: '1 min', equipment: 'Caixa baixa ou step', tip: '⚠️ Condromalacia: use caixa BAIXA ou step. Aterrisse suavemente com os joelhos flexionados. Se necessário, substitua por step-up sem salto.' },
+      { name: 'Push Press (6kg)', muscle: 'Ombros / Pernas', duration: '1 min', equipment: 'Halteres 6kg', tip: 'Flexione levemente os joelhos e use o impulso das pernas para empurrar os halteres para cima.' },
+      { name: 'Salto Grande de Corda', muscle: 'Cardio / Panturrilha', duration: '1 min', equipment: 'Corda', tip: 'Mantenha o ritmo constante. Aterrisse na ponta dos pés com joelhos levemente flexionados.' },
+    ]
+  }
+];
+
+const WEEK = [
+  {
+    day: 'Seg', date: '2026-02-24', num: 24, rest: false,
+    label: 'Treino 1 — Frente',
+    blocks: TREINO_1
+  },
+  {
+    day: 'Ter', date: '2026-02-25', num: 25, rest: false,
+    label: 'Treino 2 — Parte de Trás',
+    blocks: TREINO_2
+  },
+  {
+    day: 'Qua', date: '2026-02-26', num: 26, rest: false,
+    label: 'Treino 3 — H.I.I.T.',
+    blocks: TREINO_3
+  },
+  {
+    day: 'Qui', date: '2026-02-27', num: 27, rest: false,
+    label: 'Treino 1 — Frente',
+    blocks: TREINO_1
+  },
+  {
+    day: 'Sex', date: '2026-02-28', num: 28, rest: false,
+    label: 'Treino 2 — Parte de Trás',
+    blocks: TREINO_2
+  },
+  {
+    day: 'Sáb', date: '2026-03-01', num: 1, rest: false,
+    label: 'Treino 3 — H.I.I.T. (opcional)',
+    blocks: TREINO_3
+  },
+];
+
+const STORAGE_KEY = 'maxresults-clara-2026-02-24-v1';
+let currentDayIndex = 0;
+let completedExercises = loadProgress();
+
+function loadProgress() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
+}
+
+function saveProgress() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(completedExercises));
+}
+
+function exerciseKey(dayIndex, blockIndex, exIndex) {
+  return `${dayIndex}-${blockIndex}-${exIndex}`;
+}
+
+function findCurrentDay() {
+  const today = new Date().toISOString().split('T')[0];
+  const exactIdx = WEEK.findIndex(d => d.date === today && !d.rest);
+  if (exactIdx !== -1) return exactIdx;
+  for (let i = 0; i < WEEK.length; i++) {
+    if (WEEK[i].date >= today && !WEEK[i].rest) return i;
+  }
+  return 0;
+}
+
+function render() {
+  renderWeekGoal();
+  renderDaySwitcher();
+  renderWorkout();
+  updateProgress();
+  renderWeekOverview();
+}
+
+function renderWeekGoal() {
+  const el = document.getElementById('weekGoal');
+  el.innerHTML = `
+    <div class="week-goal-header">
+      <span class="week-goal-label">Meta da Semana</span>
+      <span class="week-goal-badge">Sem 24 Fev – 01 Mar</span>
+    </div>
+    <div class="week-goal-items">
+      ${WEEKLY_GOALS.map(g => `
+        <div class="week-goal-item">
+          <div class="week-goal-icon ${g.type}">${g.icon}</div>
+          <div class="week-goal-text">${g.text}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderDaySwitcher() {
+  const nav = document.getElementById('daySwitcher');
+  nav.innerHTML = WEEK.map((d, i) => {
+    const classes = ['day-btn'];
+    if (i === currentDayIndex) classes.push('active');
+    if (d.rest) classes.push('rest');
+    if (!d.rest && isDayComplete(i)) classes.push('completed-day');
+    return `<button class="${classes.join(' ')}" ${d.rest ? 'disabled' : ''} onclick="selectDay(${i})">
+      ${d.day}<span class="day-num">${d.num}</span>
+    </button>`;
+  }).join('');
+}
+
+function renderWorkout() {
+  const day = WEEK[currentDayIndex];
+  const content = document.getElementById('workoutContent');
+
+  document.getElementById('headerDay').textContent = day.rest
+    ? `${day.day} — Descanso`
+    : `${day.day} ${day.num}/${day.date.split('-')[1]}`;
+  document.getElementById('headerDate').textContent = 'Semana 24 Fev – 01 Mar 2026';
+
+  if (day.rest) {
+    content.innerHTML = `<div class="rest-message"><h2>Dia de Descanso</h2><p>Recuperação é parte do treino.</p></div>`;
+    document.getElementById('sessionComplete').classList.remove('visible');
+    return;
+  }
+
+  content.innerHTML = day.blocks.map((block, bi) => {
+    const doneCount = block.exercises.filter((_, ei) => completedExercises[exerciseKey(currentDayIndex, bi, ei)]).length;
+    const total = block.exercises.length;
+    const blockDone = doneCount === total;
+
+    return `<section class="block block--${block.type}">
+      <div class="block-header">
+        <div class="block-info">
+          <div class="block-dot"></div>
+          <div><div class="block-name">${block.label}</div></div>
+        </div>
+        <div class="block-progress ${blockDone ? 'done' : ''}">${doneCount}/${total}</div>
+      </div>
+      <div class="block-subtitle">${block.title}</div>
+      <div class="block-meta">${block.meta ? block.meta : block.duration}</div>
+      ${block.exercises.map((ex, ei) => {
+        const key = exerciseKey(currentDayIndex, bi, ei);
+        const done = completedExercises[key];
+        const tagClass = 'tag--' + block.type;
+        const supersetTag = block.exercises.length === 2 && block.type === 'lift' ? '<span class="tag tag--superset">Superset</span>' : '';
+        return `<div class="exercise ${done ? 'completed' : ''}" data-key="${key}" id="ex-${key}">
+          <div class="exercise-main" onclick="toggleDetail('${key}')">
+            <div class="check" onclick="event.stopPropagation(); toggleExercise('${key}')">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div class="exercise-content">
+              <div class="exercise-top">
+                <span class="exercise-name">${ex.name}</span>
+                <span class="exercise-duration">${ex.duration}</span>
+              </div>
+              <div class="exercise-tags">
+                <span class="tag ${tagClass}">${ex.muscle}</span>
+                ${supersetTag}
+              </div>
+            </div>
+            <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+          <div class="exercise-detail">
+            <div class="detail-inner">
+              <div class="detail-row">
+                <span class="detail-label">Equipamento:</span>
+                <span class="detail-value">${ex.equipment}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Dica:</span>
+                <span class="detail-value">${ex.tip}</span>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      }).join('')}
+    </section>`;
+  }).join('');
+}
+
+function updateProgress() {
+  const day = WEEK[currentDayIndex];
+  if (day.rest) {
+    document.getElementById('progressFill').style.width = '0%';
+    document.getElementById('progressLabel').textContent = '—';
+    return;
+  }
+  const totalExercises = day.blocks.reduce((sum, b) => sum + b.exercises.length, 0);
+  const doneExercises = day.blocks.reduce((sum, b, bi) =>
+    sum + b.exercises.filter((_, ei) => completedExercises[exerciseKey(currentDayIndex, bi, ei)]).length, 0);
+  const pct = totalExercises > 0 ? Math.round((doneExercises / totalExercises) * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = pct + '%';
+  const complete = document.getElementById('sessionComplete');
+  if (pct === 100) { complete.classList.add('visible'); } else { complete.classList.remove('visible'); }
+}
+
+function isDayComplete(dayIndex) {
+  const day = WEEK[dayIndex];
+  if (day.rest || !day.blocks) return false;
+  return day.blocks.every((b, bi) =>
+    b.exercises.every((_, ei) => completedExercises[exerciseKey(dayIndex, bi, ei)])
+  );
+}
+
+function renderWeekOverview() {
+  const overview = document.getElementById('weekOverview');
+  overview.innerHTML = WEEK.filter(d => !d.rest).map(d => {
+    const idx = WEEK.indexOf(d);
+    const isCurrent = idx === currentDayIndex;
+    return `<div class="week-day-summary">
+      <div class="week-day-label">${d.day}</div>
+      <div class="week-day-desc">${d.label || d.blocks.map(b => b.title).join(' + ')}</div>
+      <div class="week-day-status ${isCurrent ? 'today' : ''}">${isDayComplete(idx) ? '&#10003;' : isCurrent ? 'Atual' : d.day}</div>
+    </div>`;
+  }).join('');
+}
+
+function selectDay(index) {
+  if (WEEK[index].rest) return;
+  currentDayIndex = index;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleExercise(key) {
+  if (completedExercises[key]) { delete completedExercises[key]; } else { completedExercises[key] = true; }
+  saveProgress();
+  const el = document.getElementById('ex-' + key);
+  if (el) { el.classList.toggle('completed', !!completedExercises[key]); }
+  updateBlockProgress();
+  updateProgress();
+  renderDaySwitcher();
+}
+
+function updateBlockProgress() {
+  const day = WEEK[currentDayIndex];
+  if (day.rest) return;
+  document.querySelectorAll('.block').forEach((blockEl, bi) => {
+    const block = day.blocks[bi];
+    if (!block) return;
+    const total = block.exercises.length;
+    const doneCount = block.exercises.filter((_, ei) => completedExercises[exerciseKey(currentDayIndex, bi, ei)]).length;
+    const badge = blockEl.querySelector('.block-progress');
+    if (badge) { badge.textContent = `${doneCount}/${total}`; badge.classList.toggle('done', doneCount === total); }
+  });
+}
+
+function toggleDetail(key) {
+  document.getElementById('ex-' + key).classList.toggle('expanded');
+}
+
+document.getElementById('weekToggle').addEventListener('click', function() {
+  this.classList.toggle('open');
+  document.getElementById('weekOverview').classList.toggle('open');
+  this.childNodes[0].textContent = this.classList.contains('open') ? 'Esconder semana ' : 'Ver semana completa ';
+});
+
+currentDayIndex = findCurrentDay();
+render();
+setTimeout(() => { document.getElementById('workoutContent').classList.remove('initial-load'); }, 600);
+</script>
+
+</body>
+</html>
