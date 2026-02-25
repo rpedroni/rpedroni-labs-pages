@@ -395,7 +395,6 @@
     }
 
     .block--warmup .block-dot { background: var(--accent-warmup); box-shadow: 0 0 10px var(--accent-warmup-glow), 0 0 30px rgba(251,113,133,0.1); }
-    .block--mobility .block-dot { background: var(--accent-mobility); box-shadow: 0 0 10px var(--accent-mobility-glow), 0 0 30px rgba(167,139,250,0.1); }
     .block--lift .block-dot { background: var(--accent-lift); box-shadow: 0 0 10px var(--accent-lift-glow), 0 0 30px rgba(245,158,11,0.1); }
     .block--cardio .block-dot { background: var(--accent-cardio); box-shadow: 0 0 10px var(--accent-cardio-glow), 0 0 30px rgba(34,211,238,0.1); }
 
@@ -408,7 +407,6 @@
     }
 
     .block--warmup .block-name { color: var(--accent-warmup); }
-    .block--mobility .block-name { color: var(--accent-mobility); }
     .block--lift .block-name { color: var(--accent-lift); }
     .block--cardio .block-name { color: var(--accent-cardio); }
 
@@ -455,12 +453,6 @@
     }
 
     .initial-load .exercise { animation: exerciseReveal 0.4s cubic-bezier(0.4, 0, 0.2, 1) both; }
-    .initial-load .exercise:nth-child(2) { animation-delay: 0.04s; }
-    .initial-load .exercise:nth-child(3) { animation-delay: 0.08s; }
-    .initial-load .exercise:nth-child(4) { animation-delay: 0.12s; }
-    .initial-load .exercise:nth-child(5) { animation-delay: 0.16s; }
-    .initial-load .exercise:nth-child(6) { animation-delay: 0.20s; }
-    .initial-load .exercise:nth-child(7) { animation-delay: 0.24s; }
 
     @keyframes exerciseReveal {
       from { opacity: 0; transform: translateY(8px); }
@@ -515,7 +507,6 @@
       background: var(--green);
       border-color: var(--green);
       box-shadow: 0 0 16px var(--green-glow);
-      transform: scale(1);
     }
 
     .exercise.completed .check svg {
@@ -560,25 +551,29 @@
       transition: all 0.25s;
     }
 
+    a.exercise-name {
+      color: var(--text);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    a.exercise-name::after {
+      content: '▶';
+      font-size: 9px;
+      color: var(--accent-lift);
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+
+    a.exercise-name:active::after { opacity: 1; }
+
     .exercise.completed .exercise-name {
       opacity: 0.4;
       text-decoration: line-through;
       text-decoration-color: rgba(52,211,153,0.3);
       text-decoration-thickness: 1.5px;
-    }
-
-    .exercise-name.has-video {
-      color: var(--accent-lift);
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-
-    .exercise-name.has-video:active {
-      opacity: 0.6;
-    }
-
-    .exercise.completed .exercise-name.has-video {
-      color: var(--text);
     }
 
     .exercise-duration {
@@ -606,10 +601,10 @@
     }
 
     .tag--warmup { background: var(--accent-warmup-dim); color: var(--accent-warmup); border: 1px solid rgba(251,113,133,0.08); }
-    .tag--mobility { background: var(--accent-mobility-dim); color: var(--accent-mobility); border: 1px solid rgba(167,139,250,0.08); }
     .tag--lift { background: var(--accent-lift-dim); color: var(--accent-lift); border: 1px solid rgba(245,158,11,0.08); }
     .tag--cardio { background: var(--accent-cardio-dim); color: var(--accent-cardio); border: 1px solid rgba(34,211,238,0.06); }
     .tag--superset { background: rgba(251,191,36,0.08); color: #fbbf24; border: 1px solid rgba(251,191,36,0.08); }
+    .tag--norest { background: rgba(251,113,133,0.06); color: #fb7185; border: 1px solid rgba(251,113,133,0.06); font-size: 8px; }
 
     .expand-chevron {
       width: 18px;
@@ -760,13 +755,7 @@
 
     .week-toggle:active { transform: scale(0.98); }
     .week-toggle:hover { color: var(--text-dim); border-color: var(--border-light); }
-
-    .week-toggle svg {
-      width: 16px;
-      height: 16px;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
+    .week-toggle svg { width: 16px; height: 16px; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
     .week-toggle.open svg { transform: rotate(180deg); }
 
     .week-overview {
@@ -774,7 +763,6 @@
       overflow: hidden;
       transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
     .week-overview.open { max-height: 800px; }
 
     .week-day-summary {
@@ -784,7 +772,6 @@
       padding: 14px 16px;
       border-bottom: 1px solid var(--border);
     }
-
     .week-day-summary:last-child { border-bottom: none; }
 
     .week-day-label {
@@ -804,7 +791,6 @@
       text-transform: uppercase;
       letter-spacing: 0.8px;
     }
-
     .week-day-status.today { color: var(--accent-lift); }
     .week-day-status.rest { color: var(--text-muted); opacity: 0.5; }
 
@@ -877,11 +863,7 @@
       font-weight: 800;
       color: var(--text);
     }
-    .assess-basics .ab-unit {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
+    .assess-basics .ab-unit { font-size: 12px; color: var(--text-muted); font-weight: 500; }
     .assess-basics .ab-label {
       font-size: 10px;
       color: var(--text-muted);
@@ -937,12 +919,7 @@
       font-weight: 800;
       color: var(--text);
     }
-    .assess-stat .as-sub {
-      font-size: 10px;
-      color: var(--accent-lift);
-      font-weight: 600;
-      margin-top: 1px;
-    }
+    .assess-stat .as-sub { font-size: 10px; color: var(--accent-lift); font-weight: 600; margin-top: 1px; }
     .assess-stat .as-label {
       font-size: 10px;
       color: var(--text-muted);
@@ -1015,12 +992,7 @@
       color: var(--text-dim);
       font-weight: 500;
     }
-    .assess-donut-legend .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+    .assess-donut-legend .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
     .assess-donut-legend .dot.fat { background: #f59e0b; }
     .assess-donut-legend .dot.lean { background: var(--green); }
 
@@ -1032,33 +1004,47 @@
       height: 180px;
       padding: 16px 0;
     }
-    .assess-bar-col {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-    .assess-bar {
-      width: 56px;
-      border-radius: 8px 8px 4px 4px;
-      transition: height 0.6s cubic-bezier(0.34,1.56,0.64,1);
-    }
+    .assess-bar-col { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .assess-bar { width: 56px; border-radius: 8px 8px 4px 4px; transition: height 0.6s cubic-bezier(0.34,1.56,0.64,1); }
     .assess-bar.lean { background: linear-gradient(180deg, var(--green), rgba(52,211,153,0.6)); }
     .assess-bar.fat { background: linear-gradient(180deg, #f59e0b, rgba(245,158,11,0.6)); }
-    .assess-bar-val {
-      font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--text);
+    .assess-bar-val { font-family: var(--font-display); font-size: 14px; font-weight: 800; color: var(--text); }
+    .assess-bar-label { font-size: 10px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* Video overlay */
+    .video-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
-    .assess-bar-label {
-      font-size: 10px;
-      color: var(--text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+    .video-overlay.active { display: flex; }
+    .video-overlay video {
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: 12px;
     }
-    /* ─── End Assessment Section ─── */
+    .video-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   </style>
 </head>
 <body>
@@ -1109,164 +1095,216 @@
   </footer>
 </div>
 
+<!-- Video overlay -->
+<div class="video-overlay" id="videoOverlay" onclick="closeVideo()">
+  <button class="video-close" onclick="closeVideo()">✕</button>
+  <video id="videoPlayer" controls playsinline></video>
+</div>
+
 <script>
 const ATHLETE = 'Liliana';
 
-
 const WEEKLY_GOALS = [
-  { icon: '🔥', type: 'fat', text: '<strong>Emagrecimento:</strong> Perder gordura e definir — foco na consistência 3x/semana' },
-  { icon: '🏋️', type: 'strength', text: '<strong>Ênfase:</strong> Glúteo e tríceps — prioridade conforme objetivo' },
-  { icon: '🍎', type: 'assessment', text: '<strong>Alimentação:</strong> Manter dieta prescrita + comer vegetais' },
-  { icon: '💧', type: 'cardio', text: '<strong>Hidratação:</strong> Beber água antes, durante e depois dos treinos' },
+  { icon: '🔥', type: 'fat', text: '<strong>Emagrecimento:</strong> Perder gordura e definir — foco glúteo e tríceps' },
+  { icon: '🏋️', type: 'strength', text: '<strong>Treinos:</strong> 3x por semana, 45min — consistência é chave' },
+  { icon: '🥗', type: 'assessment', text: '<strong>Nutrição:</strong> Seguir o prescrito + incluir mais vegetais' },
+  { icon: '🫀', type: 'cardio', text: '<strong>Cardio:</strong> Spinning ao final de cada treino' },
 ];
 
-const WARMUP_BLOCK = {
-  type: 'warmup', label: 'Bloco 1 — Aquecimento',
-  title: 'Ativação + MaxLift Mix 2', duration: '5-8 min',
+// ─── Videos map ───
+const V = {
+  balanco: 'https://d2vfutiy2j6sqj.cloudfront.net/13341/mp4/d508q2wlkh_opt.mp4',
+  giros: 'https://d2vfutiy2j6sqj.cloudfront.net/13341/mp4/8d76rg3vbsm_opt.mp4',
+  maxlift2: 'https://1drv.ms/v/c/437d19de9d024724/IQDOh5XLXk38S5644EEpb1f9ARAObDOYu_OKCgUeKUBc68Q',
+  hipThrust: 'https://vd.mfitpersonal.com.br/367/mp4/367.mp4',
+  supino: 'https://vd.mfitpersonal.com.br/201/mp4/201.mp4',
+  cadeiraFlexora: 'https://vd.mfitpersonal.com.br/502/mp4/502.mp4',
+  tricepsCorda: 'https://vd.mfitpersonal.com.br/418/mp4/418.mp4',
+  gluteoCoice: 'https://vd.mfitpersonal.com.br/458/mp4/458.mp4',
+  roscaDireta: 'https://vd.mfitpersonal.com.br/109/mp4/109.mp4',
+  abducao: 'https://vd.mfitpersonal.com.br/515/mp4/515.mp4',
+  tricepsBanco: 'https://vd.mfitpersonal.com.br/144/mp4/144.mp4',
+  bike: 'https://vd.mfitpersonal.com.br/529/mp4/529.mp4',
+  agachSmith: 'https://vd.mfitpersonal.com.br/73/mp4/73.mp4',
+  supinoIncl: 'https://vd.mfitpersonal.com.br/195/mp4/195.mp4',
+  cadeiraExt: 'https://vd.mfitpersonal.com.br/504/mp4/504.mp4',
+  desenv: 'https://vd.mfitpersonal.com.br/155/mp4/155.mp4',
+  passada: 'https://vd.mfitpersonal.com.br/273/mp4/273.mp4',
+  tricepsFrances: 'https://vd.mfitpersonal.com.br/135/mp4/135.mp4',
+  stiff: 'https://vd.mfitpersonal.com.br/267/mp4/267.mp4',
+  roscaPolia: 'https://vd.mfitpersonal.com.br/409/mp4/409.mp4',
+  ponteUni: 'https://vd.mfitpersonal.com.br/255/mp4/255.mp4',
+  supinoBarra: 'https://vd.mfitpersonal.com.br/203/mp4/203.mp4',
+  agachSumo: 'https://vd.mfitpersonal.com.br/78/mp4/78.mp4',
+  tricepsBarraReta: 'https://vd.mfitpersonal.com.br/415/mp4/415.mp4',
+  desenvArnold: 'https://vd.mfitpersonal.com.br/101/mp4/101.mp4',
+  roscaMartelo: 'https://vd.mfitpersonal.com.br/122/mp4/122.mp4',
+  gluteoAbdPolia: 'https://vd.mfitpersonal.com.br/455/mp4/455.mp4',
+  tricepsTesta: 'https://vd.mfitpersonal.com.br/140/mp4/140.mp4',
+};
+
+// ─── AQUECIMENTO (shared across all days) ───
+const AQUECIMENTO = {
+  type: 'warmup', label: 'Aquecimento',
+  title: 'Ativação Geral + MaxLift Mix 2', duration: '~8 min',
   exercises: [
-    { name: 'Balanço Frontal das Pernas', muscle: 'Quadril / Pernas', duration: '~2 min', equipment: 'Nenhum', tip: 'Segure em um apoio. Balance a perna para frente e para trás com controle. Alterne.', videoUrl: 'https://d2vfutiy2j6sqj.cloudfront.net/13341/mp4/d508q2wlkh_opt.mp4' },
-    { name: 'Giros dos Braços Frente e Trás', muscle: 'Ombros', duration: '~2 min', equipment: 'Nenhum', tip: 'Braços estendidos, gire em círculos amplos. Alterne a direção.', videoUrl: 'https://d2vfutiy2j6sqj.cloudfront.net/13341/mp4/8d76rg3vbsm_opt.mp4' },
-    { name: 'MaxLift Mix 2 – Aquecimento', muscle: 'Corpo todo', duration: '~5 min', equipment: 'Aula em vídeo', tip: 'Siga o vídeo da aula MaxLift Mix 2. Foco em aquecer articulações e elevar a frequência cardíaca.', videoUrl: 'https://1drv.ms/v/c/437d19de9d024724/IQDOh5XLXk38S5644EEpb1f9ARAObDOYu_OKCgUeKUBc68Q' },
+    { name: 'Balanço Frontal', muscle: 'Mobilidade', duration: '~2 min', equipment: 'Nenhum', tip: 'Balance a perna para frente e para trás com controle. Alterne.', video: V.balanco },
+    { name: 'Giros dos Braços', muscle: 'Ombros', duration: '~2 min', equipment: 'Nenhum', tip: 'Braços estendidos, gire em círculos amplos. Alterne a direção.', video: V.giros },
+    { name: 'MaxLift Mix 2 – Aquecimento', muscle: 'Corpo todo', duration: '~5 min', equipment: 'Aula em vídeo', tip: 'Siga o vídeo da aula MaxLift Mix 2. Foco em aquecer articulações e elevar a frequência cardíaca.', video: V.maxlift2 },
   ]
 };
 
-const CARDIO_BLOCK = {
-  type: 'cardio', label: 'Cardio',
+const CARDIO_FINAL = {
+  type: 'cardio', label: 'Cardio Final',
   title: 'Bike Spinning', duration: '20-30 min',
   exercises: [
-    { name: 'Bike Spinning', muscle: 'Cardio / Pernas', duration: '20-30 min', equipment: 'Bicicleta ergométrica', tip: 'Ajuste o banco na altura correta. Pedale com cadência constante. Mantenha o core ativado.', videoUrl: 'https://vd.mfitpersonal.com.br/529/mp4/529.mp4' },
+    { name: 'Bike Spinning', muscle: 'Cardio', duration: '20-30 min', equipment: 'Bicicleta ergométrica', tip: 'Ajuste o banco na altura correta. Pedale com cadência constante, aumente a intensidade gradualmente.', video: V.bike },
   ]
 };
 
 // ─── Treino A — Glúteo/Posterior + Superior ───
 const TREINO_A = [
-  WARMUP_BLOCK,
+  AQUECIMENTO,
   {
-    type: 'lift', label: 'Bloco 2 — Superset A',
-    title: 'Hip Thrust ↔ Supino Reto', duration: '~10 min',
+    type: 'lift', label: 'Bi-Set 1',
+    title: 'Hip Thrust ↔ Supino Reto', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Hip Thrust na Barra', muscle: 'Glúteos', duration: '3-4 séries', equipment: 'Barra + banco', tip: 'Apoie as costas no banco, barra sobre o quadril. Suba contraindo os glúteos no topo. Mantenha o queixo neutro.', videoUrl: 'https://vd.mfitpersonal.com.br/367/mp4/367.mp4' },
-      { name: 'Supino Reto com Halteres', muscle: 'Peitoral', duration: '3-4 séries', equipment: 'Halteres + banco', tip: 'Costas apoiadas no banco, pés no chão. Desça controlando até 90° nos cotovelos. Não bata os halteres no topo.', videoUrl: 'https://vd.mfitpersonal.com.br/201/mp4/201.mp4' },
+      { name: 'Hip Thrust na Barra', muscle: 'Glúteos', duration: '3x15', equipment: 'Barra + banco', tip: 'Apoie as costas no banco, empurre o quadril para cima contraindo o glúteo no topo. Desça controlando.', video: V.hipThrust },
+      { name: 'Supino Reto com Halteres', muscle: 'Peitoral / Tríceps', duration: '3x15', equipment: 'Halteres + banco', tip: 'No Step. Mantenha os pés no chão, desça os halteres até a linha do peito e empurre para cima.', video: V.supino },
     ]
   },
   {
-    type: 'lift', label: 'Bloco 3 — Superset B',
-    title: 'Flexora ↔ Tríceps Corda', duration: '~10 min',
+    type: 'lift', label: 'Bi-Set 2',
+    title: 'Cadeira Flexora ↔ Tríceps Corda', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Cadeira Flexora', muscle: 'Post. Coxa', duration: '3-4 séries', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica. Não deixe o peso cair. Mantenha o quadril no banco.', videoUrl: 'https://vd.mfitpersonal.com.br/502/mp4/502.mp4' },
-      { name: 'Tríceps na Polia com Corda', muscle: 'Tríceps', duration: '3-4 séries', equipment: 'Polia + corda', tip: 'Cotovelos fixos ao lado do corpo. Abra as mãos na parte inferior do movimento para máxima contração.', videoUrl: 'https://vd.mfitpersonal.com.br/418/mp4/418.mp4' },
+      { name: 'Cadeira Flexora', muscle: 'Post. coxa', duration: '3x15', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica. Não deixe o peso cair. Mantenha o quadril no banco.', video: V.cadeiraFlexora },
+      { name: 'Tríceps na Polia com Corda', muscle: 'Tríceps', duration: '3x15', equipment: 'Polia + corda', tip: 'Cotovelos fixos ao lado do corpo. Estenda completamente e abra a corda no final do movimento.', video: V.tricepsCorda },
     ]
   },
   {
-    type: 'lift', label: 'Bloco 4 — Superset C',
-    title: 'Glúteo Coice ↔ Rosca Direta', duration: '~10 min',
+    type: 'lift', label: 'Bi-Set 3',
+    title: 'Glúteo Coice ↔ Rosca Direta', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Glúteos Coice na Polia', muscle: 'Glúteos', duration: '3-4 séries', equipment: 'Polia baixa + caneleira', tip: 'Perna estendida, empurre para trás contraindo o glúteo. Não arqueie a lombar. Controle o retorno.', videoUrl: 'https://vd.mfitpersonal.com.br/458/mp4/458.mp4' },
-      { name: 'Rosca Direta com Halteres', muscle: 'Bíceps', duration: '3-4 séries', equipment: 'Halteres', tip: 'Cotovelos fixos ao lado do corpo. Sem balançar o tronco. Controle a descida.', videoUrl: 'https://vd.mfitpersonal.com.br/109/mp4/109.mp4' },
+      { name: 'Glúteos Coice na Polia', muscle: 'Glúteos', duration: '3x15', equipment: 'Polia baixa + caneleira', tip: 'Empurre o pé para trás e para cima, contraindo o glúteo. Não arqueie a lombar.', video: V.gluteoCoice },
+      { name: 'Rosca Direta com Halteres', muscle: 'Bíceps', duration: '3x15', equipment: 'Halteres', tip: 'Cotovelos fixos ao lado do corpo. Alterne ou faça simultâneo. Sem balançar o tronco.', video: V.roscaDireta },
     ]
   },
   {
-    type: 'lift', label: 'Bloco 5 — Superset D',
-    title: 'Abdução ↔ Tríceps Banco', duration: '~10 min',
+    type: 'lift', label: 'Bi-Set 4',
+    title: 'Abdução Máquina ↔ Tríceps Banco', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Abdução na Máquina', muscle: 'Glúteos', duration: '3-4 séries', equipment: 'Máquina abdutora', tip: 'Mantenha as costas apoiadas. Abra as pernas com controle. Segure 1s na abertura máxima.', videoUrl: 'https://vd.mfitpersonal.com.br/515/mp4/515.mp4' },
-      { name: 'Tríceps Banco', muscle: 'Tríceps', duration: '3-4 séries', equipment: 'Banco', tip: 'Mãos apoiadas no banco atrás de você. Desça flexionando os cotovelos até ~90°. Empurre para cima.', videoUrl: 'https://vd.mfitpersonal.com.br/144/mp4/144.mp4' },
+      { name: 'Abdução na Máquina', muscle: 'Glúteo médio', duration: '3x15', equipment: 'Máquina abdutora', tip: 'Abra as pernas com controle, segure a contração por 1s no topo. Desça devagar.', video: V.abducao },
+      { name: 'Tríceps Banco', muscle: 'Tríceps', duration: '3x15', equipment: 'Banco', tip: 'Mãos no banco atrás, desça flexionando os cotovelos até ~90° e empurre para cima.', video: V.tricepsBanco },
     ]
   },
-  CARDIO_BLOCK
+  CARDIO_FINAL,
 ];
 
 // ─── Treino B — Glúteo/Quadríceps + Superior ───
 const TREINO_B = [
-  WARMUP_BLOCK,
+  AQUECIMENTO,
   {
-    type: 'lift', label: 'Bloco 2 — Superset A',
-    title: 'Agachamento Smith ↔ Supino Inclinado', duration: '~10 min',
+    type: 'lift', label: 'Bi-Set 1',
+    title: 'Agachamento Smith ↔ Supino Inclinado', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Agachamento no Smith', muscle: 'Quadríceps / Glúteos', duration: '3-4 séries', equipment: 'Smith Machine', tip: 'Pés ligeiramente à frente da barra. Desça até 90° nos joelhos. Empurre pelo calcanhar.', videoUrl: 'https://vd.mfitpersonal.com.br/73/mp4/73.mp4' },
-      { name: 'Supino Inclinado com Halteres', muscle: 'Peitoral superior', duration: '3-4 séries', equipment: 'Halteres + banco inclinado', tip: 'Banco a ~30-45°. Desça controlando, empurre sem travar os cotovelos.', videoUrl: 'https://vd.mfitpersonal.com.br/195/mp4/195.mp4' },
+      { name: 'Agachamento no Smith', muscle: 'Quadríceps / Glúteos', duration: '3x15', equipment: 'Smith Machine', tip: 'Pés ligeiramente à frente da barra. Desça até ~90° e empurre com os calcanhares.', video: V.agachSmith },
+      { name: 'Supino Inclinado com Halteres', muscle: 'Peitoral superior', duration: '3x15', equipment: 'Halteres + banco inclinado', tip: 'Banco a ~30-45°. Desça os halteres até a linha do peito e empurre para cima.', video: V.supinoIncl },
     ]
   },
   {
-    type: 'lift', label: 'Bloco 3 — Superset B',
-    title: 'Extensora ↔ Desenvolvimento', duration: '~10 min',
+    type: 'lift', label: 'Bi-Set 2',
+    title: 'Cadeira Extensora ↔ Desenvolvimento', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '3-4 séries', equipment: 'Máquina extensora', tip: 'Estenda as pernas com controle. Segure 1s no topo. Desça devagar.', videoUrl: 'https://vd.mfitpersonal.com.br/504/mp4/504.mp4' },
-      { name: 'Desenvolvimento com Halteres', muscle: 'Ombros', duration: '3-4 séries', equipment: 'Halteres + banco', tip: 'Sentada, empurre os halteres para cima sem travar os cotovelos. Não arqueie a lombar.', videoUrl: 'https://vd.mfitpersonal.com.br/155/mp4/155.mp4' },
+      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '3x15', equipment: 'Máquina extensora', tip: 'Movimento controlado, sem solavancos. Segure a contração no topo por 1s.', video: V.cadeiraExt },
+      { name: 'Desenvolvimento com Halteres', muscle: 'Ombros', duration: '3x15', equipment: 'Halteres', tip: 'Sentada, empurre os halteres para cima até quase estender os braços. Desça controlando.', video: V.desenv },
     ]
   },
   {
-    type: 'lift', label: 'Bloco 4 — Superset C',
-    title: 'Passada ↔ Tríceps Francês', duration: '~10 min',
+    type: 'lift', label: 'Bi-Set 3',
+    title: 'Passada ↔ Tríceps Francês', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Passada com Halteres', muscle: 'Quadríceps / Glúteos', duration: '3-4 séries', equipment: 'Halteres', tip: 'Dê um passo à frente, desça até 90° no joelho traseiro. Empurre pelo calcanhar da frente para voltar.', videoUrl: 'https://vd.mfitpersonal.com.br/273/mp4/273.mp4' },
-      { name: 'Tríceps Francês com Halter', muscle: 'Tríceps', duration: '3-4 séries', equipment: 'Halter', tip: 'Cotovelos apontando para cima, fixos. Desça atrás da cabeça com controle. Estenda sem travar.', videoUrl: 'https://vd.mfitpersonal.com.br/135/mp4/135.mp4' },
+      { name: 'Passada com Halteres', muscle: 'Quadríceps / Glúteos', duration: '3x15', equipment: 'Halteres', tip: 'Passo largo, desça até o joelho de trás quase tocar o chão. Mantenha o tronco ereto.', video: V.passada },
+      { name: 'Tríceps Francês com Halter', muscle: 'Tríceps', duration: '3x15', equipment: 'Halter', tip: 'Cotovelos apontando para cima, fixos. Desça atrás da cabeça com controle.', video: V.tricepsFrances },
     ]
   },
   {
-    type: 'lift', label: 'Bloco 5 — Superset D',
-    title: 'Stiff ↔ Rosca Polia', duration: '~10 min',
+    type: 'lift', label: 'Bi-Set 4',
+    title: 'Stiff ↔ Rosca Polia', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Stiff com Halteres', muscle: 'Post. Coxa / Glúteos', duration: '3-4 séries', equipment: 'Halteres', tip: 'Costas retas, empurre o quadril para trás. Desça os halteres junto às pernas. Sinta o alongamento nos posteriores.', videoUrl: 'https://vd.mfitpersonal.com.br/267/mp4/267.mp4' },
-      { name: 'Rosca Direta na Polia', muscle: 'Bíceps', duration: '3-4 séries', equipment: 'Polia + barra reta', tip: 'Cotovelos fixos. Puxe a barra até os ombros. Desça controlando.', videoUrl: 'https://vd.mfitpersonal.com.br/409/mp4/409.mp4' },
+      { name: 'Stiff com Halteres', muscle: 'Post. coxa / Glúteos', duration: '3x15', equipment: 'Halteres', tip: 'Joelhos levemente flexionados, incline o tronco mantendo as costas retas. Sinta o alongamento na posterior.', video: V.stiff },
+      { name: 'Rosca Direta na Polia', muscle: 'Bíceps', duration: '3x15', equipment: 'Polia baixa', tip: 'Cotovelos fixos, puxe a barra até a linha dos ombros. Desça controlando.', video: V.roscaPolia },
     ]
   },
-  CARDIO_BLOCK
+  CARDIO_FINAL,
 ];
 
 // ─── Treino C — Glúteo/Full + Tríceps ───
 const TREINO_C = [
-  WARMUP_BLOCK,
+  AQUECIMENTO,
   {
-    type: 'lift', label: 'Bloco 2 — Superset A',
-    title: 'Ponte Glúteo ↔ Supino Barra', duration: '~10 min',
+    type: 'lift', label: 'Bi-Set 1',
+    title: 'Ponte Unilateral ↔ Supino Barra', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Ponte de Glúteo Unilateral', muscle: 'Glúteos', duration: '3-4 séries', equipment: 'Colchonete', tip: 'Deitada, eleve o quadril com uma perna só. Contraia o glúteo no topo. Mantenha o core ativado.', videoUrl: 'https://vd.mfitpersonal.com.br/255/mp4/255.mp4' },
-      { name: 'Supino Reto com Barra Reta', muscle: 'Peitoral', duration: '3-4 séries', equipment: 'Barra + banco', tip: 'Pegada um pouco mais larga que os ombros. Desça até o peito e empurre com controle.', videoUrl: 'https://vd.mfitpersonal.com.br/203/mp4/203.mp4' },
+      { name: 'Ponte de Glúteo Unilateral', muscle: 'Glúteos', duration: '3x15', equipment: 'Banco', tip: 'Apoie as costas no banco, uma perna estendida. Empurre o quadril para cima com uma perna só. Alterne.', video: V.ponteUni },
+      { name: 'Supino Reto com Barra Reta', muscle: 'Peitoral / Tríceps', duration: '3x15', equipment: 'Barra + banco', tip: 'Pegada na largura dos ombros. Desça a barra até o peito e empurre para cima.', video: V.supinoBarra },
     ]
   },
   {
-    type: 'lift', label: 'Bloco 3 — Superset B',
-    title: 'Agachamento Sumô ↔ Tríceps Polia', duration: '~10 min',
+    type: 'lift', label: 'Bi-Set 2',
+    title: 'Agachamento Sumô ↔ Tríceps Barra Reta', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Agachamento Sumô com Halter', muscle: 'Quadríceps / Glúteos', duration: '3-4 séries', equipment: 'Halter ou kettlebell', tip: 'Pés bem afastados, pontas para fora. Desça mantendo o tronco ereto. Empurre pelo calcanhar.', videoUrl: 'https://vd.mfitpersonal.com.br/78/mp4/78.mp4' },
-      { name: 'Tríceps na Polia com Barra Reta', muscle: 'Tríceps', duration: '3-4 séries', equipment: 'Polia + barra reta', tip: 'Cotovelos fixos ao lado do corpo. Empurre a barra para baixo com controle. Volte devagar.', videoUrl: 'https://vd.mfitpersonal.com.br/415/mp4/415.mp4' },
+      { name: 'Agachamento Sumô com Halter', muscle: 'Adutores / Glúteos', duration: '3x15', equipment: 'Halter', tip: 'Pés bem afastados, pontas dos pés para fora. Desça com o halter entre as pernas.', video: V.agachSumo },
+      { name: 'Tríceps na Polia com Barra Reta', muscle: 'Tríceps', duration: '3x15', equipment: 'Polia + barra reta', tip: 'Cotovelos fixos ao lado do corpo. Estenda completamente os braços.', video: V.tricepsBarraReta },
     ]
   },
   {
-    type: 'lift', label: 'Bloco 4 — Superset C',
-    title: 'Extensora ↔ Arnold', duration: '~10 min',
+    type: 'lift', label: 'Bi-Set 3',
+    title: 'Cadeira Extensora ↔ Des. Arnold', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '3-4 séries', equipment: 'Máquina extensora', tip: 'Estenda as pernas com controle. Segure 1s no topo. Desça devagar.', videoUrl: 'https://vd.mfitpersonal.com.br/504/mp4/504.mp4' },
-      { name: 'Desenvolvimento Arnold', muscle: 'Ombros', duration: '3-4 séries', equipment: 'Halteres + banco', tip: 'Comece com halteres à frente do rosto, gire e empurre para cima. Não arqueie a lombar.', videoUrl: 'https://vd.mfitpersonal.com.br/101/mp4/101.mp4' },
+      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '3x15', equipment: 'Máquina extensora', tip: 'Movimento controlado, segure a contração no topo por 1s.', video: V.cadeiraExt },
+      { name: 'Desenvolvimento Arnold', muscle: 'Ombros', duration: '3x15', equipment: 'Halteres', tip: 'Comece com halteres à frente, gire e empurre para cima. Não arqueie a lombar.', video: V.desenvArnold },
     ]
   },
   {
-    type: 'lift', label: 'Bloco 5 — Superset D',
-    title: 'Flexora ↔ Rosca Martelo', duration: '~10 min',
+    type: 'lift', label: 'Bi-Set 4',
+    title: 'Cadeira Flexora ↔ Rosca Martelo', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Cadeira Flexora', muscle: 'Post. Coxa', duration: '3-4 séries', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica. Não deixe o peso cair. Mantenha o quadril no banco.', videoUrl: 'https://vd.mfitpersonal.com.br/502/mp4/502.mp4' },
-      { name: 'Rosca Martelo com Halteres', muscle: 'Bíceps', duration: '3-4 séries', equipment: 'Halteres', tip: 'Pegada neutra (palmas para dentro). Alterne os braços. Sem balançar o tronco.', videoUrl: 'https://vd.mfitpersonal.com.br/122/mp4/122.mp4' },
+      { name: 'Cadeira Flexora', muscle: 'Post. coxa', duration: '3x15', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica. Não deixe o peso cair.', video: V.cadeiraFlexora },
+      { name: 'Rosca Martelo com Halteres', muscle: 'Bíceps / Braquial', duration: '3x15', equipment: 'Halteres', tip: 'Pegada neutra (palmas viradas para dentro). Cotovelos fixos, sem balançar.', video: V.roscaMartelo },
     ]
   },
   {
-    type: 'lift', label: 'Bloco 6 — Superset E',
-    title: 'Abdução Polia ↔ Tríceps Testa', duration: '~10 min',
+    type: 'lift', label: 'Bi-Set 5',
+    title: 'Abdução Polia ↔ Tríceps Testa', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Glúteos Abdução na Polia', muscle: 'Glúteos', duration: '3-4 séries', equipment: 'Polia baixa + caneleira', tip: 'Em pé, abra a perna lateralmente contra a resistência. Controle o retorno. Mantenha o tronco estável.', videoUrl: 'https://vd.mfitpersonal.com.br/455/mp4/455.mp4' },
-      { name: 'Tríceps Testa com Barra EZ', muscle: 'Tríceps', duration: '3-4 séries', equipment: 'Barra EZ + banco', tip: 'Deitada, desça a barra até a testa com cotovelos fixos. Estenda com controle sem travar.', videoUrl: 'https://vd.mfitpersonal.com.br/140/mp4/140.mp4' },
+      { name: 'Glúteos Abdução na Polia', muscle: 'Glúteo médio', duration: '3x15', equipment: 'Polia baixa + caneleira', tip: 'Abra a perna lateralmente contra a resistência da polia. Contraia o glúteo médio.', video: V.gluteoAbdPolia },
+      { name: 'Tríceps Testa com Barra EZ', muscle: 'Tríceps', duration: '3x15', equipment: 'Barra EZ + banco', tip: 'Deitada no banco, desça a barra até a testa com controle e estenda os braços.', video: V.tricepsTesta },
     ]
   },
-  CARDIO_BLOCK
+  CARDIO_FINAL,
 ];
 
+// Liliana treina 3x/semana — A, B, C cycling
 const WEEK = [
   { day: 'Seg', date: '2026-02-24', num: 24, rest: false, label: 'Treino A — Glúteo/Post. + Superior', blocks: TREINO_A },
-  { day: 'Ter', date: '2026-02-25', num: 25, rest: false, label: 'Treino B — Glúteo/Quad. + Superior', blocks: TREINO_B },
-  { day: 'Qua', date: '2026-02-26', num: 26, rest: false, label: 'Treino C — Glúteo/Full + Tríceps', blocks: TREINO_C },
-  { day: 'Qui', date: '2026-02-27', num: 27, rest: false, label: 'Treino A — Glúteo/Post. + Superior', blocks: TREINO_A },
-  { day: 'Sex', date: '2026-02-28', num: 28, rest: false, label: 'Treino B — Glúteo/Quad. + Superior', blocks: TREINO_B },
-  { day: 'Sáb', date: '2026-03-01', num: 1, rest: false, label: 'Treino C — Glúteo/Full + Tríceps (opcional)', blocks: TREINO_C },
+  { day: 'Ter', date: '2026-02-25', num: 25, rest: true, label: 'Descanso' },
+  { day: 'Qua', date: '2026-02-26', num: 26, rest: false, label: 'Treino B — Glúteo/Quad. + Superior', blocks: TREINO_B },
+  { day: 'Qui', date: '2026-02-27', num: 27, rest: true, label: 'Descanso' },
+  { day: 'Sex', date: '2026-02-28', num: 28, rest: false, label: 'Treino C — Glúteo/Full + Tríceps', blocks: TREINO_C },
+  { day: 'Sáb', date: '2026-03-01', num: 1, rest: true, label: 'Descanso' },
 ];
 
 const STORAGE_KEY = 'maxresults-liliana-2026-02-24-v1';
@@ -1308,7 +1346,7 @@ function renderWeekGoal() {
   el.innerHTML = `
     <div class="week-goal-header">
       <span class="week-goal-label">Meta da Semana</span>
-      <span class="week-goal-badge">Sem 24 Fev - 01 Mar</span>
+      <span class="week-goal-badge">Sem 24 Fev — 01 Mar</span>
     </div>
     <div class="week-goal-items">
       ${WEEKLY_GOALS.map(g => `
@@ -1341,10 +1379,10 @@ function renderWorkout() {
   document.getElementById('headerDay').textContent = day.rest
     ? `${day.day} — Descanso`
     : `${day.day} ${day.num}/${day.date.split('-')[1]}`;
-  document.getElementById('headerDate').textContent = 'Semana 24 Fev - 01 Mar 2026';
+  document.getElementById('headerDate').textContent = 'Semana 24 Fev — 01 Mar 2026';
 
   if (day.rest) {
-    content.innerHTML = `<div class="rest-message"><h2>Dia de Descanso</h2><p>Recuperação é parte do treino.</p></div>`;
+    content.innerHTML = `<div class="rest-message"><h2>Dia de Descanso 😴</h2><p>Recuperação é parte do treino. Descanse, se hidrate e se alimente bem.</p></div>`;
     document.getElementById('sessionComplete').classList.remove('visible');
     return;
   }
@@ -1353,6 +1391,7 @@ function renderWorkout() {
     const doneCount = block.exercises.filter((_, ei) => completedExercises[exerciseKey(currentDayIndex, bi, ei)]).length;
     const total = block.exercises.length;
     const blockDone = doneCount === total;
+    const isSuperset = block.exercises.length === 2 && block.type === 'lift';
 
     return `<section class="block block--${block.type}">
       <div class="block-header">
@@ -1368,7 +1407,11 @@ function renderWorkout() {
         const key = exerciseKey(currentDayIndex, bi, ei);
         const done = completedExercises[key];
         const tagClass = 'tag--' + block.type;
-        const supersetTag = block.exercises.length === 2 && block.type === 'lift' ? '<span class="tag tag--superset">Superset</span>' : '';
+        const supersetTag = isSuperset ? '<span class="tag tag--superset">Bi-Set</span>' : '';
+        const noRestTag = isSuperset ? '<span class="tag tag--norest">Sem descanso</span>' : '';
+        const nameHtml = ex.video
+          ? `<a class="exercise-name" href="${ex.video}" target="_blank" rel="noopener" onclick="event.stopPropagation(); playVideo(event, '${ex.video}')">${ex.name}</a>`
+          : `<span class="exercise-name">${ex.name}</span>`;
         return `<div class="exercise ${done ? 'completed' : ''}" data-key="${key}" id="ex-${key}">
           <div class="exercise-main" onclick="toggleDetail('${key}')">
             <div class="check" onclick="event.stopPropagation(); toggleExercise('${key}')">
@@ -1376,12 +1419,12 @@ function renderWorkout() {
             </div>
             <div class="exercise-content">
               <div class="exercise-top">
-                ${ex.videoUrl ? `<span class="exercise-name has-video" onclick="event.stopPropagation(); window.open('${ex.videoUrl}', '_blank')">▶ ${ex.name}</span>` : `<span class="exercise-name">${ex.name}</span>`}
+                ${nameHtml}
                 <span class="exercise-duration">${ex.duration}</span>
               </div>
               <div class="exercise-tags">
                 <span class="tag ${tagClass}">${ex.muscle}</span>
-                ${supersetTag}
+                ${supersetTag}${noRestTag}
               </div>
             </div>
             <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -1402,6 +1445,27 @@ function renderWorkout() {
       }).join('')}
     </section>`;
   }).join('');
+}
+
+function playVideo(e, url) {
+  // For OneDrive links, just open in new tab
+  if (url.includes('1drv.ms') || url.includes('onedrive')) {
+    return; // let the <a> handle it
+  }
+  e.preventDefault();
+  const overlay = document.getElementById('videoOverlay');
+  const player = document.getElementById('videoPlayer');
+  player.src = url;
+  overlay.classList.add('active');
+  player.play();
+}
+
+function closeVideo() {
+  const overlay = document.getElementById('videoOverlay');
+  const player = document.getElementById('videoPlayer');
+  player.pause();
+  player.src = '';
+  overlay.classList.remove('active');
 }
 
 function updateProgress() {
@@ -1431,13 +1495,12 @@ function isDayComplete(dayIndex) {
 
 function renderWeekOverview() {
   const overview = document.getElementById('weekOverview');
-  overview.innerHTML = WEEK.filter(d => !d.rest).map(d => {
-    const idx = WEEK.indexOf(d);
-    const isCurrent = idx === currentDayIndex;
+  overview.innerHTML = WEEK.map((d, i) => {
+    const isCurrent = i === currentDayIndex;
     return `<div class="week-day-summary">
       <div class="week-day-label">${d.day}</div>
-      <div class="week-day-desc">${d.label || d.blocks.map(b => b.title).join(' + ')}</div>
-      <div class="week-day-status ${isCurrent ? 'today' : ''}">${isDayComplete(idx) ? '&#10003;' : isCurrent ? 'Atual' : d.day}</div>
+      <div class="week-day-desc">${d.label}</div>
+      <div class="week-day-status ${d.rest ? 'rest' : isCurrent ? 'today' : ''}">${d.rest ? '😴' : isDayComplete(i) ? '✓' : isCurrent ? 'Atual' : d.day}</div>
     </div>`;
   }).join('');
 }
@@ -1516,19 +1579,16 @@ const ASSESSMENT = {
   ],
   results: {
     imc: { value: 20.72, classification: 'Peso normal' },
-    rcq: { value: 0.70, classification: 'Baixo' },
-    sumPerimetry: 636.00,
-    sumSkinfolds: 114.80,
-    idealFat: 12,
-    leanMass: 48.50,
-    fatMass: 13.50,
+    idealFat: 20,
+    fatPercent: 22.0,
+    leanPercent: 78.0,
+    leanMass: 48.36,
+    fatMass: 13.64,
     idealWeight: 65,
-    excessFat: 1.10,
-    fatPercent: 21.77,
-    leanPercent: 78.23,
+    sumSkinfolds: 114.8,
   },
-  objective: 'Emagrecimento',
-  targetFatPercent: 20,
+  objective: 'Emagrecimento — Perder gordura e definir',
+  emphasis: 'Glúteo e Tríceps',
 };
 
 function renderAssessment(a) {
@@ -1551,6 +1611,7 @@ function renderAssessment(a) {
         <div class="assess-meta-row"><span class="assess-meta-label">Data da Avaliação</span><span class="assess-meta-value">${a.date}</span></div>
         <div class="assess-meta-row"><span class="assess-meta-label">Protocolo</span><span class="assess-meta-value">${a.protocol}</span></div>
         <div class="assess-meta-row"><span class="assess-meta-label">Objetivo</span><span class="assess-meta-value">${a.objective}</span></div>
+        <div class="assess-meta-row"><span class="assess-meta-label">Ênfase</span><span class="assess-meta-value">${a.emphasis}</span></div>
         <div class="assess-meta-row"><span class="assess-meta-label">Próxima Avaliação</span><span class="assess-meta-value">${a.nextAssessment}</span></div>
       </div>
     </div>
@@ -1574,20 +1635,6 @@ function renderAssessment(a) {
     </div>
 
     <div class="assess-section">
-      <div class="assess-section-title">Resultados</div>
-      <div class="assess-card">
-        <div class="assess-stats">
-          <div class="assess-stat"><div class="as-value">${r.imc.value}</div><div class="as-sub">${r.imc.classification}</div><div class="as-label">IMC</div></div>
-          <div class="assess-stat"><div class="as-value">${r.rcq.value}</div><div class="as-sub">${r.rcq.classification}</div><div class="as-label">RCQ</div></div>
-          <div class="assess-stat"><div class="as-value">${r.sumSkinfolds}<span class="ab-unit">mm</span></div><div class="as-label">Σ Dobras</div></div>
-          <div class="assess-stat"><div class="as-value">${r.sumPerimetry}<span class="ab-unit">cm</span></div><div class="as-label">Σ Perímetros</div></div>
-          <div class="assess-stat"><div class="as-value">${r.idealWeight}<span class="ab-unit">kg</span></div><div class="as-label">Peso Ideal</div></div>
-          <div class="assess-stat"><div class="as-value">${r.excessFat}<span class="ab-unit">kg</span></div><div class="as-sub">Excesso gordura</div><div class="as-label">A perder</div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="assess-section">
       <div class="assess-section-title">Composição Corporal</div>
       <div class="assess-card">
         <div class="assess-donut-wrap">
@@ -1603,10 +1650,14 @@ function renderAssessment(a) {
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="assess-section">
-      <div class="assess-section-title">Massa Magra vs Massa Gorda</div>
+      <div class="assess-card">
+        <div class="assess-stats">
+          <div class="assess-stat"><div class="as-value">${r.imc.value}</div><div class="as-sub">${r.imc.classification}</div><div class="as-label">IMC</div></div>
+          <div class="assess-stat"><div class="as-value">${r.sumSkinfolds}<span class="ab-unit">mm</span></div><div class="as-label">Σ Dobras</div></div>
+          <div class="assess-stat"><div class="as-value">${r.idealWeight}<span class="ab-unit">kg</span></div><div class="as-label">Peso Ideal</div></div>
+          <div class="assess-stat"><div class="as-value">${r.idealFat}%</div><div class="as-sub">Meta</div><div class="as-label">% Gordura Ideal</div></div>
+        </div>
+      </div>
       <div class="assess-card">
         <div class="assess-bars">
           <div class="assess-bar-col">
@@ -1630,7 +1681,6 @@ document.getElementById('assessToggle').addEventListener('click', function() {
   this.classList.toggle('open');
   document.getElementById('assessPanel').classList.toggle('open');
 });
-// ─── End Assessment Section ───
 </script>
 
 </body>
