@@ -636,6 +636,54 @@
       gap: 10px;
     }
 
+    .load-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .load-label {
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .load-input {
+      width: 72px;
+      padding: 6px 10px;
+      background: var(--surface-2);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .load-input:focus {
+      border-color: var(--accent-lift);
+      box-shadow: 0 0 0 2px var(--accent-lift-dim);
+    }
+
+    .load-input::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+      font-size: 12px;
+    }
+
+    .load-unit {
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
     .detail-row {
       display: flex;
       align-items: baseline;
@@ -1350,6 +1398,7 @@ function render() {
   renderWorkout();
   updateProgress();
   renderWeekOverview();
+  restoreLoads();
 }
 
 function renderWeekGoal() {
@@ -1442,6 +1491,11 @@ function renderWorkout() {
           </div>
           <div class="exercise-detail">
             <div class="detail-inner">
+              <div class="load-row" onclick="event.stopPropagation()">
+                <span class="load-label">Carga:</span>
+                <input type="text" inputmode="decimal" class="load-input" placeholder="—" data-load-key="${key}" onchange="saveLoad(this)" value="">
+                <span class="load-unit">kg</span>
+              </div>
               <div class="detail-row">
                 <span class="detail-label">Equipamento:</span>
                 <span class="detail-value">${ex.equipment}</span>
@@ -1549,6 +1603,33 @@ function updateBlockProgress() {
 function toggleDetail(key) {
   document.getElementById('ex-' + key).classList.toggle('expanded');
 }
+
+// ─── Load persistence ───
+const LOAD_KEY = 'maxresults-liliana-loads-v1';
+
+function loadLoads() {
+  try { return JSON.parse(localStorage.getItem(LOAD_KEY) || '{}'); } catch { return {}; }
+}
+
+function saveLoad(input) {
+  const loads = loadLoads();
+  const k = input.dataset.loadKey;
+  if (input.value.trim()) {
+    loads[k] = input.value.trim();
+  } else {
+    delete loads[k];
+  }
+  localStorage.setItem(LOAD_KEY, JSON.stringify(loads));
+}
+
+function restoreLoads() {
+  const loads = loadLoads();
+  document.querySelectorAll('.load-input').forEach(input => {
+    const k = input.dataset.loadKey;
+    if (loads[k]) input.value = loads[k];
+  });
+}
+
 
 document.getElementById('weekToggle').addEventListener('click', function() {
   this.classList.toggle('open');
