@@ -1144,13 +1144,21 @@ const V = {
 };
 
 // ─── AQUECIMENTO (shared across all days) ───
+const MOBILIDADE = {
+  type: 'warmup', label: 'Mobilidade Articular',
+  title: 'Balanço + Giros', duration: '1x12 cada',
+  meta: '1 série de 12 repetições cada',
+  exercises: [
+    { name: 'Balanço Frontal das Pernas', muscle: 'Quadril / Pernas', duration: '1x12', equipment: 'Nenhum', tip: 'Segure em um apoio. Balance a perna para frente e para trás com controle. 12 cada lado.', video: V.balanco },
+    { name: 'Giros dos Braços', muscle: 'Ombros', duration: '1x12', equipment: 'Nenhum', tip: 'Braços estendidos, gire em círculos amplos. 12 para frente, 12 para trás.', video: V.giros },
+  ]
+};
+
 const AQUECIMENTO = {
   type: 'warmup', label: 'Aquecimento',
-  title: 'Ativação Geral + MaxLift Mix 2', duration: '~8 min',
+  title: 'MaxLift Mix 2', duration: '~5 min',
   exercises: [
-    { name: 'Balanço Frontal', muscle: 'Mobilidade', duration: '~2 min', equipment: 'Nenhum', tip: 'Balance a perna para frente e para trás com controle. Alterne.', video: V.balanco },
-    { name: 'Giros dos Braços', muscle: 'Ombros', duration: '~2 min', equipment: 'Nenhum', tip: 'Braços estendidos, gire em círculos amplos. Alterne a direção.', video: V.giros },
-    { name: 'MaxLift Mix 2 – Aquecimento', muscle: 'Corpo todo', duration: '~5 min', equipment: 'Aula em vídeo', tip: 'Siga o vídeo da aula MaxLift Mix 2. Foco em aquecer articulações e elevar a frequência cardíaca.', video: V.maxlift2 },
+    { name: 'MaxLift Mix 2 – Aquecimento', muscle: 'Corpo todo', duration: '~5 min', equipment: 'Aula em vídeo', tip: 'Siga o vídeo da aula MaxLift Mix 2. Foco em aquecer e elevar a frequência cardíaca.', video: V.maxlift2 },
   ]
 };
 
@@ -1164,6 +1172,7 @@ const CARDIO_FINAL = {
 
 // ─── Treino A — Glúteo/Posterior + Superior ───
 const TREINO_A = [
+  MOBILIDADE,
   AQUECIMENTO,
   {
     type: 'lift', label: 'Bi-Set 1',
@@ -1206,6 +1215,7 @@ const TREINO_A = [
 
 // ─── Treino B — Glúteo/Quadríceps + Superior ───
 const TREINO_B = [
+  MOBILIDADE,
   AQUECIMENTO,
   {
     type: 'lift', label: 'Bi-Set 1',
@@ -1248,6 +1258,7 @@ const TREINO_B = [
 
 // ─── Treino C — Glúteo/Full + Tríceps ───
 const TREINO_C = [
+  MOBILIDADE,
   AQUECIMENTO,
   {
     type: 'lift', label: 'Bi-Set 1',
