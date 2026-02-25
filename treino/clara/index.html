@@ -441,15 +441,15 @@ const TREINO_3 = [
 ];
 
 const WEEK = [
-  { day: 'Seg', date: '2026-02-25', num: 25, rest: false, label: 'Treino 1 — Anterior', blocks: TREINO_1 },
-  { day: 'Ter', date: '2026-02-26', num: 26, rest: false, label: 'Treino 2 — Posterior', blocks: TREINO_2 },
-  { day: 'Qua', date: '2026-02-27', num: 27, rest: false, label: 'Treino 3 — AMRAP', blocks: TREINO_3 },
-  { day: 'Qui', date: '2026-02-28', num: 28, rest: false, label: 'Treino 1 — Anterior', blocks: TREINO_1 },
-  { day: 'Sex', date: '2026-03-01', num: 1, rest: false, label: 'Treino 2 — Posterior', blocks: TREINO_2 },
-  { day: 'Sáb', date: '2026-03-02', num: 2, rest: false, label: 'Treino 3 — AMRAP (opc.)', blocks: TREINO_3 },
+  { day: 'Seg', date: '2026-02-23', num: 23, rest: false, label: 'Treino 1 — Anterior', blocks: TREINO_1 },
+  { day: 'Ter', date: '2026-02-24', num: 24, rest: false, label: 'Treino 2 — Posterior', blocks: TREINO_2 },
+  { day: 'Qua', date: '2026-02-25', num: 25, rest: false, label: 'Treino 3 — AMRAP', blocks: TREINO_3 },
+  { day: 'Qui', date: '2026-02-26', num: 26, rest: false, label: 'Treino 1 — Anterior', blocks: TREINO_1 },
+  { day: 'Sex', date: '2026-02-27', num: 27, rest: false, label: 'Treino 2 — Posterior', blocks: TREINO_2 },
+  { day: 'Sáb', date: '2026-02-28', num: 28, rest: false, label: 'Treino 3 — AMRAP (opc.)', blocks: TREINO_3 },
 ];
 
-const STORAGE_KEY = 'maxresults-clara-2026-02-25-v2';
+const STORAGE_KEY = 'maxresults-clara-2026-02-23-v2';
 let currentDayIndex = 0;
 let completedExercises = loadProgress();
 
@@ -469,7 +469,7 @@ function render() { renderWeekGoal(); renderDaySwitcher(); renderWorkout(); upda
 
 function renderWeekGoal() {
   document.getElementById('weekGoal').innerHTML = `
-    <div class="week-goal-header"><span class="week-goal-label">Meta da Semana</span><span class="week-goal-badge">Sem 25 Fev — 02 Mar</span></div>
+    <div class="week-goal-header"><span class="week-goal-label">Meta da Semana</span><span class="week-goal-badge">Sem 23 Fev — 28 Fev</span></div>
     <div class="week-goal-items">${WEEKLY_GOALS.map(g => `<div class="week-goal-item"><div class="week-goal-icon ${g.type}">${g.icon}</div><div class="week-goal-text">${g.text}</div></div>`).join('')}</div>
     <div class="elbow-alert">⚠️ <strong>Atenção aos cotovelos!</strong> No <em>Supino</em> e <em>Desenvolvimento</em>, cuide da execução: na fase inferior, mantenha os <em>antebraços na vertical</em>. Se usar barra, não feche a pegada demais. Se usar halteres, não desça demais perto dos ombros/peito. Isso protege a articulação do cotovelo. Na dúvida, assista o vídeo de execução!</div>`;
 }

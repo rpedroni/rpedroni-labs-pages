@@ -1358,15 +1358,15 @@ const TREINO_C = [
 
 // Liliana treina 3x/semana — A, B, C cycling
 const WEEK = [
-  { day: 'Seg', date: '2026-02-24', num: 24, rest: false, label: 'Treino A — Glúteo/Post. + Superior', blocks: TREINO_A },
-  { day: 'Ter', date: '2026-02-25', num: 25, rest: true, label: 'Descanso' },
-  { day: 'Qua', date: '2026-02-26', num: 26, rest: false, label: 'Treino B — Glúteo/Quad. + Superior', blocks: TREINO_B },
-  { day: 'Qui', date: '2026-02-27', num: 27, rest: true, label: 'Descanso' },
-  { day: 'Sex', date: '2026-02-28', num: 28, rest: false, label: 'Treino C — Glúteo/Full + Tríceps', blocks: TREINO_C },
-  { day: 'Sáb', date: '2026-03-01', num: 1, rest: true, label: 'Descanso' },
+  { day: 'Seg', date: '2026-02-23', num: 23, rest: false, label: 'Treino A — Glúteo/Post. + Superior', blocks: TREINO_A },
+  { day: 'Ter', date: '2026-02-24', num: 24, rest: true, label: 'Descanso' },
+  { day: 'Qua', date: '2026-02-25', num: 25, rest: false, label: 'Treino B — Glúteo/Quad. + Superior', blocks: TREINO_B },
+  { day: 'Qui', date: '2026-02-26', num: 26, rest: true, label: 'Descanso' },
+  { day: 'Sex', date: '2026-02-27', num: 27, rest: false, label: 'Treino C — Glúteo/Full + Tríceps', blocks: TREINO_C },
+  { day: 'Sáb', date: '2026-02-28', num: 28, rest: true, label: 'Descanso' },
 ];
 
-const STORAGE_KEY = 'maxresults-liliana-2026-02-24-v1';
+const STORAGE_KEY = 'maxresults-liliana-2026-02-23-v1';
 let currentDayIndex = 0;
 let completedExercises = loadProgress();
 
@@ -1406,7 +1406,7 @@ function renderWeekGoal() {
   el.innerHTML = `
     <div class="week-goal-header">
       <span class="week-goal-label">Meta da Semana</span>
-      <span class="week-goal-badge">Sem 24 Fev — 01 Mar</span>
+      <span class="week-goal-badge">Sem 23 Fev — 28 Fev</span>
     </div>
     <div class="week-goal-items">
       ${WEEKLY_GOALS.map(g => `
