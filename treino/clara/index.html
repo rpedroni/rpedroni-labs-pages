@@ -59,6 +59,9 @@
     .week-goal-icon.hiit { background: var(--accent-hiit-dim); }
     .week-goal-text { flex: 1; font-size: 13px; font-weight: 500; color: var(--text-dim); line-height: 1.3; }
     .week-goal-text strong { color: var(--text); font-weight: 700; }
+    .elbow-alert { margin-top: 12px; padding: 12px 14px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: var(--radius); font-size: 12px; line-height: 1.5; color: var(--text-dim); }
+    .elbow-alert strong { color: #ef4444; }
+    .elbow-alert em { color: var(--text); font-style: normal; font-weight: 600; }
     .day-switcher { display: flex; gap: 6px; padding: 20px 0 12px; overflow-x: auto; scrollbar-width: none; }
     .day-switcher::-webkit-scrollbar { display: none; }
     .day-btn { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 6px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text-muted); font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; -webkit-appearance: none; position: relative; overflow: hidden; }
@@ -256,7 +259,7 @@ const V = {
   supino: 'https://vd.mfitpersonal.com.br/201/mp4/201.mp4',
   cadeiraExt: 'https://vd.mfitpersonal.com.br/504/mp4/504.mp4',
   cadeiraFlexora: 'https://vd.mfitpersonal.com.br/502/mp4/502.mp4',
-  tricepsFrances: 'https://vd.mfitpersonal.com.br/135/mp4/135.mp4',
+  tricepsCorda: 'https://vd.mfitpersonal.com.br/418/mp4/418.mp4',
   stiff: 'https://vd.mfitpersonal.com.br/267/mp4/267.mp4',
   bike: 'https://vd.mfitpersonal.com.br/527/mp4/527.mp4',
   crucifixoInv: 'https://vd.mfitpersonal.com.br/531/mp4/531.mp4',
@@ -323,7 +326,7 @@ const TREINO_1 = [
     meta: 'MMII: 15→12→9→6 (↑carga) · MMSS: 21→18→15→12 (↑carga) · Sem descanso',
     exercises: [
       { name: 'Agachamento Livre', muscle: 'Quadríceps / Glúteos', duration: '15/12/9/6', equipment: 'Barra livre', tip: 'Pés na largura dos ombros. Desça até ~90° mantendo os joelhos alinhados. Suba empurrando com os calcanhares. Aumente a carga a cada série.', video: V.agachLivre },
-      { name: 'Supino Reto com Halteres', muscle: 'Peitoral / Tríceps', duration: '21/18/15/12', equipment: 'Halteres + step', tip: 'No step, perto do hack. Desça os halteres até a linha do peito e empurre para cima. Aumente a carga a cada série.', video: V.supino },
+      { name: 'Supino Reto com Halteres', muscle: 'Peitoral / Tríceps', duration: '21/18/15/12', equipment: 'Halteres + step', tip: '⚠️ Antebraços sempre na VERTICAL na fase inferior — não aproxime os halteres demais do peito. No step, perto do hack. Desça até a linha do peito e empurre. Aumente a carga a cada série.', video: V.supino },
     ]
   },
   {
@@ -346,11 +349,11 @@ const TREINO_1 = [
   },
   {
     type: 'lift', label: 'Bi-Set 4',
-    title: 'Adução Máquina ↔ Tríceps Francês', duration: '4 séries · Pirâmide',
+    title: 'Adução Máquina ↔ Tríceps Corda', duration: '4 séries · Pirâmide',
     meta: 'MMII: 15→12→9→6 (↑carga) · MMSS: 21→18→15→12 (↑carga) · Sem descanso',
     exercises: [
       { name: 'Adução de Quadril Máquina', muscle: 'Adutores', duration: '15/12/9/6', equipment: 'Máquina adutora', tip: 'Feche as pernas com controle, segure a contração por 1s. Desça devagar.', video: V.aducao },
-      { name: 'Tríceps Francês Sentado', muscle: 'Tríceps', duration: '21/18/15/12', equipment: 'Halteres', tip: 'Sentada, segure o halter atrás da cabeça. Cotovelos para cima, estenda os braços. Controle a descida.', video: V.tricepsFrances },
+      { name: 'Tríceps na Polia com Corda', muscle: 'Tríceps', duration: '21/18/15/12', equipment: 'Polia + corda', tip: 'Cotovelos fixos ao lado do corpo. Estenda completamente e abra a corda no final do movimento. Menos estresse no cotovelo que o francês.', video: V.tricepsCorda },
     ]
   },
   CARDIO_SPINNING,
@@ -467,7 +470,8 @@ function render() { renderWeekGoal(); renderDaySwitcher(); renderWorkout(); upda
 function renderWeekGoal() {
   document.getElementById('weekGoal').innerHTML = `
     <div class="week-goal-header"><span class="week-goal-label">Meta da Semana</span><span class="week-goal-badge">Sem 25 Fev — 02 Mar</span></div>
-    <div class="week-goal-items">${WEEKLY_GOALS.map(g => `<div class="week-goal-item"><div class="week-goal-icon ${g.type}">${g.icon}</div><div class="week-goal-text">${g.text}</div></div>`).join('')}</div>`;
+    <div class="week-goal-items">${WEEKLY_GOALS.map(g => `<div class="week-goal-item"><div class="week-goal-icon ${g.type}">${g.icon}</div><div class="week-goal-text">${g.text}</div></div>`).join('')}</div>
+    <div class="elbow-alert">⚠️ <strong>Atenção aos cotovelos!</strong> No <em>Supino</em> e <em>Desenvolvimento</em>, cuide da execução: na fase inferior, mantenha os <em>antebraços na vertical</em>. Se usar barra, não feche a pegada demais. Se usar halteres, não desça demais perto dos ombros/peito. Isso protege a articulação do cotovelo. Na dúvida, assista o vídeo de execução!</div>`;
 }
 
 function renderDaySwitcher() {
