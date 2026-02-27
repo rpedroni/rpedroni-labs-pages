@@ -137,6 +137,11 @@
     .load-input:focus { border-color: var(--accent-lift); box-shadow: 0 0 0 2px var(--accent-lift-dim); }
     .load-input::placeholder { color: var(--text-muted); font-weight: 400; font-size: 12px; }
     .load-unit { color: var(--text-muted); font-size: 12px; font-weight: 500; }
+    .rest-input { width: 56px; padding: 6px 8px; background: var(--surface-2); border: 1px solid var(--border-light); border-radius: 8px; color: var(--accent-cardio); font-family: var(--font-display); font-size: 14px; font-weight: 700; text-align: center; outline: none; transition: border-color 0.2s; -webkit-appearance: none; }
+    .rest-input:focus { border-color: var(--accent-cardio); box-shadow: 0 0 0 2px var(--accent-cardio-dim); }
+    .rest-input::placeholder { color: var(--text-muted); font-weight: 400; font-size: 11px; }
+    .rest-label { color: var(--accent-cardio); font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; display: flex; align-items: center; gap: 4px; }
+    .rest-label::before { content: '⏱'; font-size: 12px; }
     .detail-row { display: flex; align-items: baseline; gap: 8px; font-size: 13px; }
     .detail-label { color: var(--text-muted); font-weight: 500; white-space: nowrap; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
     .detail-value { color: var(--text-dim); font-weight: 400; font-size: 13px; }
@@ -452,7 +457,7 @@ function findCurrentDay() {
   return 0;
 }
 
-function render() { renderWeekGoal(); renderDaySwitcher(); renderWorkout(); updateProgress(); renderWeekOverview(); restoreLoads(); }
+function render() { renderWeekGoal(); renderDaySwitcher(); renderWorkout(); updateProgress(); renderWeekOverview(); restoreLoads(); restoreRests(); }
 
 function renderWeekGoal() {
   document.getElementById('weekGoal').innerHTML = `
@@ -507,6 +512,8 @@ function renderWorkout() {
           </div>
           <div class="exercise-detail"><div class="detail-inner">
             ${block.type==='lift' ? `<div class="load-row" onclick="event.stopPropagation()"><span class="load-label">Carga:</span><input type="text" inputmode="decimal" class="load-input" placeholder="—" data-load-key="${key}" onchange="saveLoad(this)" value=""><span class="load-unit">kg</span></div>` : ''}
+            ${block.type==='lift' ? `<div class="load-row" onclick="event.stopPropagation()"><span class="rest-label">Descanso:</span><input type="text" inputmode="decimal" class="rest-input" placeholder="—" data-rest-key="${key}" onchange="saveRest(this)" value=""><span class="load-unit">seg</span></div>` : ''}
+
             <div class="detail-row"><span class="detail-label">Equipamento:</span><span class="detail-value">${ex.equipment}</span></div>
             <div class="detail-row"><span class="detail-label">Dica:</span><span class="detail-value">${ex.tip}</span></div>
           </div></div>
@@ -588,9 +595,13 @@ function updateBlockProgress() {
 function toggleDetail(key) { document.getElementById('ex-'+key).classList.toggle('expanded'); }
 
 const LOAD_KEY = 'maxresults-rosane-loads-v1';
+const REST_KEY = 'maxresults-rosane-rest-v1';
 function loadLoads() { try { return JSON.parse(localStorage.getItem(LOAD_KEY)||'{}'); } catch { return {}; } }
 function saveLoad(input) { const loads=loadLoads(); const k=input.dataset.loadKey; input.value.trim() ? loads[k]=input.value.trim() : delete loads[k]; localStorage.setItem(LOAD_KEY, JSON.stringify(loads)); }
 function restoreLoads() { const loads=loadLoads(); document.querySelectorAll('.load-input').forEach(i => { const k=i.dataset.loadKey; if (loads[k]) i.value=loads[k]; }); }
+function loadRests() { try { return JSON.parse(localStorage.getItem(REST_KEY)||'{}'); } catch { return {}; } }
+function saveRest(input) { const rests=loadRests(); const k=input.dataset.restKey; input.value.trim() ? rests[k]=input.value.trim() : delete rests[k]; localStorage.setItem(REST_KEY, JSON.stringify(rests)); }
+function restoreRests() { const rests=loadRests(); document.querySelectorAll('.rest-input').forEach(i => { const k=i.dataset.restKey; if (rests[k]) i.value=rests[k]; }); }
 
 document.getElementById('weekToggle').addEventListener('click', function() {
   this.classList.toggle('open');
