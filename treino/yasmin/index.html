@@ -21,7 +21,6 @@
       --accent-warmup: #fb7185; --accent-warmup-dim: rgba(251,113,133,0.1); --accent-warmup-glow: rgba(251,113,133,0.3);
       --accent-mobility: #a78bfa; --accent-mobility-dim: rgba(167,139,250,0.1);
       --accent-cardio: #22d3ee; --accent-cardio-dim: rgba(34,211,238,0.08); --accent-cardio-glow: rgba(34,211,238,0.25);
-      --accent-hiit: #c084fc; --accent-hiit-dim: rgba(192,132,252,0.1); --accent-hiit-glow: rgba(192,132,252,0.3);
       --green: #34d399; --green-dim: rgba(52,211,153,0.1); --green-glow: rgba(52,211,153,0.3);
       --radius: 16px; --radius-sm: 10px;
       --font-display: 'Outfit', sans-serif; --font-body: 'DM Sans', sans-serif;
@@ -55,13 +54,8 @@
     .week-goal-icon.strength { background: var(--accent-lift-dim); }
     .week-goal-icon.cardio { background: var(--accent-cardio-dim); }
     .week-goal-icon.assessment { background: var(--accent-mobility-dim); }
-    .week-goal-icon.fat { background: var(--accent-warmup-dim); }
-    .week-goal-icon.hiit { background: var(--accent-hiit-dim); }
     .week-goal-text { flex: 1; font-size: 13px; font-weight: 500; color: var(--text-dim); line-height: 1.3; }
     .week-goal-text strong { color: var(--text); font-weight: 700; }
-    .elbow-alert { margin-top: 12px; padding: 12px 14px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: var(--radius); font-size: 12px; line-height: 1.5; color: var(--text-dim); }
-    .elbow-alert strong { color: #ef4444; }
-    .elbow-alert em { color: var(--text); font-style: normal; font-weight: 600; }
     .day-switcher { display: flex; gap: 6px; padding: 20px 0 12px; overflow-x: auto; scrollbar-width: none; }
     .day-switcher::-webkit-scrollbar { display: none; }
     .day-btn { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 6px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text-muted); font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; -webkit-appearance: none; position: relative; overflow: hidden; }
@@ -88,13 +82,11 @@
     .block--warmup .block-dot { background: var(--accent-warmup); box-shadow: 0 0 10px var(--accent-warmup-glow); }
     .block--lift .block-dot { background: var(--accent-lift); box-shadow: 0 0 10px var(--accent-lift-glow); }
     .block--cardio .block-dot { background: var(--accent-cardio); box-shadow: 0 0 10px var(--accent-cardio-glow); }
-    .block--hiit .block-dot { background: var(--accent-hiit); box-shadow: 0 0 10px var(--accent-hiit-glow); }
     .block--solo .block-dot { background: var(--accent-lift); box-shadow: 0 0 10px var(--accent-lift-glow); }
     .block-name { font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
     .block--warmup .block-name { color: var(--accent-warmup); }
     .block--lift .block-name { color: var(--accent-lift); }
     .block--cardio .block-name { color: var(--accent-cardio); }
-    .block--hiit .block-name { color: var(--accent-hiit); }
     .block--solo .block-name { color: var(--accent-lift); }
     .block-subtitle { font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 2px; }
     .block-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; letter-spacing: 0.2px; }
@@ -120,26 +112,31 @@
     .tag { font-size: 9px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; }
     .tag--warmup { background: var(--accent-warmup-dim); color: var(--accent-warmup); }
     .tag--lift { background: var(--accent-lift-dim); color: var(--accent-lift); }
-    .tag--cardio { background: var(--accent-cardio-dim); color: var(--accent-cardio); }
-    .tag--hiit { background: var(--accent-hiit-dim); color: var(--accent-hiit); }
+    .tag--solo { background: var(--accent-lift-dim); color: var(--accent-lift); }
     .tag--superset { background: rgba(251,191,36,0.08); color: #fbbf24; }
     .tag--norest { background: rgba(251,113,133,0.06); color: #fb7185; font-size: 8px; }
-    .tag--pyramid { background: rgba(167,139,250,0.08); color: #a78bfa; font-size: 8px; }
     .expand-chevron { width: 18px; height: 18px; flex-shrink: 0; color: var(--text-muted); transition: all 0.3s; opacity: 0.5; }
     .exercise.expanded .expand-chevron { transform: rotate(180deg); opacity: 0.8; }
     .exercise-detail { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.25s ease; overflow: hidden; }
     .exercise.expanded .exercise-detail { grid-template-rows: 1fr; }
     .exercise-detail > .detail-inner { overflow: hidden; }
     .detail-inner { padding: 0 16px 16px; padding-left: 58px; display: flex; flex-direction: column; gap: 10px; }
-    .load-row { display: flex; align-items: center; gap: 8px; }
+    .load-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .load-label { color: var(--text-muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
     .load-input { width: 72px; padding: 6px 10px; background: var(--surface-2); border: 1px solid var(--border-light); border-radius: 8px; color: var(--text); font-family: var(--font-display); font-size: 14px; font-weight: 700; text-align: center; outline: none; transition: border-color 0.2s; -webkit-appearance: none; }
     .load-input:focus { border-color: var(--accent-lift); box-shadow: 0 0 0 2px var(--accent-lift-dim); }
     .load-input::placeholder { color: var(--text-muted); font-weight: 400; font-size: 12px; }
     .load-unit { color: var(--text-muted); font-size: 12px; font-weight: 500; }
+    .rest-input { width: 56px; padding: 6px 8px; background: var(--surface-2); border: 1px solid var(--border-light); border-radius: 8px; color: var(--accent-cardio); font-family: var(--font-display); font-size: 14px; font-weight: 700; text-align: center; outline: none; transition: border-color 0.2s; -webkit-appearance: none; }
+    .rest-input:focus { border-color: var(--accent-cardio); box-shadow: 0 0 0 2px var(--accent-cardio-dim); }
+    .rest-input::placeholder { color: var(--text-muted); font-weight: 400; font-size: 11px; }
+    .rest-label { color: var(--accent-cardio); font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; display: flex; align-items: center; gap: 4px; }
+    .rest-label::before { content: '⏱'; font-size: 12px; }
     .detail-row { display: flex; align-items: baseline; gap: 8px; font-size: 13px; }
     .detail-label { color: var(--text-muted); font-weight: 500; white-space: nowrap; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
     .detail-value { color: var(--text-dim); font-weight: 400; font-size: 13px; }
+    .note-box { padding: 10px 12px; background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.15); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-dim); line-height: 1.4; }
+    .note-box strong { color: var(--accent-lift); }
     .rest-message { text-align: center; padding: 80px 20px; }
     .rest-message h2 { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 8px; }
     .rest-message p { color: var(--text-muted); font-size: 14px; }
@@ -196,15 +193,9 @@
     .assess-donut-legend .dot { width: 10px; height: 10px; border-radius: 50%; }
     .assess-donut-legend .dot.fat { background: #f59e0b; }
     .assess-donut-legend .dot.lean { background: var(--green); }
-    .amrap-info { background: var(--surface); border: 1px solid rgba(192,132,252,0.15); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; }
-    .amrap-info h4 { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--accent-hiit); margin-bottom: 8px; }
-    .amrap-info p { font-size: 13px; color: var(--text-dim); line-height: 1.5; margin-bottom: 6px; }
-    .amrap-info ul { list-style: none; padding: 0; }
-    .amrap-info ul li { font-size: 12px; color: var(--text-muted); padding: 3px 0; padding-left: 16px; position: relative; }
-    .amrap-info ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent-hiit); }
     .video-overlay { display: none; position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.92); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
     .video-overlay.active { display: flex; }
-    .video-overlay video, .video-overlay iframe { max-width: 100%; max-height: 80vh; border-radius: 12px; border: none; }
+    .video-overlay video { max-width: 100%; max-height: 80vh; border-radius: 12px; border: none; }
     .video-close { position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); border: none; color: white; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
   </style>
 </head>
@@ -227,9 +218,8 @@
   <nav class="day-switcher" id="daySwitcher"></nav>
   <main id="workoutContent" class="initial-load"></main>
   <div class="session-complete" id="sessionComplete">
-    <h3>Sessão Concluída! 💪</h3>
-    <h3>Sessão Concluída! 💪</h3>
-    <p>Ótimo treino, Yasmin! Descanse e se hidrate bem.</p>
+    <h3>Sessão Concluída! 💪🔥</h3>
+    <p>Arrasou, Yasmin! Descanse, se hidrate e volte mais forte amanhã.</p>
   </div>
   <button class="week-toggle" id="weekToggle">Ver semana completa<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
   <div class="week-overview" id="weekOverview"></div>
@@ -239,223 +229,149 @@
 </div>
 <div class="video-overlay" id="videoOverlay" onclick="closeVideo()">
   <button class="video-close" onclick="closeVideo()">✕</button>
-  <video id="videoPlayer" controls playsinline style="display:none"></video>
-  <iframe id="ytPlayer" width="360" height="640" style="display:none" allow="autoplay"></iframe>
+  <video id="videoPlayer" controls playsinline></video>
 </div>
 <script>
 const ATHLETE = 'Yasmin';
 
 const WEEKLY_GOALS = [
-  { icon: '🍑', type: 'strength', text: '<strong>Foco Glúteo e Pernas:</strong> Hipertrofia — construa massa muscular onde mais importa!' },
-  { icon: '🏋️', type: 'strength', text: '<strong>Progressão:</strong> 3x15 — quando ficar fácil, aumente a carga ou as repetições' },
-  { icon: '🏠', type: 'assessment', text: '<strong>Treino em Casa:</strong> Barra + anilhas + caneleiras — aproveite cada rep!' },
-  { icon: '💪', type: 'fat', text: '<strong>Autoestima:</strong> Cada treino é um passo. Consistência > perfeição!' },
+  { icon: '🍑', type: 'strength', text: '<strong>Foco Glúteos e Pernas:</strong> Hipertrofia com ênfase em membros inferiores — seu objetivo principal!' },
+  { icon: '🏋️', type: 'strength', text: '<strong>3x15:</strong> 3 séries de 15 repetições. Aumente a carga só quando ficar fácil!' },
+  { icon: '🏠', type: 'assessment', text: '<strong>Treino em Casa:</strong> Barra + anilhas + caneleiras. Adapte o que precisar e avise o Luisão!' },
+  { icon: '🎵', type: 'cardio', text: '<strong>Playlist:</strong> Pop, funk e R&B — bota pra tocar e manda ver! 🎶' },
 ];
 
+// ─── Video URLs ───
 const V = {
-  // MFIT Personal standard library videos
-  agachBarra: 'https://vd.mfitpersonal.com.br/71/mp4/71.mp4',
-  stiffBarra: 'https://vd.mfitpersonal.com.br/267/mp4/267.mp4',
-  afundoBarra: 'https://vd.mfitpersonal.com.br/46/mp4/46.mp4',
-  elevPelvicaBarra: 'https://vd.mfitpersonal.com.br/255/mp4/255.mp4',
-  abducaoCaneleira: 'https://vd.mfitpersonal.com.br/25/mp4/25.mp4',
-  panturrilha: 'https://vd.mfitpersonal.com.br/63/mp4/63.mp4',
-  supinoBarra: 'https://vd.mfitpersonal.com.br/203/mp4/203.mp4',
-  remadaCurvada: 'https://vd.mfitpersonal.com.br/487/mp4/487.mp4',
+  giros: 'https://d2vfutiy2j6sqj.cloudfront.net/13341/mp4/8d76rg3vbsm_opt.mp4',
+  agachLivreBarra: 'https://vd.mfitpersonal.com.br/52/mp4/52.mp4',
+  supinoRetoBarra: 'https://vd.mfitpersonal.com.br/203/mp4/203.mp4',
+  remadaCurvada: 'https://vd.mfitpersonal.com.br/221/mp4/221.mp4',
+  afundoCarga: 'https://vd.mfitpersonal.com.br/787/mp4/787.mp4',
+  tricepsTesta: 'https://vd.mfitpersonal.com.br/139/mp4/139.mp4',
+  roscaDireta: 'https://vd.mfitpersonal.com.br/865/mp4/865.mp4',
+  elevQuadril: 'https://vd.mfitpersonal.com.br/255/mp4/255.mp4',
+  panturrilha: 'https://vd.mfitpersonal.com.br/764/mp4/764.mp4',
   desenvBarra: 'https://vd.mfitpersonal.com.br/155/mp4/155.mp4',
-  agachSumo: 'https://vd.mfitpersonal.com.br/74/mp4/74.mp4',
-  gluteoCoice: 'https://vd.mfitpersonal.com.br/458/mp4/458.mp4',
-  abdominal: 'https://vd.mfitpersonal.com.br/376/mp4/376.mp4',
-  bulgaro: 'https://vd.mfitpersonal.com.br/47/mp4/47.mp4',
-  goodMorning: 'https://vd.mfitpersonal.com.br/50/mp4/50.mp4',
-  roscaBarra: 'https://vd.mfitpersonal.com.br/109/mp4/109.mp4',
-  tricepsTesta: 'https://vd.mfitpersonal.com.br/135/mp4/135.mp4',
-  prancha: 'https://vd.mfitpersonal.com.br/v2/1038/mp4/1038_opt.mp4',
-  abducaoDeitada: 'https://vd.mfitpersonal.com.br/25/mp4/25.mp4',
-  agachIsometrico: 'https://vd.mfitpersonal.com.br/71/mp4/71.mp4',
+  gluteo4apoios: 'https://vd.mfitpersonal.com.br/240/mp4/240.mp4',
+  abducaoQuadril: 'https://vd.mfitpersonal.com.br/25/mp4/25.mp4',
+  abdomSupra: 'https://vd.mfitpersonal.com.br/376/mp4/376.mp4',
+  // Exercises without confirmed video IDs - will be added when Luisão provides
+  polichinelo: '',
+  agachIsometrico: '',
+  stiff: '',
+  agachSumo: '',
+  agachBulgaro: '',
+  bomDia: '',
 };
 
+// ─── AQUECIMENTO ───
 const AQUECIMENTO = {
   type: 'warmup', label: 'Aquecimento',
-  title: 'Mobilidade Articular', duration: '~5 min',
-  meta: 'Aqueça o corpo antes de começar — 2 min de polichinelos + mobilidade',
+  title: 'Polichinelo + Giros dos Braços', duration: '~3 min',
+  meta: 'Aquecimento geral — prepare o corpo antes de começar!',
   exercises: [
-    { name: 'Polichinelos', muscle: 'Corpo todo', duration: '2 min', equipment: 'Nenhum', tip: 'Faça por 2 minutos em ritmo moderado para elevar a frequência cardíaca.' },
-    { name: 'Agachamento Isométrico na Parede', muscle: 'Quadríceps', duration: '30s x 2', equipment: 'Parede', tip: 'Costas na parede, desça até as coxas ficarem paralelas ao chão. Segure 30 segundos, descanse 15s, repita.', video: V.agachIsometrico },
-    { name: 'Giros dos Braços', muscle: 'Ombros', duration: '1x12', equipment: 'Nenhum', tip: 'Braços estendidos, gire em círculos amplos. 12 para frente, 12 para trás.' },
+    { name: 'Polichinelo', muscle: 'Corpo todo', duration: '2 min', equipment: 'Nenhum', tip: 'Saltos leves com braços abertos. Mantenha o ritmo constante pra aquecer o corpo. Se o joelho incomodar, faça sem pular (abre e fecha lateral).', video: V.polichinelo, showRest: false },
+    { name: 'Giros dos Braços Frente e Trás', muscle: 'Ombros', duration: '1x12', equipment: 'Nenhum', tip: 'Braços estendidos, gire em círculos amplos. 12 para frente, 12 para trás.', video: V.giros, showRest: false },
   ]
 };
 
-// ─── Treino A — Pernas Anterior + Glúteo ───
+// ─── TREINO A — Anterior (Quad + Empurrar) ───
 const TREINO_A = [
   AQUECIMENTO,
   {
-    type: 'lift', label: 'Exercício 1',
-    title: 'Agachamento com Barra', duration: '4x12',
-    meta: '4 séries de 12 repetições · Descanso 60s',
+    type: 'lift', label: 'Bi-Set 1',
+    title: 'Agachamento Livre c/ Barra ↔ Remada Curvada', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios · Descanso entre bi-sets',
     exercises: [
-      { name: 'Agachamento com Barra', muscle: 'Quadríceps / Glúteos', duration: '4x12', equipment: 'Barra + anilhas', tip: 'Barra nas costas (apoiada nos ombros). Pés na largura dos ombros, desça até as coxas ficarem paralelas. Empurre com os calcanhares. Mantenha o core ativado.', video: V.agachBarra },
+      { name: 'Agachamento Livre com Barra', muscle: 'Quadríceps / Glúteos', duration: '3x15', equipment: 'Barra + anilhas', tip: 'Pés na largura dos ombros, barra apoiada no trapézio. Desça até as coxas ficarem paralelas ao chão. Joelhos acompanham a ponta dos pés.', video: V.agachLivreBarra, showRest: true },
+      { name: 'Remada Curvada c/ Barra (Pegada Supinada)', muscle: 'Dorsal / Bíceps', duration: '3x15', equipment: 'Barra + anilhas', tip: 'Tronco inclinado ~45°, pegada supinada (palmas pra cima). Puxe a barra em direção ao umbigo, contraindo as escápulas. Desça controlando.', video: V.remadaCurvada, showRest: true },
     ]
   },
   {
-    type: 'lift', label: 'Exercício 2',
-    title: 'Stiff com Barra', duration: '4x12',
-    meta: '4 séries de 12 repetições · Descanso 60s',
+    type: 'lift', label: 'Bi-Set 2',
+    title: 'Afundo c/ Barra ↔ Desenvolvimento Barra', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios · Descanso entre bi-sets',
     exercises: [
-      { name: 'Stiff com Barra', muscle: 'Post. coxa / Glúteos', duration: '4x12', equipment: 'Barra + anilhas', tip: 'Barra na frente das coxas, joelhos levemente flexionados. Incline o tronco para frente mantendo as costas retas. Sinta o alongamento nos posteriores. Volte contraindo o glúteo.', video: V.stiffBarra },
+      { name: 'Afundo com Barra Livre', muscle: 'Quadríceps / Glúteos', duration: '3x15 (cada perna)', equipment: 'Barra + anilhas', tip: 'Passo à frente, desça até o joelho de trás quase tocar o chão. Mantenha o tronco ereto. Alterne as pernas a cada série.', video: V.afundoCarga, showRest: true },
+      { name: 'Desenvolvimento Barra Reta', muscle: 'Ombros', duration: '3x15', equipment: 'Barra + anilhas', tip: 'Em pé, empurre a barra acima da cabeça estendendo os braços. Desça controlando até a linha dos ombros. Não arqueie demais as costas.', video: V.desenvBarra, showRest: true },
     ]
   },
   {
-    type: 'lift', label: 'Exercício 3',
-    title: 'Afundo com Barra', duration: '3x12 cada perna',
-    meta: '3 séries de 12 repetições cada perna · Descanso 60s',
+    type: 'lift', label: 'Bi-Set 3',
+    title: 'Agachamento Isométrico ↔ Supino Reto', duration: '3x15 · Sem descanso',
+    meta: '3 séries · Sem descanso entre exercícios · Descanso entre bi-sets',
     exercises: [
-      { name: 'Afundo/Passada com Barra', muscle: 'Quadríceps / Glúteos', duration: '3x12/perna', equipment: 'Barra + anilhas', tip: 'Barra nas costas, dê um passo à frente e desça até o joelho de trás quase tocar o chão. Empurre com a perna da frente para voltar. Alterne as pernas.', video: V.afundoBarra },
+      { name: 'Agachamento Isométrico na Parede', muscle: 'Quadríceps', duration: '3x 30-45s', equipment: 'Parede', tip: 'Costas na parede, desça até as coxas ficarem paralelas (posição de "cadeira"). Segure por 30-45 segundos por série.', video: V.agachIsometrico, showRest: true },
+      { name: 'Supino Reto com Barra Reta', muscle: 'Peitoral / Tríceps', duration: '3x15', equipment: 'Barra + anilhas', tip: 'Deitada no chão (ou no step quando tiver). Desça a barra até o peito e empurre para cima. Mantenha os pés firmes no chão.', video: V.supinoRetoBarra, showRest: true, note: '💡 Pode fazer no chão até ter o step!' },
     ]
   },
   {
-    type: 'lift', label: 'Exercício 4',
-    title: 'Elevação Pélvica com Barra', duration: '4x15',
-    meta: '4 séries de 15 repetições · Descanso 45s',
+    type: 'solo', label: 'Finalização',
+    title: 'Panturrilha + Abdômen', duration: '3x15',
+    meta: '3 séries de 15 cada — descanse entre séries',
     exercises: [
-      { name: 'Elevação Pélvica (Hip Thrust) com Barra', muscle: 'Glúteos', duration: '4x15', equipment: 'Barra + anilhas + apoio (sofá/cama)', tip: 'Costas apoiadas no sofá ou cama, barra sobre o quadril (use toalha para proteger). Empurre o quadril para cima contraindo o glúteo no topo. Desça controlando. PRINCIPAL exercício para glúteo!', video: V.elevPelvicaBarra },
-    ]
-  },
-  {
-    type: 'lift', label: 'Exercício 5',
-    title: 'Abdução com Caneleira', duration: '3x20 cada lado',
-    meta: '3 séries de 20 repetições cada lado · Descanso 30s',
-    exercises: [
-      { name: 'Abdução Deitada com Caneleira', muscle: 'Glúteo médio / Abdutores', duration: '3x20/lado', equipment: 'Caneleira 3kg', tip: 'Deitada de lado, caneleira no tornozelo de cima. Eleve a perna controlando. Não balance o corpo. Troque de lado.', video: V.abducaoCaneleira },
-    ]
-  },
-  {
-    type: 'lift', label: 'Exercício 6',
-    title: 'Panturrilha em Pé', duration: '4x20',
-    meta: '4 séries de 20 repetições · Descanso 30s',
-    exercises: [
-      { name: 'Panturrilha em Pé com Barra', muscle: 'Panturrilha', duration: '4x20', equipment: 'Barra + degrau/livro', tip: 'Barra nas costas, ponta dos pés em um degrau ou livro grosso. Suba na ponta dos pés e desça controlando abaixo da plataforma para alongar.', video: V.panturrilha },
+      { name: 'Panturrilha Inclinado na Parede', muscle: 'Panturrilha', duration: '3x15', equipment: 'Parede + madeira', tip: 'Apoie as mãos na parede, incline o corpo. Suba na ponta dos pés e desça controlando.', video: V.panturrilha, showRest: true, note: '💡 Coloque um pedaço de madeira na ponta dos pés para aumentar a amplitude de movimento!' },
+      { name: 'Abdominal Supra Solo', muscle: 'Abdômen', duration: '3x15', equipment: 'Colchonete', tip: 'Deitada com joelhos dobrados, mãos atrás da cabeça. Suba contraindo o abdômen. Não puxe o pescoço!', video: V.abdomSupra, showRest: true },
     ]
   },
 ];
 
-// ─── Treino B — Superior + Glúteo ───
+// ─── TREINO B — Posterior (Hip dominant + Puxar) ───
 const TREINO_B = [
   AQUECIMENTO,
   {
-    type: 'lift', label: 'Exercício 1',
-    title: 'Supino no Chão com Barra', duration: '3x15',
-    meta: '3 séries de 15 repetições · Descanso 60s',
+    type: 'lift', label: 'Bi-Set 1',
+    title: 'Agachamento Sumô ↔ Rosca Direta', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios · Descanso entre bi-sets',
     exercises: [
-      { name: 'Supino no Chão com Barra', muscle: 'Peitoral / Tríceps', duration: '3x15', equipment: 'Barra + anilhas', tip: 'Deitada no chão, barra na largura dos ombros. Desça até os cotovelos tocarem o chão e empurre. Amplitude menor que no banco, mas eficaz.', video: V.supinoBarra },
+      { name: 'Agachamento Sumô com Barra', muscle: 'Adutores / Glúteos', duration: '3x15', equipment: 'Barra + anilhas', tip: 'Pés bem afastados, pontas dos pés viradas para fora. Desça mantendo o tronco ereto. Foco na contração dos adutores e glúteos.', video: V.agachSumo, showRest: true },
+      { name: 'Rosca Direta Barra Reta', muscle: 'Bíceps', duration: '3x15', equipment: 'Barra + anilhas', tip: 'Em pé, cotovelos fixos ao lado do corpo. Suba a barra até a altura dos ombros e desça controlando. Não balance o tronco!', video: V.roscaDireta, showRest: true },
     ]
   },
   {
-    type: 'lift', label: 'Exercício 2',
-    title: 'Remada Curvada com Barra', duration: '3x15',
-    meta: '3 séries de 15 repetições · Descanso 60s',
+    type: 'lift', label: 'Bi-Set 2',
+    title: 'Stiff ↔ Tríceps Testa', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios · Descanso entre bi-sets',
     exercises: [
-      { name: 'Remada Curvada com Barra', muscle: 'Costas / Bíceps', duration: '3x15', equipment: 'Barra + anilhas', tip: 'Incline o tronco ~45°, costas retas. Puxe a barra em direção ao abdômen, contraindo as escápulas. Desça controlando.', video: V.remadaCurvada },
+      { name: 'Stiff Pés Afastados com Barra Livre', muscle: 'Post. coxa / Glúteos', duration: '3x15', equipment: 'Barra + anilhas', tip: 'Pés afastados na largura dos ombros, joelhos levemente flexionados. Desça a barra deslizando pelas pernas, sentindo o alongamento nos posteriores. Suba contraindo os glúteos.', video: V.stiff, showRest: true },
+      { name: 'Tríceps Testa Barra Reta', muscle: 'Tríceps', duration: '3x15', equipment: 'Barra + anilhas', tip: 'Deitada, braços estendidos. Flexione os cotovelos levando a barra em direção à testa. Estenda de volta. Cotovelos apontando pro teto!', video: V.tricepsTesta, showRest: true, note: '💡 Pode fazer no chão ou no step quando tiver!' },
     ]
   },
   {
-    type: 'lift', label: 'Exercício 3',
-    title: 'Desenvolvimento com Barra', duration: '3x12',
-    meta: '3 séries de 12 repetições · Descanso 60s',
+    type: 'lift', label: 'Bi-Set 3',
+    title: 'Búlgaro ↔ Bom Dia', duration: '3x15 · Sem descanso',
+    meta: '3 séries de 15 · Sem descanso entre exercícios · Descanso entre bi-sets',
     exercises: [
-      { name: 'Desenvolvimento com Barra (em pé)', muscle: 'Ombros', duration: '3x12', equipment: 'Barra + anilhas', tip: 'Barra na frente dos ombros, empurre para cima até estender os braços. Desça controlando até a linha do queixo. Core ativado!', video: V.desenvBarra },
+      { name: 'Agachamento Búlgaro', muscle: 'Quadríceps / Glúteos', duration: '3x15 (cada perna)', equipment: 'Cadeira/sofá + caneleira', tip: 'Pé de trás apoiado na cadeira/sofá. Desça flexionando o joelho da frente até ~90°. Mantenha o tronco ereto. Alterne as pernas.', video: V.agachBulgaro, showRest: true },
+      { name: 'Bom Dia', muscle: 'Post. coxa / Lombar', duration: '3x15', equipment: 'Barra + anilhas', tip: 'Barra no trapézio, pés na largura dos ombros. Incline o tronco à frente mantendo as costas retas. Suba contraindo glúteos e posteriores.', video: V.bomDia, showRest: true },
     ]
   },
   {
-    type: 'lift', label: 'Exercício 4',
-    title: 'Agachamento Sumô com Barra', duration: '4x15',
-    meta: '4 séries de 15 repetições · Descanso 60s',
+    type: 'solo', label: 'Finalização Glúteos',
+    title: 'Quadril + Glúteo + Abdução', duration: '3x15',
+    meta: '3 séries de 15 cada — foco em glúteos e posteriores!',
     exercises: [
-      { name: 'Agachamento Sumô com Barra', muscle: 'Adutores / Glúteos', duration: '4x15', equipment: 'Barra + anilhas', tip: 'Pés bem afastados, pontas para fora. Barra nas costas. Desça mantendo os joelhos na direção dos pés. Suba contraindo glúteos e adutores.', video: V.agachSumo },
-    ]
-  },
-  {
-    type: 'lift', label: 'Exercício 5',
-    title: 'Glúteo Coice com Caneleira', duration: '3x20 cada',
-    meta: '3 séries de 20 repetições cada perna · Descanso 30s',
-    exercises: [
-      { name: 'Glúteo Coice (4 apoios) com Caneleira', muscle: 'Glúteos', duration: '3x20/perna', equipment: 'Caneleira 3kg', tip: 'Em 4 apoios, caneleira no tornozelo. Empurre o pé para cima e para trás, contraindo o glúteo no topo. Sem arquear a lombar. Troque de perna.', video: V.gluteoCoice },
-    ]
-  },
-  {
-    type: 'lift', label: 'Exercício 6',
-    title: 'Abdominal', duration: '3x20',
-    meta: '3 séries de 20 repetições · Descanso 30s',
-    exercises: [
-      { name: 'Abdominal Supra', muscle: 'Abdômen', duration: '3x20', equipment: 'Nenhum', tip: 'Deitada, joelhos flexionados, mãos atrás da cabeça (sem puxar o pescoço). Suba apenas o suficiente para contrair o abdômen.', video: V.abdominal },
+      { name: 'Elevação de Quadril na Cadeira/Sofá', muscle: 'Glúteos', duration: '3x15', equipment: 'Cadeira/sofá + barra', tip: 'Costas apoiadas na cadeira/sofá, empurre o quadril para cima contraindo o glúteo no topo. Desça controlando.', video: V.elevQuadril, showRest: true, note: '💡 Usar com barra em cima do quadril!' },
+      { name: 'Glúteos 4 Apoios Perna Flexionada c/ Caneleira', muscle: 'Glúteos', duration: '3x15 (cada perna)', equipment: 'Caneleira + colchonete', tip: 'De quatro apoios, com caneleira no tornozelo. Eleve a perna flexionada em direção ao teto, contraindo o glúteo. Desça controlando.', video: V.gluteo4apoios, showRest: true },
+      { name: 'Abdução de Quadril Unilateral c/ Caneleira', muscle: 'Glúteo Médio / Abdutores', duration: '3x15 (cada lado)', equipment: 'Caneleira + colchonete', tip: 'Deitada de lado, caneleira no tornozelo. Eleve a perna lateralmente com controle. Mantenha o tronco estável.', video: V.abducaoQuadril, showRest: true },
     ]
   },
 ];
 
-// ─── Treino C — Full Body + Ênfase Glúteo ───
-const TREINO_C = [
-  AQUECIMENTO,
-  {
-    type: 'lift', label: 'Exercício 1',
-    title: 'Agachamento Búlgaro', duration: '3x12 cada',
-    meta: '3 séries de 12 repetições cada perna · Descanso 60s',
-    exercises: [
-      { name: 'Agachamento Búlgaro com Barra', muscle: 'Quadríceps / Glúteos', duration: '3x12/perna', equipment: 'Barra + sofá/cadeira', tip: 'Pé de trás apoiado no sofá/cadeira. Barra nas costas. Desça até o joelho de trás quase tocar o chão. Empurre com a perna da frente. Excelente para glúteo unilateral!', video: V.bulgaro },
-    ]
-  },
-  {
-    type: 'lift', label: 'Exercício 2',
-    title: 'Good Morning com Barra', duration: '3x15',
-    meta: '3 séries de 15 repetições · Descanso 60s',
-    exercises: [
-      { name: 'Good Morning com Barra', muscle: 'Post. coxa / Glúteos / Lombar', duration: '3x15', equipment: 'Barra (leve)', tip: 'Barra nas costas, joelhos levemente flexionados. Incline o tronco para frente mantendo as costas RETAS. Volte contraindo glúteos. Use carga leve — foco na técnica!', video: V.goodMorning },
-    ]
-  },
-  {
-    type: 'lift', label: 'Exercício 3',
-    title: 'Elevação Pélvica com Barra', duration: '4x15',
-    meta: '4 séries de 15 repetições · Descanso 45s',
-    exercises: [
-      { name: 'Elevação Pélvica (Hip Thrust) com Barra', muscle: 'Glúteos', duration: '4x15', equipment: 'Barra + anilhas + apoio (sofá/cama)', tip: 'Costas apoiadas no sofá, barra sobre o quadril (use toalha). Empurre o quadril para cima, contraia o glúteo no topo por 2s. Desça controlando.', video: V.elevPelvicaBarra },
-    ]
-  },
-  {
-    type: 'lift', label: 'Bi-Set 4',
-    title: 'Rosca Direta ↔ Tríceps Testa', duration: '3x15 · Sem descanso',
-    meta: '3 séries de 15 · Sem descanso entre exercícios',
-    exercises: [
-      { name: 'Rosca Direta com Barra', muscle: 'Bíceps', duration: '3x15', equipment: 'Barra + anilhas', tip: 'Em pé, pegada na largura dos ombros. Cotovelos fixos, suba a barra até os ombros. Desça controlando. Sem balançar o corpo.', video: V.roscaBarra },
-      { name: 'Tríceps Testa com Barra', muscle: 'Tríceps', duration: '3x15', equipment: 'Barra + anilhas leves', tip: 'Deitada no chão, barra acima do peito. Flexione os cotovelos descendo a barra em direção à testa. Estenda de volta. Carga leve!', video: V.tricepsTesta },
-    ]
-  },
-  {
-    type: 'lift', label: 'Exercício 5',
-    title: 'Abdução Deitada com Caneleira', duration: '3x20 cada',
-    meta: '3 séries de 20 repetições cada lado · Descanso 30s',
-    exercises: [
-      { name: 'Abdução Deitada com Caneleira', muscle: 'Glúteo médio', duration: '3x20/lado', equipment: 'Caneleira 3kg', tip: 'Deitada de lado, eleve a perna controlando. Mantenha o corpo estável. Troque de lado.', video: V.abducaoDeitada },
-    ]
-  },
-  {
-    type: 'lift', label: 'Exercício 6',
-    title: 'Prancha', duration: '3x30s',
-    meta: '3 séries de 30 segundos · Descanso 30s',
-    exercises: [
-      { name: 'Prancha Frontal', muscle: 'Core / Abdômen', duration: '3x30s', equipment: 'Nenhum', tip: 'Apoio nos antebraços e ponta dos pés. Corpo reto como uma tábua — sem levantar o quadril nem deixar cair. Respire normalmente.', video: V.prancha },
-    ]
-  },
-];
-
+// ─── WEEK ───
 const WEEK = [
-  { day: 'Seg', date: '2026-03-02', num: 2, rest: false, label: 'Treino A — Pernas + Glúteo', blocks: TREINO_A },
-  { day: 'Ter', date: '2026-03-03', num: 3, rest: true, label: 'Descanso' },
-  { day: 'Qua', date: '2026-03-04', num: 4, rest: false, label: 'Treino B — Superior + Glúteo', blocks: TREINO_B },
-  { day: 'Qui', date: '2026-03-05', num: 5, rest: true, label: 'Descanso' },
-  { day: 'Sex', date: '2026-03-06', num: 6, rest: false, label: 'Treino C — Full Body + Glúteo', blocks: TREINO_C },
+  { day: 'Seg', date: '2026-03-02', num: 2, rest: false, label: 'Treino A — Anterior', blocks: TREINO_A },
+  { day: 'Ter', date: '2026-03-03', num: 3, rest: false, label: 'Treino B — Posterior', blocks: TREINO_B },
+  { day: 'Qua', date: '2026-03-04', num: 4, rest: true, label: 'Descanso' },
+  { day: 'Qui', date: '2026-03-05', num: 5, rest: false, label: 'Treino A — Anterior', blocks: TREINO_A },
+  { day: 'Sex', date: '2026-03-06', num: 6, rest: false, label: 'Treino B — Posterior', blocks: TREINO_B },
   { day: 'Sáb', date: '2026-03-07', num: 7, rest: true, label: 'Descanso' },
 ];
 
 const STORAGE_KEY = 'maxresults-yasmin-2026-03-02-v1';
+const LOAD_KEY = 'maxresults-yasmin-loads-v1';
+const REST_KEY = 'maxresults-yasmin-rest-v1';
 let currentDayIndex = 0;
 let completedExercises = loadProgress();
 
@@ -471,7 +387,7 @@ function findCurrentDay() {
   return 0;
 }
 
-function render() { renderWeekGoal(); renderDaySwitcher(); renderWorkout(); updateProgress(); renderWeekOverview(); restoreLoads(); }
+function render() { renderWeekGoal(); renderDaySwitcher(); renderWorkout(); updateProgress(); renderWeekOverview(); restoreLoads(); restoreRests(); }
 
 function renderWeekGoal() {
   document.getElementById('weekGoal').innerHTML = `
@@ -489,15 +405,15 @@ function renderDaySwitcher() {
 function renderWorkout() {
   const day = WEEK[currentDayIndex];
   const content = document.getElementById('workoutContent');
-  document.getElementById('headerDay').textContent = day.rest ? `${day.day} — Descanso` : `${day.day} ${day.num}/${day.date.split('-')[1]}`;
+  document.getElementById('headerDay').textContent = day.rest ? `${day.day} — Descanso` : `${day.day} ${day.num}/03`;
   document.getElementById('headerDate').textContent = 'Semana 02 Mar — 07 Mar 2026';
-  if (day.rest) { content.innerHTML = `<div class="rest-message"><h2>Dia de Descanso 😴</h2><p>Recuperação é parte do treino. Descanse, hidrate e alimente bem!</p></div>`; document.getElementById('sessionComplete').classList.remove('visible'); return; }
+  if (day.rest) { content.innerHTML = `<div class="rest-message"><h2>Dia de Descanso 😴</h2><p>Descanse, se hidrate e volte mais forte! 💪</p></div>`; document.getElementById('sessionComplete').classList.remove('visible'); return; }
 
   content.innerHTML = day.blocks.map((block, bi) => {
     const doneCount = block.exercises.filter((_, ei) => completedExercises[exerciseKey(currentDayIndex, bi, ei)]).length;
     const total = block.exercises.length;
     const blockDone = doneCount === total;
-    const isSuperset = block.exercises.length === 2 && (block.type === 'lift');
+    const isSuperset = block.exercises.length >= 2 && (block.type === 'lift');
 
     return `<section class="block block--${block.type}">
       <div class="block-header"><div class="block-info"><div class="block-dot"></div><div><div class="block-name">${block.label}</div></div></div><div class="block-progress ${blockDone?'done':''}">${doneCount}/${total}</div></div>
@@ -510,10 +426,12 @@ function renderWorkout() {
         const supersetTag = isSuperset ? '<span class="tag tag--superset">Bi-Set</span>' : '';
         const noRestTag = isSuperset ? '<span class="tag tag--norest">Sem descanso</span>' : '';
         const videoUrl = ex.video || '';
-        const isYt = videoUrl.startsWith('yt:');
         const nameHtml = videoUrl
-          ? `<a class="exercise-name" href="${isYt ? 'https://youtube.com/watch?v='+videoUrl.slice(3) : videoUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation(); playVideo(event, '${videoUrl}')">${ex.name}</a>`
+          ? `<a class="exercise-name" href="${videoUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation(); playVideo(event, '${videoUrl}')">${ex.name}</a>`
           : `<span class="exercise-name">${ex.name}</span>`;
+        const noteHtml = ex.note ? `<div class="note-box">${ex.note}</div>` : '';
+        const showLoad = block.type === 'lift' || block.type === 'solo';
+        const showRest = ex.showRest !== false;
         return `<div class="exercise ${done?'completed':''}" data-key="${key}" id="ex-${key}">
           <div class="exercise-main" onclick="toggleDetail('${key}')">
             <div class="check" onclick="event.stopPropagation(); toggleExercise('${key}')"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
@@ -524,9 +442,11 @@ function renderWorkout() {
             <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </div>
           <div class="exercise-detail"><div class="detail-inner">
-            ${block.type==='lift' ? `<div class="load-row" onclick="event.stopPropagation()"><span class="load-label">Carga:</span><input type="text" inputmode="decimal" class="load-input" placeholder="—" data-load-key="${key}" onchange="saveLoad(this)" value=""><span class="load-unit">kg</span></div>` : ''}
+            ${showLoad ? `<div class="load-row" onclick="event.stopPropagation()"><span class="load-label">Carga:</span><input type="text" inputmode="decimal" class="load-input" placeholder="—" data-load-key="${key}" onchange="saveLoad(this)" value=""><span class="load-unit">kg</span></div>` : ''}
+            ${showRest ? `<div class="load-row" onclick="event.stopPropagation()"><span class="rest-label">Descanso:</span><input type="text" inputmode="decimal" class="rest-input" placeholder="—" data-rest-key="${key}" onchange="saveRest(this)" value=""><span class="load-unit">seg</span></div>` : ''}
             <div class="detail-row"><span class="detail-label">Equipamento:</span><span class="detail-value">${ex.equipment}</span></div>
             <div class="detail-row"><span class="detail-label">Dica:</span><span class="detail-value">${ex.tip}</span></div>
+            ${noteHtml}
           </div></div>
         </div>`;
       }).join('')}
@@ -535,26 +455,18 @@ function renderWorkout() {
 }
 
 function playVideo(e, url) {
-  if (url.includes('1drv.ms') || url.includes('onedrive')) return;
+  if (!url || url.includes('1drv.ms') || url.includes('onedrive')) return;
   e.preventDefault();
   const overlay = document.getElementById('videoOverlay');
   const player = document.getElementById('videoPlayer');
-  const ytPlayer = document.getElementById('ytPlayer');
-  if (url.startsWith('yt:')) {
-    ytPlayer.src = `https://www.youtube.com/embed/${url.slice(3)}?autoplay=1`;
-    ytPlayer.style.display = 'block'; player.style.display = 'none';
-  } else {
-    player.src = url; player.style.display = 'block'; ytPlayer.style.display = 'none'; player.play();
-  }
+  player.src = url; player.style.display = 'block'; player.play();
   overlay.classList.add('active');
 }
 
 function closeVideo() {
   const overlay = document.getElementById('videoOverlay');
   const player = document.getElementById('videoPlayer');
-  const ytPlayer = document.getElementById('ytPlayer');
-  player.pause(); player.src = ''; ytPlayer.src = '';
-  player.style.display = 'none'; ytPlayer.style.display = 'none';
+  player.pause(); player.src = '';
   overlay.classList.remove('active');
 }
 
@@ -605,10 +517,15 @@ function updateBlockProgress() {
 
 function toggleDetail(key) { document.getElementById('ex-'+key).classList.toggle('expanded'); }
 
-const LOAD_KEY = 'maxresults-yasmin-loads-v1';
+// ─── Load persistence ───
 function loadLoads() { try { return JSON.parse(localStorage.getItem(LOAD_KEY)||'{}'); } catch { return {}; } }
 function saveLoad(input) { const loads=loadLoads(); const k=input.dataset.loadKey; input.value.trim() ? loads[k]=input.value.trim() : delete loads[k]; localStorage.setItem(LOAD_KEY, JSON.stringify(loads)); }
 function restoreLoads() { const loads=loadLoads(); document.querySelectorAll('.load-input').forEach(i => { const k=i.dataset.loadKey; if (loads[k]) i.value=loads[k]; }); }
+
+// ─── Rest persistence ───
+function loadRests() { try { return JSON.parse(localStorage.getItem(REST_KEY)||'{}'); } catch { return {}; } }
+function saveRest(input) { const rests=loadRests(); const k=input.dataset.restKey; input.value.trim() ? rests[k]=input.value.trim() : delete rests[k]; localStorage.setItem(REST_KEY, JSON.stringify(rests)); }
+function restoreRests() { const rests=loadRests(); document.querySelectorAll('.rest-input').forEach(i => { const k=i.dataset.restKey; if (rests[k]) i.value=rests[k]; }); }
 
 document.getElementById('weekToggle').addEventListener('click', function() {
   this.classList.toggle('open');
@@ -624,7 +541,6 @@ setTimeout(() => document.getElementById('workoutContent').classList.remove('ini
 const ASSESSMENT = {
   date: '26/02/2026',
   protocol: 'Katch e McArdle (perimetria online)',
-  nextAssessment: 'A definir',
   basics: { age: 15, height: 151, weight: 50 },
   perimetry: [
     { label: 'Peitoral', value: 82 }, { label: 'Bíceps', value: 26 },
@@ -632,15 +548,15 @@ const ASSESSMENT = {
     { label: 'Abdômen', value: 75 }, { label: 'Quadril', value: 90 },
     { label: 'Coxa', value: 50 },
   ],
-  skinfolds: [],
   results: {
-    imc: { value: 22.00, classification: 'Peso normal' },
-    idealFat: 20, fatPercent: 19.98, leanPercent: 80.02,
-    leanMass: 40.01, fatMass: 9.99, idealWeight: 50,
-    sumSkinfolds: 0,
+    imc: { value: 22.00, classification: 'Peso Normal' },
+    rcq: 0.76,
+    fatPercent: 19.98, leanPercent: 80.02,
+    leanMass: 40.01, fatMass: 9.99,
+    sumMeasures: 415,
   },
-  objective: 'Hipertrofia com foco no glúteo e pernas',
-  emphasis: 'Glúteo e pernas — autoestima',
+  objective: 'Hipertrofia — foco glúteos e pernas',
+  emphasis: 'Glúteo e membros inferiores',
 };
 
 function renderAssessment(a) {
@@ -667,9 +583,9 @@ function renderAssessment(a) {
       </div></div>
       <div class="assess-card"><div class="assess-stats">
         <div class="assess-stat"><div class="as-value">${r.imc.value}</div><div class="as-sub">${r.imc.classification}</div><div class="as-label">IMC</div></div>
+        <div class="assess-stat"><div class="as-value">${r.rcq}</div><div class="as-sub">Baixo</div><div class="as-label">RCQ</div></div>
         <div class="assess-stat"><div class="as-value">${r.leanMass}<span class="ab-unit">kg</span></div><div class="as-label">Massa Magra</div></div>
         <div class="assess-stat"><div class="as-value">${r.fatMass}<span class="ab-unit">kg</span></div><div class="as-label">Massa Gorda</div></div>
-        <div class="assess-stat"><div class="as-value">${r.idealFat}%</div><div class="as-sub">Meta</div><div class="as-label">% Gordura Ideal</div></div>
       </div></div></div>`;
 }
 
