@@ -429,8 +429,10 @@ function exerciseKey(di, bi, ei) { return `${di}-${bi}-${ei}`; }
 
 function findCurrentDay() {
   const today = new Date().toISOString().split('T')[0];
-  const idx = WEEK.findIndex(d => d.date === today && !d.rest);
-  if (idx !== -1) return idx;
+  // First: show today if it exists in the week (even rest days)
+  const todayIdx = WEEK.findIndex(d => d.date === today);
+  if (todayIdx !== -1) return todayIdx;
+  // Fallback: find next training day
   for (let i = 0; i < WEEK.length; i++) { if (WEEK[i].date >= today && !WEEK[i].rest) return i; }
   return 0;
 }
