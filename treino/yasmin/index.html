@@ -369,16 +369,55 @@ const TREINO_B = [
 ];
 
 // ─── WEEK ───
-const WEEK = [
-  { day: 'Seg', date: '2026-03-02', num: 2, rest: false, label: 'Treino A — Anterior', blocks: TREINO_A },
-  { day: 'Ter', date: '2026-03-03', num: 3, rest: false, label: 'Treino B — Posterior', blocks: TREINO_B },
-  { day: 'Qua', date: '2026-03-04', num: 4, rest: true, label: 'Descanso' },
-  { day: 'Qui', date: '2026-03-05', num: 5, rest: false, label: 'Treino A — Anterior', blocks: TREINO_A },
-  { day: 'Sex', date: '2026-03-06', num: 6, rest: false, label: 'Treino B — Posterior', blocks: TREINO_B },
-  { day: 'Sáb', date: '2026-03-07', num: 7, rest: true, label: 'Descanso' },
-];
 
-const STORAGE_KEY = 'maxresults-yasmin-2026-03-02-v1';
+// ─── Dynamic week dates ───
+function getMonday(d) {
+  const dt = new Date(d);
+  const day = dt.getDay();
+  const diff = dt.getDate() - day + (day === 0 ? -6 : 1);
+  return new Date(dt.setDate(diff));
+}
+
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+function buildWeek() {
+  const monday = getMonday(new Date());
+  const DAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  const MONTHS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+  return WEEK_SCHEDULE.map((s, i) => {
+    const dt = new Date(monday);
+    dt.setDate(monday.getDate() + i);
+    const dateStr = dt.getFullYear() + '-' + pad(dt.getMonth()+1) + '-' + pad(dt.getDate());
+    const entry = {
+      day: s.dayName,
+      date: dateStr,
+      num: dt.getDate(),
+      rest: s.rest,
+      label: s.label,
+    };
+    if (s.blocks) entry.blocks = s.blocks;
+    return entry;
+  });
+}
+
+const WEEK_SCHEDULE = [
+  { dayName: 'Seg', rest: false, label: 'Treino A — Anterior', blocks: TREINO_A },
+  { dayName: 'Ter', rest: false, label: 'Treino B — Posterior', blocks: TREINO_B },
+  { dayName: 'Qua', rest: true, label: 'Descanso' },
+  { dayName: 'Qui', rest: false, label: 'Treino A — Anterior', blocks: TREINO_A },
+  { dayName: 'Sex', rest: false, label: 'Treino B — Posterior', blocks: TREINO_B },
+  { dayName: 'Sáb', rest: true, label: 'Descanso' }
+];
+const WEEK = buildWeek();
+
+// Dynamic storage key based on current week
+function getWeekKey() {
+  const m = getMonday(new Date());
+  return m.getFullYear() + '-' + pad(m.getMonth()+1) + '-' + pad(m.getDate());
+}
+
+
+const STORAGE_KEY = 'maxresults-yasmin-' + getWeekKey() + '-v1';
 const LOAD_KEY = 'maxresults-yasmin-loads-v1';
 const REST_KEY = 'maxresults-yasmin-rest-v1';
 let currentDayIndex = 0;
@@ -400,7 +439,7 @@ function render() { renderWeekGoal(); renderDaySwitcher(); renderWorkout(); upda
 
 function renderWeekGoal() {
   document.getElementById('weekGoal').innerHTML = `
-    <div class="week-goal-header"><span class="week-goal-label">Meta da Semana</span><span class="week-goal-badge">Sem 02 Mar — 07 Mar</span></div>
+    <div class="week-goal-header"><span class="week-goal-label">Meta da Semana</span><span class="week-goal-badge" id="weekBadge"></span></div>
     <div class="week-goal-items">${WEEKLY_GOALS.map(g => `<div class="week-goal-item"><div class="week-goal-icon ${g.type}">${g.icon}</div><div class="week-goal-text">${g.text}</div></div>`).join('')}</div>`;
 }
 
@@ -415,7 +454,7 @@ function renderWorkout() {
   const day = WEEK[currentDayIndex];
   const content = document.getElementById('workoutContent');
   document.getElementById('headerDay').textContent = day.rest ? `${day.day} — Descanso` : `${day.day} ${day.num}/03`;
-  document.getElementById('headerDate').textContent = 'Semana 02 Mar — 07 Mar 2026';
+  document.getElementById('headerDate').textContent = document.getElementById('weekBadge')?.textContent || '';
   if (day.rest) { content.innerHTML = `<div class="rest-message"><h2>Dia de Descanso 😴</h2><p>Descanse, se hidrate e volte mais forte! 💪</p></div>`; document.getElementById('sessionComplete').classList.remove('visible'); return; }
 
   content.innerHTML = day.blocks.map((block, bi) => {
@@ -542,7 +581,18 @@ document.getElementById('weekToggle').addEventListener('click', function() {
   this.childNodes[0].textContent = this.classList.contains('open') ? 'Esconder semana ' : 'Ver semana completa ';
 });
 
+
+function updateWeekBadge() {
+  const badge = document.getElementById('weekBadge');
+  if (!badge) return;
+  const w = WEEK;
+  const MONTHS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+  const first = new Date(w[0].date);
+  const last = new Date(w[w.length-1].date);
+  badge.textContent = 'Sem ' + pad(first.getDate()) + ' ' + MONTHS[first.getMonth()] + ' — ' + pad(last.getDate()) + ' ' + MONTHS[last.getMonth()];
+}
 currentDayIndex = findCurrentDay();
+updateWeekBadge();
 render();
 setTimeout(() => document.getElementById('workoutContent').classList.remove('initial-load'), 600);
 

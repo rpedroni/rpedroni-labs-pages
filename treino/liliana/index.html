@@ -1366,16 +1366,55 @@ const TREINO_C = [
 ];
 
 // Liliana treina 3x/semana — A, B, C cycling
-const WEEK = [
-  { day: 'Seg', date: '2026-02-23', num: 23, rest: false, label: 'Treino A — Glúteo/Post. + Superior', blocks: TREINO_A },
-  { day: 'Ter', date: '2026-02-24', num: 24, rest: true, label: 'Descanso' },
-  { day: 'Qua', date: '2026-02-25', num: 25, rest: false, label: 'Treino B — Glúteo/Quad. + Superior', blocks: TREINO_B },
-  { day: 'Qui', date: '2026-02-26', num: 26, rest: true, label: 'Descanso' },
-  { day: 'Sex', date: '2026-02-27', num: 27, rest: false, label: 'Treino C — Glúteo/Full + Tríceps', blocks: TREINO_C },
-  { day: 'Sáb', date: '2026-02-28', num: 28, rest: true, label: 'Descanso' },
-];
 
-const STORAGE_KEY = 'maxresults-liliana-2026-02-23-v1';
+// ─── Dynamic week dates ───
+function getMonday(d) {
+  const dt = new Date(d);
+  const day = dt.getDay();
+  const diff = dt.getDate() - day + (day === 0 ? -6 : 1);
+  return new Date(dt.setDate(diff));
+}
+
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+function buildWeek() {
+  const monday = getMonday(new Date());
+  const DAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  const MONTHS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+  return WEEK_SCHEDULE.map((s, i) => {
+    const dt = new Date(monday);
+    dt.setDate(monday.getDate() + i);
+    const dateStr = dt.getFullYear() + '-' + pad(dt.getMonth()+1) + '-' + pad(dt.getDate());
+    const entry = {
+      day: s.dayName,
+      date: dateStr,
+      num: dt.getDate(),
+      rest: s.rest,
+      label: s.label,
+    };
+    if (s.blocks) entry.blocks = s.blocks;
+    return entry;
+  });
+}
+
+const WEEK_SCHEDULE = [
+  { dayName: 'Seg', rest: false, label: 'Treino A — Glúteo/Post. + Superior', blocks: TREINO_A },
+  { dayName: 'Ter', rest: true, label: 'Descanso' },
+  { dayName: 'Qua', rest: false, label: 'Treino B — Glúteo/Quad. + Superior', blocks: TREINO_B },
+  { dayName: 'Qui', rest: true, label: 'Descanso' },
+  { dayName: 'Sex', rest: false, label: 'Treino C — Glúteo/Full + Tríceps', blocks: TREINO_C },
+  { dayName: 'Sáb', rest: true, label: 'Descanso' }
+];
+const WEEK = buildWeek();
+
+// Dynamic storage key based on current week
+function getWeekKey() {
+  const m = getMonday(new Date());
+  return m.getFullYear() + '-' + pad(m.getMonth()+1) + '-' + pad(m.getDate());
+}
+
+
+const STORAGE_KEY = 'maxresults-liliana-' + getWeekKey() + '-v1';
 let currentDayIndex = 0;
 let completedExercises = loadProgress();
 
@@ -1416,7 +1455,7 @@ function renderWeekGoal() {
   el.innerHTML = `
     <div class="week-goal-header">
       <span class="week-goal-label">Meta da Semana</span>
-      <span class="week-goal-badge">Sem 23 Fev — 28 Fev</span>
+      <span class="week-goal-badge" id="weekBadge"></span>
     </div>
     <div class="week-goal-items">
       ${WEEKLY_GOALS.map(g => `
@@ -1449,7 +1488,7 @@ function renderWorkout() {
   document.getElementById('headerDay').textContent = day.rest
     ? `${day.day} — Descanso`
     : `${day.day} ${day.num}/${day.date.split('-')[1]}`;
-  document.getElementById('headerDate').textContent = 'Semana 24 Fev — 01 Mar 2026';
+  document.getElementById('headerDate').textContent = document.getElementById('weekBadge')?.textContent || '';
 
   if (day.rest) {
     content.innerHTML = `<div class="rest-message"><h2>Dia de Descanso 😴</h2><p>Recuperação é parte do treino. Descanse, se hidrate e se alimente bem.</p></div>`;
@@ -1656,7 +1695,18 @@ document.getElementById('weekToggle').addEventListener('click', function() {
   this.childNodes[0].textContent = this.classList.contains('open') ? 'Esconder semana ' : 'Ver semana completa ';
 });
 
+
+function updateWeekBadge() {
+  const badge = document.getElementById('weekBadge');
+  if (!badge) return;
+  const w = WEEK;
+  const MONTHS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+  const first = new Date(w[0].date);
+  const last = new Date(w[w.length-1].date);
+  badge.textContent = 'Sem ' + pad(first.getDate()) + ' ' + MONTHS[first.getMonth()] + ' — ' + pad(last.getDate()) + ' ' + MONTHS[last.getMonth()];
+}
 currentDayIndex = findCurrentDay();
+updateWeekBadge();
 render();
 setTimeout(() => { document.getElementById('workoutContent').classList.remove('initial-load'); }, 600);
 
