@@ -161,6 +161,26 @@
     @keyframes completeReveal { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
     .session-complete h3 { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--green); margin-bottom: 6px; }
     .session-complete p { font-size: 13px; color: var(--text-muted); }
+    .evo-section { margin-top: 20px; }
+    .evo-title { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-lift); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .evo-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
+    .evo-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .evo-row:last-child { border-bottom: none; }
+    .evo-label { font-size: 13px; color: var(--text-dim); font-weight: 500; flex: 1; }
+    .evo-values { display: flex; align-items: center; gap: 8px; }
+    .evo-old { font-family: var(--font-display); font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: line-through; opacity: 0.6; }
+    .evo-new { font-family: var(--font-display); font-size: 15px; font-weight: 800; color: var(--text); }
+    .evo-delta { font-family: var(--font-display); font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+    .evo-delta.good { color: var(--green); background: rgba(52,211,153,0.1); }
+    .evo-delta.bad { color: var(--red, #ef4444); background: rgba(239,68,68,0.1); }
+    .evo-delta.neutral { color: var(--text-muted); background: var(--surface-2); }
+    .evo-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .evo-summary-item { background: var(--surface-2); border-radius: var(--radius-sm); padding: 14px; text-align: center; }
+    .evo-summary-value { font-family: var(--font-display); font-size: 22px; font-weight: 800; }
+    .evo-summary-value.green { color: var(--green); }
+    .evo-summary-value.red { color: #ef4444; }
+    .evo-summary-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; margin-top: 4px; }
+    .evo-period { text-align: center; font-size: 11px; color: var(--text-muted); margin-bottom: 12px; }
     .footer { text-align: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 11px; line-height: 1.8; }
     .week-toggle, .assess-toggle { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; margin-top: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-muted); font-family: var(--font-display); font-size: 13px; font-weight: 600; cursor: pointer; -webkit-appearance: none; width: 100%; transition: all 0.2s; }
     .week-toggle:active, .assess-toggle:active { transform: scale(0.98); }
@@ -783,6 +803,21 @@ render();
 setTimeout(() => document.getElementById('workoutContent').classList.remove('initial-load'), 600);
 
 // ─── Assessment ───
+const ASSESSMENTS = [
+  {
+    date: '09/09/2025', label: 'Avaliação Inicial',
+    basics: { age: 38, height: 168, weight: 108.9 },
+    results: { imc: 38.58, fatPercent: 40.06, leanPercent: 59.94, leanMass: 65.27, fatMass: 43.63, idealWeight: 85, sumSkinfolds: 248.0 },
+    perimetry: { cintura: 99.5, abdomen: 119, quadril: 130.5, coxaE: 81, coxaD: 80.5, bracoE: 40, bracoD: 40 },
+  },
+  {
+    date: '17/11/2025', label: 'Renovação',
+    basics: { age: 38, height: 168, weight: 104.6 },
+    results: { imc: 37.06, fatPercent: 39.24, leanPercent: 60.76, leanMass: 63.55, fatMass: 41.05, idealWeight: 85, sumSkinfolds: 239.4 },
+    perimetry: { cintura: 95.01, abdomen: 117, quadril: 127, coxaE: 78.5, coxaD: 78.5, bracoE: 39, bracoD: 39 },
+  }
+];
+
 const ASSESSMENT = {
   date: '17/11/2025',
   protocol: 'Pollock, 1984 — 7 Dobras',
@@ -845,7 +880,65 @@ function renderAssessment(a) {
       </div></div></div>`;
 }
 
-document.getElementById('assessPanel').innerHTML = renderAssessment(ASSESSMENT);
+function renderEvolution(assessments) {
+  if (assessments.length < 2) return '';
+  const old = assessments[0];
+  const cur = assessments[assessments.length - 1];
+  
+  function delta(oldVal, newVal, unit, lowerIsBetter) {
+    const diff = newVal - oldVal;
+    if (Math.abs(diff) < 0.01) return { html: '<span class="evo-delta neutral">—</span>', diff: 0 };
+    const sign = diff > 0 ? '+' : '';
+    const cls = lowerIsBetter ? (diff < 0 ? 'good' : 'bad') : (diff > 0 ? 'good' : 'bad');
+    return { html: `<span class="evo-delta ${cls}">${sign}${diff.toFixed(1)}${unit}</span>`, diff };
+  }
+  
+  const weightD = delta(old.basics.weight, cur.basics.weight, 'kg', true);
+  const fatPctD = delta(old.results.fatPercent, cur.results.fatPercent, '%', true);
+  const fatMassD = delta(old.results.fatMass, cur.results.fatMass, 'kg', true);
+  const leanD = delta(old.results.leanMass, cur.results.leanMass, 'kg', false);
+  const imcD = delta(old.results.imc, cur.results.imc, '', true);
+  const skinD = delta(old.results.sumSkinfolds, cur.results.sumSkinfolds, 'mm', true);
+  
+  const periRows = [
+    { label: 'Cintura', old: old.perimetry.cintura, cur: cur.perimetry.cintura },
+    { label: 'Abdômen', old: old.perimetry.abdomen, cur: cur.perimetry.abdomen },
+    { label: 'Quadril', old: old.perimetry.quadril, cur: cur.perimetry.quadril },
+    { label: 'Coxa Esq.', old: old.perimetry.coxaE, cur: cur.perimetry.coxaE },
+    { label: 'Coxa Dir.', old: old.perimetry.coxaD, cur: cur.perimetry.coxaD },
+    { label: 'Braço Esq.', old: old.perimetry.bracoE, cur: cur.perimetry.bracoE },
+    { label: 'Braço Dir.', old: old.perimetry.bracoD, cur: cur.perimetry.bracoD },
+  ];
+  
+  return `
+    <div class="evo-section">
+      <div class="evo-title">📈 Evolução entre Avaliações</div>
+      <div class="evo-period">${old.date} (${old.label}) → ${cur.date} (${cur.label})</div>
+      <div class="evo-summary">
+        <div class="evo-summary-item"><div class="evo-summary-value green">${(old.basics.weight - cur.basics.weight).toFixed(1)}kg</div><div class="evo-summary-label">Peso perdido</div></div>
+        <div class="evo-summary-item"><div class="evo-summary-value green">${(old.results.fatMass - cur.results.fatMass).toFixed(1)}kg</div><div class="evo-summary-label">Gordura perdida</div></div>
+        <div class="evo-summary-item"><div class="evo-summary-value ${old.perimetry.cintura - cur.perimetry.cintura > 0 ? 'green' : 'red'}">${(old.perimetry.cintura - cur.perimetry.cintura).toFixed(1)}cm</div><div class="evo-summary-label">Cintura reduzida</div></div>
+        <div class="evo-summary-item"><div class="evo-summary-value ${old.perimetry.abdomen - cur.perimetry.abdomen > 0 ? 'green' : 'red'}">${(old.perimetry.abdomen - cur.perimetry.abdomen).toFixed(1)}cm</div><div class="evo-summary-label">Abdômen reduzido</div></div>
+      </div>
+      <div class="evo-card">
+        <div class="evo-row"><span class="evo-label">Peso</span><div class="evo-values"><span class="evo-old">${old.basics.weight}kg</span><span class="evo-new">${cur.basics.weight}kg</span>${weightD.html}</div></div>
+        <div class="evo-row"><span class="evo-label">% Gordura</span><div class="evo-values"><span class="evo-old">${old.results.fatPercent}%</span><span class="evo-new">${cur.results.fatPercent}%</span>${fatPctD.html}</div></div>
+        <div class="evo-row"><span class="evo-label">Massa Gorda</span><div class="evo-values"><span class="evo-old">${old.results.fatMass}kg</span><span class="evo-new">${cur.results.fatMass}kg</span>${fatMassD.html}</div></div>
+        <div class="evo-row"><span class="evo-label">Massa Magra</span><div class="evo-values"><span class="evo-old">${old.results.leanMass}kg</span><span class="evo-new">${cur.results.leanMass}kg</span>${leanD.html}</div></div>
+        <div class="evo-row"><span class="evo-label">IMC</span><div class="evo-values"><span class="evo-old">${old.results.imc}</span><span class="evo-new">${cur.results.imc}</span>${imcD.html}</div></div>
+        <div class="evo-row"><span class="evo-label">Σ Dobras</span><div class="evo-values"><span class="evo-old">${old.results.sumSkinfolds}mm</span><span class="evo-new">${cur.results.sumSkinfolds}mm</span>${skinD.html}</div></div>
+      </div>
+      <div class="evo-card">
+        <div style="font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;">Perimetria (cm)</div>
+        ${periRows.map(r => {
+          const d = delta(r.old, r.cur, 'cm', true);
+          return `<div class="evo-row"><span class="evo-label">${r.label}</span><div class="evo-values"><span class="evo-old">${r.old}</span><span class="evo-new">${r.cur}</span>${d.html}</div></div>`;
+        }).join('')}
+      </div>
+    </div>`;
+}
+
+document.getElementById('assessPanel').innerHTML = renderAssessment(ASSESSMENT) + renderEvolution(ASSESSMENTS);
 document.getElementById('assessToggle').addEventListener('click', function() { this.classList.toggle('open'); document.getElementById('assessPanel').classList.toggle('open'); });
 
 // ─── Avatar photo ───
