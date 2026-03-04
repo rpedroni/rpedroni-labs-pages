@@ -702,7 +702,11 @@ function renderWorkout() {
 }
 
 function playVideo(e, url) {
-  if (url.includes('1drv.ms') || url.includes('onedrive')) return;
+  // OneDrive links: let them open in new tab normally
+  if (url.includes('1drv.ms') || url.includes('onedrive')) {
+    // Don't prevent default - let the link open
+    return;
+  }
   e.preventDefault();
   const overlay = document.getElementById('videoOverlay');
   const player = document.getElementById('videoPlayer');
@@ -711,7 +715,10 @@ function playVideo(e, url) {
     ytPlayer.src = `https://www.youtube.com/embed/${url.slice(3)}?autoplay=1`;
     ytPlayer.style.display = 'block'; player.style.display = 'none';
   } else {
-    player.src = url; player.style.display = 'block'; ytPlayer.style.display = 'none'; player.play();
+    player.src = url; player.style.display = 'block'; ytPlayer.style.display = 'none'; player.play().catch(err => {
+      console.error('Error playing video:', err);
+      alert('Erro ao carregar o vídeo. Tente abrir em nova aba.');
+    });
   }
   overlay.classList.add('active');
 }
