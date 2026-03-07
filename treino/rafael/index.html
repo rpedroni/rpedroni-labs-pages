@@ -562,6 +562,24 @@
       transition: all 0.25s;
     }
 
+    a.exercise-name {
+      color: var(--text);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    a.exercise-name::before {
+      content: '▶';
+      font-size: 9px;
+      color: var(--accent-lift);
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+
+    a.exercise-name:active::before { opacity: 1; }
+
     .exercise.completed .exercise-name {
       opacity: 0.4;
       text-decoration: line-through;
@@ -1109,6 +1127,9 @@ const WEEKLY_GOALS = [
   { icon: '🫀', type: 'cardio', text: '<strong>Cardio:</strong> Spinning ao final de cada treino para condicionamento' },
 ];
 
+// ─── Video mapping ───
+const V = id => `https://vd.mfitpersonal.com.br/${id}/mp4/${id}.mp4`;
+
 // ─── Treino A — Segunda (Peito, Tríceps e Abdômen) ───
 const TREINO_A = [
   {
@@ -1116,9 +1137,9 @@ const TREINO_A = [
     title: 'Flexão + Burpee + Escalador', 
     meta: '2 séries de\n- 12 flexões\n- 1 min. prancha\n- 6 burpees',
     exercises: [
-      { name: 'Flexão de Braço (Pegada Fechada)', muscle: 'Peito / Tríceps' },
-      { name: 'Burpee', muscle: 'Corpo todo' },
-      { name: 'Abdominal Escalador', muscle: 'Abdômen' },
+      { name: 'Flexão de Braço (Pegada Fechada)', muscle: 'Peito / Tríceps', video: V(728) },
+      { name: 'Burpee', muscle: 'Corpo todo', video: V(326) },
+      { name: 'Abdominal Escalador', muscle: 'Abdômen', video: V(2) },
     ]
   },
   {
@@ -1126,10 +1147,10 @@ const TREINO_A = [
     title: 'Tríceps + Peitoral + Ombros + Posteriores',
     meta: '20 segundos em cada alongamento.',
     exercises: [
-      { name: 'Alongamento de Tríceps', muscle: 'Tríceps' },
-      { name: 'Alongamento Peitoral', muscle: 'Peitoral' },
-      { name: 'Alongamento de Ombros', muscle: 'Ombros' },
-      { name: 'Alongamento de Posteriores IV', muscle: 'Posteriores' },
+      { name: 'Alongamento de Tríceps', muscle: 'Tríceps', video: V(595) },
+      { name: 'Alongamento Peitoral', muscle: 'Peitoral', video: V(89) },
+      { name: 'Alongamento de Ombros', muscle: 'Ombros', video: V(315) },
+      { name: 'Alongamento de Posteriores IV', muscle: 'Posteriores', video: V(203) },
     ]
   },
   {
@@ -1137,8 +1158,8 @@ const TREINO_A = [
     title: 'Supino Reto ↔ Abdominal Infra',
     meta: '3 séries de\n- 15 a 20 supinos\n- 15 a 20 abdominais com carga (caneleiras)',
     exercises: [
-      { name: 'Supino Reto com Barra Reta', muscle: 'Peitoral / Tríceps', duration: '3x15-20' },
-      { name: 'Abdominal Infra com as Pernas Estendidas', muscle: 'Abdômen', duration: '3x15-20' },
+      { name: 'Supino Reto com Barra Reta', muscle: 'Peitoral / Tríceps', duration: '3x15-20', video: V(5) },
+      { name: 'Abdominal Infra com as Pernas Estendidas', muscle: 'Abdômen', duration: '3x15-20', video: V(202) },
     ]
   },
   {
@@ -1146,9 +1167,9 @@ const TREINO_A = [
     title: 'Crucifixo ↔ Canivete ↔ Agachamento Salto',
     meta: '3 séries de\n- 15 a 20 crucifixos\n- 15 a 20 abdominais (direto)\n- 15 a 20 agachamentos com salto',
     exercises: [
-      { name: 'Crucifixo com Halteres', muscle: 'Peitoral', duration: '3x15-20' },
-      { name: 'Abdominal Canivete Alternado', muscle: 'Abdômen', duration: '3x15-20' },
-      { name: 'Agachamento com Salto', muscle: 'Pernas', duration: '3x15-20' },
+      { name: 'Crucifixo com Halteres', muscle: 'Peitoral', duration: '3x15-20', video: V(1) },
+      { name: 'Abdominal Canivete Alternado', muscle: 'Abdômen', duration: '3x15-20', video: V(41) },
+      { name: 'Agachamento com Salto', muscle: 'Pernas', duration: '3x15-20', video: V(195) },
     ]
   },
   {
@@ -1156,9 +1177,9 @@ const TREINO_A = [
     title: 'Supino Inclinado ↔ Tríceps Banco ↔ Prancha',
     meta: '3 séries de:\n- 15 a 20 supinos inclinados (use halteres e caneleiras nos braços para ficar bem pesado)\n- 15 a 20 tríceps banco pernas esticadas\n- 1 min. prancha',
     exercises: [
-      { name: 'Supino Inclinado com Halteres', muscle: 'Peitoral superior', duration: '3x15-20' },
-      { name: 'Tríceps Banco com Pernas Esticadas', muscle: 'Tríceps', duration: '3x15-20' },
-      { name: 'Abdominal Prancha Isométrica', muscle: 'Core', duration: '3x1min' },
+      { name: 'Supino Inclinado com Halteres', muscle: 'Peitoral superior', duration: '3x15-20', video: V(143) },
+      { name: 'Tríceps Banco com Pernas Esticadas', muscle: 'Tríceps', duration: '3x15-20', video: V(14) },
+      { name: 'Abdominal Prancha Isométrica', muscle: 'Core', duration: '3x1min', video: V(145) },
     ]
   },
   {
@@ -1166,7 +1187,7 @@ const TREINO_A = [
     title: 'Tríceps Coice Unilateral',
     meta: '3 x 15 a 20 com a melhor carga. Apoie o outro braço em uma cadeira e alinhe a coluna.',
     exercises: [
-      { name: 'Tríceps Coice Unilateral com Halteres', muscle: 'Tríceps', duration: '3x15-20' },
+      { name: 'Tríceps Coice Unilateral com Halteres', muscle: 'Tríceps', duration: '3x15-20', video: V(527) },
     ]
   },
   {
@@ -1186,9 +1207,9 @@ const TREINO_B = [
     title: 'Step Up + Desenvolvimento + Polichinelo',
     meta: '3 séries de:\n- 16 Step Up Box\n- 12 desenvolvimentos\n- 40 Pular Corda',
     exercises: [
-      { name: 'Step Up Box', muscle: 'Pernas' },
-      { name: 'Desenvolvimento em pé com halteres', muscle: 'Ombros' },
-      { name: 'Polichinelo', muscle: 'Cardio' },
+      { name: 'Step Up Box', muscle: 'Pernas', video: V(360) },
+      { name: 'Desenvolvimento em pé com halteres', muscle: 'Ombros', video: V(315) },
+      { name: 'Polichinelo', muscle: 'Cardio', video: V(764) },
     ]
   },
   {
@@ -1196,11 +1217,11 @@ const TREINO_B = [
     title: 'Posteriores + Panturrilha + Ombros + Glúteos',
     meta: '20 segundos em cada exercício/membro.',
     exercises: [
-      { name: 'Alongamento de Posteriores IV', muscle: 'Posteriores' },
-      { name: 'Alongamento de Panturrilha', muscle: 'Panturrilha' },
-      { name: 'Alongamento de Ombros', muscle: 'Ombros' },
-      { name: 'Alongamento de Peitoral Espaldar', muscle: 'Peitoral' },
-      { name: 'Alongamento de Glúteos III', muscle: 'Glúteos' },
+      { name: 'Alongamento de Posteriores IV', muscle: 'Posteriores', video: V(89) },
+      { name: 'Alongamento de Panturrilha', muscle: 'Panturrilha', video: V(585) },
+      { name: 'Alongamento de Ombros', muscle: 'Ombros', video: V(100) },
+      { name: 'Alongamento de Peitoral Espaldar', muscle: 'Peitoral', video: V(131) },
+      { name: 'Alongamento de Glúteos III', muscle: 'Glúteos', video: V(52) },
     ]
   },
   {
@@ -1208,8 +1229,8 @@ const TREINO_B = [
     title: 'Elevação Lateral ↔ Agachamento Smith',
     meta: 'Elevação Lateral com Halteres\n12 - 12 - 8 - 8 (aumentando a carga)\nAgachamento livre com barra\n12 - 12 - 8 - 8 (aumentando a carga)',
     exercises: [
-      { name: 'Elevação Lateral com Halteres', muscle: 'Ombros', duration: '12-12-8-8' },
-      { name: 'Agachamento Livre com Barra', muscle: 'Pernas', duration: '12-12-8-8' },
+      { name: 'Elevação Lateral com Halteres', muscle: 'Ombros', duration: '12-12-8-8', video: V(33) },
+      { name: 'Agachamento Livre com Barra', muscle: 'Pernas', duration: '12-12-8-8', video: V(152) },
     ]
   },
   {
@@ -1217,9 +1238,9 @@ const TREINO_B = [
     title: 'Afundo ↔ Desenvolvimento ↔ Panturrilha',
     meta: 'Afundo com Barra Livre\n12 - 12 - 8 - 8 (aumentando a carga)\nDesenvolvimento Barra Reta\n12 - 12 - 8 - 8 (aumentando a carga)\nPanturrilha na Parede\n4 x15',
     exercises: [
-      { name: 'Afundo com Barra Livre', muscle: 'Pernas', duration: '12-12-8-8' },
-      { name: 'Desenvolvimento Barra Reta', muscle: 'Ombros', duration: '12-12-8-8' },
-      { name: 'Panturrilha na Parede', muscle: 'Panturrilha', duration: '4x15' },
+      { name: 'Afundo com Barra Livre', muscle: 'Pernas', duration: '12-12-8-8', video: V(762) },
+      { name: 'Desenvolvimento Barra Reta', muscle: 'Ombros', duration: '12-12-8-8', video: V(504) },
+      { name: 'Panturrilha na Parede', muscle: 'Panturrilha', duration: '4x15', video: V(157) },
     ]
   },
   {
@@ -1227,8 +1248,8 @@ const TREINO_B = [
     title: 'Cadeira Extensora ↔ Elevação Frontal',
     meta: '4 séries de:\n-12 extensora (com isometria 10" no final)\n- 12 elevações frontais (e/d)',
     exercises: [
-      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '4x12' },
-      { name: 'Elevação Frontal com Halteres', muscle: 'Ombros', duration: '4x12' },
+      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '4x12', video: V(555) },
+      { name: 'Elevação Frontal com Halteres', muscle: 'Ombros', duration: '4x12', video: V(527) },
     ]
   },
   {
@@ -1256,9 +1277,9 @@ const TREINO_C = [
     title: 'Remada TRX + Crucifixo Inverso + Burpee',
     meta: '3 séries de\n- 15 Remada (balanço)\n- 15 Crucifixo Inverso com Halteres (3 kg)\n- 10 Burpees',
     exercises: [
-      { name: 'Remada TRX (Pegada Neutra)', muscle: 'Costas' },
-      { name: 'Crucifixo Inverso com Halteres', muscle: 'Ombros posteriores' },
-      { name: 'Burpee', muscle: 'Corpo todo' },
+      { name: 'Remada TRX (Pegada Neutra)', muscle: 'Costas', video: V(59) },
+      { name: 'Crucifixo Inverso com Halteres', muscle: 'Ombros posteriores', video: V(215) },
+      { name: 'Burpee', muscle: 'Corpo todo', video: V(326) },
     ]
   },
   {
@@ -1266,9 +1287,9 @@ const TREINO_C = [
     title: 'Dorsal + Hand to Toes',
     meta: '2 rounds de 20 segundos/repetições em cada exercício.',
     exercises: [
-      { name: 'Alongamento Dorsal Espaldar IV', muscle: 'Dorsal' },
-      { name: 'Hand to toes', muscle: 'Posteriores' },
-      { name: 'Alongamento Dorsal VI', muscle: 'Dorsal' },
+      { name: 'Alongamento Dorsal Espaldar IV', muscle: 'Dorsal', video: V(586) },
+      { name: 'Hand to toes', muscle: 'Posteriores', video: V(591) },
+      { name: 'Alongamento Dorsal VI', muscle: 'Dorsal', video: V(210) },
     ]
   },
   {
@@ -1276,7 +1297,7 @@ const TREINO_C = [
     title: 'Remada Unilateral (Serrote)',
     meta: '12 - 12 - 8 - 8 aumentando a carga e sem descanso',
     exercises: [
-      { name: 'Remada Unilateral Halteres - Pegada Neutra (Serrote)', muscle: 'Costas', duration: '12-12-8-8' },
+      { name: 'Remada Unilateral Halteres - Pegada Neutra (Serrote)', muscle: 'Costas', duration: '12-12-8-8', video: V(565) },
     ]
   },
   {
@@ -1284,8 +1305,8 @@ const TREINO_C = [
     title: 'Puxada Aberta ↔ Rosca Direta Alternada',
     meta: '12 - 9 - 6 - 3\n- Puxada\n- Rosca Direta Alternada Sentado com Halteres\n12 - 12 - 8 - 8 (aumentando a carga)',
     exercises: [
-      { name: 'Puxada Aberta Barra Reta', muscle: 'Costas', duration: '12-9-6-3' },
-      { name: 'Rosca Direta Alternada Sentado com Halteres', muscle: 'Bíceps', duration: '12-12-8-8' },
+      { name: 'Puxada Aberta Barra Reta', muscle: 'Costas', duration: '12-9-6-3', video: V(124) },
+      { name: 'Rosca Direta Alternada Sentado com Halteres', muscle: 'Bíceps', duration: '12-12-8-8', video: V(207) },
     ]
   },
   {
@@ -1293,7 +1314,7 @@ const TREINO_C = [
     title: 'Pullover com Barra Reta',
     meta: '3 x 12 - 15',
     exercises: [
-      { name: 'Pullover com Barra Reta', muscle: 'Costas / Peitoral', duration: '3x12-15' },
+      { name: 'Pullover com Barra Reta', muscle: 'Costas / Peitoral', duration: '3x12-15', video: V(116) },
     ]
   },
   {
@@ -1301,7 +1322,7 @@ const TREINO_C = [
     title: 'Rosca Direta 21 com Barra Reta',
     meta: '1 série de "rosca direta 21" corresponde a:\n- 7 roscas da coxa ao meio\n- 7 roscas do meio a clavícula\n- 7 roscas completas',
     exercises: [
-      { name: 'Rosca Direta 21 com Barra Reta', muscle: 'Bíceps', duration: '3x21' },
+      { name: 'Rosca Direta 21 com Barra Reta', muscle: 'Bíceps', duration: '3x21', video: V(527) },
     ]
   },
   {
@@ -1467,6 +1488,9 @@ function renderWorkout() {
         const supersetTag = isSuperset ? '<span class="tag tag--superset">Bi-Set</span>' : '';
         const trisetTag = isTriset ? '<span class="tag tag--triset">Tri-Set</span>' : '';
         const noRestTag = (isSuperset || isTriset) ? '<span class="tag tag--norest">Sem descanso</span>' : '';
+        const nameHtml = ex.video
+          ? `<a class="exercise-name" href="${ex.video}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${ex.name}</a>`
+          : `<span class="exercise-name">${ex.name}</span>`;
         return `<div class="exercise ${done ? 'completed' : ''}" data-key="${key}" id="ex-${key}">
           <div class="exercise-main" onclick="toggleDetail('${key}')">
             <div class="check" onclick="event.stopPropagation(); toggleExercise('${key}')">
@@ -1474,7 +1498,7 @@ function renderWorkout() {
             </div>
             <div class="exercise-content">
               <div class="exercise-top">
-                <span class="exercise-name">${ex.name}</span>
+                ${nameHtml}
                 ${ex.duration ? `<span class="exercise-duration">${ex.duration}</span>` : ''}
               </div>
               <div class="exercise-tags">
