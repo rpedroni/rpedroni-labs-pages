@@ -442,11 +442,28 @@ document.getElementById('renovacaoForm').addEventListener('submit', function(e) 
   msg += `*Nutricionista:* ${d.nutricionista || '—'}\n`;
   if (d.observacoes) msg += `*Obs:* ${d.observacoes}\n`;
 
-  const phone = '5541999775758';
-  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+  // Send to Discord webhook (automatic)
+  const WEBHOOK_URL = 'https://discord.com/api/webhooks/1481437707279274178/PV6gpVorIW02hCk2nvg6zXXWOVaoUZ2cKrzdSQCP7rtH4inJaavbo_MdHAZbccKDTwpk';
+  const discordMsg = msg.replace(/\*/g, '**');
 
-  this.style.display = 'none';
-  document.getElementById('successScreen').classList.add('visible');
+  const submitBtn = document.querySelector('[type="submit"]');
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Enviando...'; }
+
+  fetch(WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content: discordMsg, username: 'Renovação — ' + (d.nome || 'Aluno') })
+  }).then(() => {
+    const phone = '5541999775758';
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    this.style.display = 'none';
+    document.getElementById('successScreen').classList.add('visible');
+  }).catch(() => {
+    const phone = '5541999775758';
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    this.style.display = 'none';
+    document.getElementById('successScreen').classList.add('visible');
+  });
 });
 
 updateProgress();

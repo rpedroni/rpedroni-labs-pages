@@ -888,14 +888,35 @@ document.getElementById('anamneseForm').addEventListener('submit', function(e) {
   msg += `*Música:* ${data.musica || '—'}\n`;
   if (data.observacoes) msg += `*Obs:* ${data.observacoes}\n`;
 
-  // Open WhatsApp with pre-filled message to Luisão
-  const phone = '5541999775758';
-  const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
+  // Send to Discord webhook (automatic)
+  const WEBHOOK_URL = 'https://discord.com/api/webhooks/1481437707279274178/PV6gpVorIW02hCk2nvg6zXXWOVaoUZ2cKrzdSQCP7rtH4inJaavbo_MdHAZbccKDTwpk';
+  const discordMsg = msg.replace(/\*/g, '**'); // WhatsApp bold → Discord bold
 
-  // Show success
-  this.style.display = 'none';
-  document.getElementById('successScreen').classList.add('visible');
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Enviando...';
+
+  fetch(WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content: discordMsg, username: 'Anamnese — ' + (data.nome || 'Novo Aluno') })
+  }).then(() => {
+    // Also open WhatsApp as backup
+    const phone = '5541999775758';
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+
+    // Show success
+    this.style.display = 'none';
+    document.getElementById('successScreen').classList.add('visible');
+  }).catch(() => {
+    // Fallback to WhatsApp only
+    const phone = '5541999775758';
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+    this.style.display = 'none';
+    document.getElementById('successScreen').classList.add('visible');
+  });
 });
 
 updateProgress();

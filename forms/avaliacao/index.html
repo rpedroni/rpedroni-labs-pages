@@ -668,19 +668,35 @@ document.getElementById('avaliacaoForm').addEventListener('submit', function(e) 
 
   if (d.observacoes) msg += `\n*Obs:* ${d.observacoes}\n`;
 
-  const phone = '5541999775758';
-  const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
+  // Send to Discord webhook (automatic)
+  const WEBHOOK_URL = 'https://discord.com/api/webhooks/1481437707279274178/PV6gpVorIW02hCk2nvg6zXXWOVaoUZ2cKrzdSQCP7rtH4inJaavbo_MdHAZbccKDTwpk';
+  const discordMsg = msg.replace(/\*/g, '**');
 
-  // If photos, prompt to send them
-  if (photoCount > 0) {
-    setTimeout(() => {
-      alert('Agora envie as ' + photoCount + ' foto(s) na mesma conversa do WhatsApp com o Luisão! 📸');
-    }, 1500);
-  }
+  const submitBtn = document.querySelector('[type="submit"]');
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Enviando...'; }
 
-  this.style.display = 'none';
-  document.getElementById('successScreen').classList.add('visible');
+  fetch(WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content: discordMsg, username: 'Avaliação — ' + (d.nome || 'Aluno') })
+  }).then(() => {
+    const phone = '5541999775758';
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+    if (photoCount > 0) {
+      setTimeout(() => {
+        alert('Agora envie as ' + photoCount + ' foto(s) na mesma conversa do WhatsApp com o Luisão! 📸');
+      }, 1500);
+    }
+    this.style.display = 'none';
+    document.getElementById('successScreen').classList.add('visible');
+  }).catch(() => {
+    const phone = '5541999775758';
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+    this.style.display = 'none';
+    document.getElementById('successScreen').classList.add('visible');
+  });
 });
 
 updateProgress();
