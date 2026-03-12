@@ -569,6 +569,69 @@
           </label>
         </div>
       </div>
+
+      <!-- CONDITIONAL: Modalidades (for Ganhar massa / Definição) -->
+      <div class="field" id="modalidadesField" style="display:none">
+        <label>Modalidades de interesse</label>
+        <div class="hint">Marque as modalidades que você quer incluir no treino</div>
+        <div class="checkbox-group">
+          <label class="checkbox-option" onclick="toggleCheckbox(this)">
+            <input type="checkbox" name="modalidade_musculacao" value="Musculação">
+            <span class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span class="option-text">Musculação</span>
+          </label>
+          <label class="checkbox-option" onclick="toggleCheckbox(this)">
+            <input type="checkbox" name="modalidade_lpo" value="LPO">
+            <span class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span class="option-text">LPO (Levantamento Olímpico)</span>
+          </label>
+          <label class="checkbox-option" onclick="toggleCheckbox(this)">
+            <input type="checkbox" name="modalidade_powerlifting" value="Powerlifting">
+            <span class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span class="option-text">Powerlifting</span>
+          </label>
+          <label class="checkbox-option" onclick="toggleCheckbox(this)">
+            <input type="checkbox" name="modalidade_strongman" value="Strongman">
+            <span class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span class="option-text">Strongman</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- CONDITIONAL: Preferência Cardio (for Perder gordura / Definição) -->
+      <div class="field" id="cardioField" style="display:none">
+        <label>Preferência de Cardio (aulas MaxResults)</label>
+        <div class="hint">Marque as aulas que você mais gosta</div>
+        <div class="checkbox-group">
+          <label class="checkbox-option" onclick="toggleCheckbox(this)">
+            <input type="checkbox" name="cardio_maxstep" value="MaxStep">
+            <span class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span class="option-text">MaxStep</span>
+          </label>
+          <label class="checkbox-option" onclick="toggleCheckbox(this)">
+            <input type="checkbox" name="cardio_maxfight" value="MaxFight">
+            <span class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span class="option-text">MaxFight</span>
+          </label>
+          <label class="checkbox-option" onclick="toggleCheckbox(this)">
+            <input type="checkbox" name="cardio_maxcicle" value="MaxCicle">
+            <span class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span class="option-text">MaxCicle</span>
+          </label>
+          <label class="checkbox-option" onclick="toggleCheckbox(this)">
+            <input type="checkbox" name="cardio_maxjump" value="MaxJump">
+            <span class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span class="option-text">MaxJump</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- CONDITIONAL: Outras Atividades (for Ganhar massa / Definição) -->
+      <div class="field" id="outrasAtividadesField" style="display:none">
+        <label>Outras atividades físicas ou aulas que você dá/pratica</label>
+        <div class="hint">Ajuda a evitar sobrecarga em grupos musculares que você já trabalha</div>
+        <textarea name="outras_atividades" placeholder="Ex: Dou aula de abdômen 2x/semana, faço natação, yoga..."></textarea>
+      </div>
     </div>
 
     <!-- ROTINA DE TREINO -->
@@ -820,7 +883,43 @@ function selectRadio(el) {
     detail.style.display = el.querySelector('input').value === 'Sim' ? 'block' : 'none';
   }
 
+  // Show/hide conditional fields based on objetivo
+  if (el.querySelector('input[name="objetivo"]')) {
+    updateConditionalFields(el.querySelector('input').value);
+  }
+
   updateProgress();
+}
+
+function toggleCheckbox(el) {
+  el.classList.toggle('selected');
+  const input = el.querySelector('input[type="checkbox"]');
+  input.checked = !input.checked;
+}
+
+function updateConditionalFields(objetivo) {
+  const modalidadesField = document.getElementById('modalidadesField');
+  const cardioField = document.getElementById('cardioField');
+  const outrasAtividadesField = document.getElementById('outrasAtividadesField');
+
+  // Default: hide all
+  modalidadesField.style.display = 'none';
+  cardioField.style.display = 'none';
+  outrasAtividadesField.style.display = 'none';
+
+  if (objetivo === 'Ganhar massa muscular') {
+    // Hipertrofia: show modalidades + outras atividades
+    modalidadesField.style.display = 'block';
+    outrasAtividadesField.style.display = 'block';
+  } else if (objetivo === 'Perder gordura / Emagrecer') {
+    // Emagrecimento: show preferência cardio
+    cardioField.style.display = 'block';
+  } else if (objetivo === 'Definição muscular') {
+    // Misto: show both
+    modalidadesField.style.display = 'block';
+    cardioField.style.display = 'block';
+    outrasAtividadesField.style.display = 'block';
+  }
 }
 
 function updateProgress() {
@@ -866,7 +965,34 @@ document.getElementById('anamneseForm').addEventListener('submit', function(e) {
   msg += '🎯 *OBJETIVOS*\n';
   msg += `*Objetivo:* ${data.objetivo || '—'}\n`;
   msg += `*Ênfase:* ${data.enfase || '—'}\n`;
-  msg += `*Prazo:* ${data.prazo || '—'}\n\n`;
+  msg += `*Prazo:* ${data.prazo || '—'}\n`;
+  
+  // Add modalidades if selected
+  const modalidades = [];
+  if (data.modalidade_musculacao) modalidades.push('Musculação');
+  if (data.modalidade_lpo) modalidades.push('LPO');
+  if (data.modalidade_powerlifting) modalidades.push('Powerlifting');
+  if (data.modalidade_strongman) modalidades.push('Strongman');
+  if (modalidades.length > 0) {
+    msg += `*Modalidades:* ${modalidades.join(', ')}\n`;
+  }
+
+  // Add cardio preferences if selected
+  const cardio = [];
+  if (data.cardio_maxstep) cardio.push('MaxStep');
+  if (data.cardio_maxfight) cardio.push('MaxFight');
+  if (data.cardio_maxcicle) cardio.push('MaxCicle');
+  if (data.cardio_maxjump) cardio.push('MaxJump');
+  if (cardio.length > 0) {
+    msg += `*Preferência Cardio:* ${cardio.join(', ')}\n`;
+  }
+
+  // Add outras atividades if filled
+  if (data.outras_atividades) {
+    msg += `*Outras Atividades:* ${data.outras_atividades}\n`;
+  }
+  
+  msg += '\n';
 
   msg += '🏋️ *ROTINA*\n';
   msg += `*Frequência:* ${data.frequencia || '—'}\n`;
