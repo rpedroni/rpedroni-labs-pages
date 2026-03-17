@@ -776,6 +776,28 @@
 
     .session-complete p { font-size: 13px; color: var(--text-muted); position: relative; }
 
+    .finish-btn { display: none; width: 100%; padding: 14px; margin-top: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text-dim); font-family: var(--font-display); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .finish-btn:hover { border-color: var(--accent-lift); color: var(--accent-lift); }
+    .finish-btn.show { display: block; }
+    .finish-btn.finished { background: rgba(52,211,153,0.08); border-color: var(--green); color: var(--green); }
+    .skipped-list { margin-top: 8px; font-size: 12px; color: var(--text-muted); text-align: left; }
+    .skipped-list span { color: var(--accent-lift); }
+    .day-config-btn { background: none; border: none; color: var(--text-muted); font-size: 16px; cursor: pointer; padding: 4px 8px; transition: color 0.2s; }
+    .day-config-btn:hover { color: var(--accent-lift); }
+    .day-modal-overlay { display: none; position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 20px; }
+    .day-modal-overlay.active { display: flex; }
+    .day-modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; max-width: 320px; width: 100%; }
+    .day-modal h3 { font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+    .day-modal p { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+    .day-option { display: flex; align-items: center; gap: 12px; padding: 10px 12px; margin-bottom: 6px; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.2s; }
+    .day-option:hover { background: var(--surface-2); }
+    .day-option input[type="checkbox"] { accent-color: var(--accent-lift); width: 18px; height: 18px; cursor: pointer; }
+    .day-option label { font-size: 14px; font-weight: 600; color: var(--text); cursor: pointer; flex: 1; }
+    .day-modal-actions { display: flex; gap: 8px; margin-top: 16px; }
+    .day-modal-actions button { flex: 1; padding: 10px; border-radius: var(--radius-sm); font-family: var(--font-display); font-size: 13px; font-weight: 700; cursor: pointer; border: none; }
+    .day-modal-actions .save-btn { background: var(--accent-lift); color: #000; }
+    .day-modal-actions .cancel-btn { background: var(--surface-2); color: var(--text-muted); }
+
     .footer {
       text-align: center;
       margin-top: 48px;
@@ -1133,6 +1155,20 @@
     <h3>Sessão Concluída! 💪</h3>
     <p>Ótimo treino, Liliana! Descanse e se hidrate bem.</p>
   </div>
+  <button class="finish-btn" id="finishBtn" onclick="finishWorkout()">✅ Finalizar Treino</button>
+  <div id="skippedInfo"></div>
+
+  <div class="day-modal-overlay" id="dayModal">
+    <div class="day-modal">
+      <h3>⚙️ Dias de Treino</h3>
+      <p>Escolha 3 dias para treinar esta semana</p>
+      <div id="dayOptions"></div>
+      <div class="day-modal-actions">
+        <button class="cancel-btn" onclick="closeDayModal()">Cancelar</button>
+        <button class="save-btn" onclick="saveDayConfig()">Salvar</button>
+      </div>
+    </div>
+  </div>
 
   <button class="week-toggle" id="weekToggle">
     Ver semana completa
@@ -1397,15 +1433,34 @@ function buildWeek() {
   });
 }
 
-const WEEK_SCHEDULE = [
-  { dayName: 'Seg', rest: false, label: 'Treino A — Glúteo/Post. + Superior', blocks: TREINO_A },
-  { dayName: 'Ter', rest: true, label: 'Descanso' },
-  { dayName: 'Qua', rest: false, label: 'Treino B — Glúteo/Quad. + Superior', blocks: TREINO_B },
-  { dayName: 'Qui', rest: true, label: 'Descanso' },
-  { dayName: 'Sex', rest: false, label: 'Treino C — Glúteo/Full + Tríceps', blocks: TREINO_C },
-  { dayName: 'Sáb', rest: true, label: 'Descanso' }
+const TRAINING_SLOTS = [
+  { label: 'Treino A — Glúteo/Post. + Superior', blocks: TREINO_A },
+  { label: 'Treino B — Glúteo/Quad. + Superior', blocks: TREINO_B },
+  { label: 'Treino C — Glúteo/Full + Tríceps', blocks: TREINO_C },
 ];
-const WEEK = buildWeek();
+const ALL_DAYS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+const DAY_CONFIG_KEY = 'maxresults-liliana-days-v1';
+const DEFAULT_DAYS = ['Seg', 'Qua', 'Sex'];
+
+function loadDayConfig() {
+  try { return JSON.parse(localStorage.getItem(DAY_CONFIG_KEY)) || DEFAULT_DAYS; }
+  catch { return DEFAULT_DAYS; }
+}
+
+function buildSchedule() {
+  const chosen = loadDayConfig();
+  let slotIdx = 0;
+  return ALL_DAYS.map(day => {
+    if (chosen.includes(day) && slotIdx < TRAINING_SLOTS.length) {
+      const slot = TRAINING_SLOTS[slotIdx++];
+      return { dayName: day, rest: false, label: slot.label, blocks: slot.blocks };
+    }
+    return { dayName: day, rest: true, label: 'Descanso' };
+  });
+}
+
+let WEEK_SCHEDULE = buildSchedule();
+let WEEK = buildWeek();
 
 // Dynamic storage key based on current week
 function getWeekKey() {
@@ -1442,11 +1497,133 @@ function findCurrentDay() {
   return 0;
 }
 
+// ─── Day Configuration ───
+function openDayModal() {
+  const chosen = loadDayConfig();
+  document.getElementById('dayOptions').innerHTML = ALL_DAYS.map(day =>
+    `<div class="day-option" onclick="this.querySelector('input').click()">
+      <input type="checkbox" id="day-${day}" value="${day}" ${chosen.includes(day)?'checked':''} onclick="event.stopPropagation(); limitDaySelection()">
+      <label for="day-${day}">${day}</label>
+    </div>`
+  ).join('');
+  document.getElementById('dayModal').classList.add('active');
+}
+
+function closeDayModal() { document.getElementById('dayModal').classList.remove('active'); }
+
+function limitDaySelection() {
+  const checked = document.querySelectorAll('#dayOptions input:checked');
+  const unchecked = document.querySelectorAll('#dayOptions input:not(:checked)');
+  unchecked.forEach(cb => cb.disabled = checked.length >= 3);
+}
+
+function saveDayConfig() {
+  const checked = [...document.querySelectorAll('#dayOptions input:checked')].map(cb => cb.value);
+  if (checked.length < 1) { alert('Selecione pelo menos 1 dia!'); return; }
+  if (checked.length > 3) { alert('Máximo 3 dias!'); return; }
+  localStorage.setItem(DAY_CONFIG_KEY, JSON.stringify(checked));
+  WEEK_SCHEDULE = buildSchedule();
+  WEEK = buildWeek();
+  currentDayIndex = findCurrentDay();
+  render();
+  closeDayModal();
+}
+
+// ─── Finish Workout (partial) ───
+const FINISH_KEY = 'maxresults-liliana-finished-v1';
+
+function loadFinished() { try { return JSON.parse(localStorage.getItem(FINISH_KEY)||'{}'); } catch { return {}; } }
+
+function finishWorkout() {
+  const day = WEEK[currentDayIndex];
+  if (day.rest) return;
+  const finished = loadFinished();
+  const dateKey = day.date;
+  
+  // Collect skipped exercises
+  const skipped = [];
+  day.blocks.forEach((block, bi) => {
+    block.exercises.forEach((ex, ei) => {
+      const key = exerciseKey(currentDayIndex, bi, ei);
+      if (!completedExercises[key]) skipped.push(ex.name);
+    });
+  });
+  
+  finished[dateKey] = {
+    completed: true,
+    partial: skipped.length > 0,
+    skipped: skipped,
+    timestamp: new Date().toISOString()
+  };
+  localStorage.setItem(FINISH_KEY, JSON.stringify(finished));
+  
+  const btn = document.getElementById('finishBtn');
+  btn.classList.add('finished');
+  btn.textContent = '✅ Treino Finalizado!';
+  btn.disabled = true;
+  
+  const info = document.getElementById('skippedInfo');
+  if (skipped.length > 0) {
+    info.innerHTML = `<div class="skipped-list">⚠️ Exercícios pulados: <span>${skipped.join(', ')}</span></div>`;
+  } else {
+    info.innerHTML = `<div class="skipped-list" style="color:var(--green)">✅ Todos os exercícios concluídos!</div>`;
+  }
+  
+  renderDaySwitcher();
+}
+
+function isWorkoutFinished(di) {
+  const d = WEEK[di];
+  if (!d || d.rest) return false;
+  const finished = loadFinished();
+  return finished[d.date]?.completed || false;
+}
+
+function updateFinishButton() {
+  const day = WEEK[currentDayIndex];
+  const btn = document.getElementById('finishBtn');
+  const info = document.getElementById('skippedInfo');
+  if (day.rest) { btn.classList.remove('show'); info.innerHTML = ''; return; }
+  
+  const finished = loadFinished();
+  const alreadyFinished = finished[day.date]?.completed;
+  const allDone = isDayComplete(currentDayIndex);
+  
+  if (allDone) {
+    // All exercises done — session-complete shows, hide finish button
+    btn.classList.remove('show');
+    info.innerHTML = '';
+  } else if (alreadyFinished) {
+    btn.classList.add('show', 'finished');
+    btn.textContent = '✅ Treino Finalizado!';
+    btn.disabled = true;
+    const skipped = finished[day.date]?.skipped || [];
+    info.innerHTML = skipped.length > 0
+      ? `<div class="skipped-list">⚠️ Exercícios pulados: <span>${skipped.join(', ')}</span></div>`
+      : '';
+  } else {
+    // Some exercises pending — show finish button
+    const total = day.blocks.reduce((s,b) => s+b.exercises.length, 0);
+    const done = day.blocks.reduce((s,b,bi) => s+b.exercises.filter((_,ei) => completedExercises[exerciseKey(currentDayIndex,bi,ei)]).length, 0);
+    if (done > 0) {
+      btn.classList.add('show');
+      btn.classList.remove('finished');
+      btn.textContent = `⏭️ Finalizar Treino (${done}/${total} feitos)`;
+      btn.disabled = false;
+      info.innerHTML = '';
+    } else {
+      btn.classList.remove('show');
+      info.innerHTML = '';
+    }
+  }
+}
+
 function render() {
   renderWeekGoal();
   renderDaySwitcher();
   renderWorkout();
   updateProgress();
+  updateFinishButton();
   renderWeekOverview();
   restoreLoads();
   restoreRests();
@@ -1476,11 +1653,11 @@ function renderDaySwitcher() {
     const classes = ['day-btn'];
     if (i === currentDayIndex) classes.push('active');
     if (d.rest) classes.push('rest');
-    if (!d.rest && isDayComplete(i)) classes.push('completed-day');
+    if (!d.rest && (isDayComplete(i) || isWorkoutFinished(i))) classes.push('completed-day');
     return `<button class="${classes.join(' ')}" ${d.rest ? 'disabled' : ''} onclick="selectDay(${i})">
       ${d.day}<span class="day-num">${d.num}</span>
     </button>`;
-  }).join('');
+  }).join('') + `<button class="day-config-btn" onclick="openDayModal()" title="Alterar dias de treino">⚙️</button>`;
 }
 
 function renderWorkout() {
@@ -1578,7 +1755,10 @@ function playVideo(e, url) {
   const player = document.getElementById('videoPlayer');
   player.src = url;
   overlay.classList.add('active');
-  player.play();
+  player.play().catch(err => {
+    console.error('Error playing video:', err);
+    alert('Erro ao carregar o vídeo. Tente abrir em nova aba.');
+  });
 }
 
 function closeVideo() {
@@ -1618,10 +1798,11 @@ function renderWeekOverview() {
   const overview = document.getElementById('weekOverview');
   overview.innerHTML = WEEK.map((d, i) => {
     const isCurrent = i === currentDayIndex;
+    const done = isDayComplete(i) || isWorkoutFinished(i);
     return `<div class="week-day-summary">
       <div class="week-day-label">${d.day}</div>
       <div class="week-day-desc">${d.label}</div>
-      <div class="week-day-status ${d.rest ? 'rest' : isCurrent ? 'today' : ''}">${d.rest ? '😴' : isDayComplete(i) ? '✓' : isCurrent ? 'Atual' : d.day}</div>
+      <div class="week-day-status ${d.rest ? 'rest' : isCurrent ? 'today' : ''}">${d.rest ? '😴' : done ? '✓' : isCurrent ? 'Atual' : d.day}</div>
     </div>`;
   }).join('');
 }
@@ -1640,6 +1821,7 @@ function toggleExercise(key) {
   if (el) { el.classList.toggle('completed', !!completedExercises[key]); }
   updateBlockProgress();
   updateProgress();
+  updateFinishButton();
   renderDaySwitcher();
 }
 
