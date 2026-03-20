@@ -715,7 +715,7 @@ function renderWorkout() {
           </div>
           <div class="exercise-detail"><div class="detail-inner">
             ${showLoad ? `<div class="load-row" onclick="event.stopPropagation()"><span class="load-label">Carga:</span><input type="text" inputmode="decimal" class="load-input" placeholder="—" data-load-key="${key}" onchange="saveLoad(this)" value=""><span class="load-unit">kg</span></div>` : ''}
-            ${showRest ? `<div class="load-row" onclick="event.stopPropagation()"><span class="rest-label">Descanso:</span><input type="text" inputmode="decimal" class="rest-input" placeholder="—" data-rest-key="${key}" onchange="saveRest(this)" value=""><span class="load-unit">seg</span></div>` : ''}
+            ${showRest ? `<div class="load-row" onclick="event.stopPropagation()"><span class="rest-label">Descanso:</span><input type="text" inputmode="decimal" class="rest-input" placeholder="90" data-rest-key="${key}" onchange="saveRest(this)" value=""><span class="load-unit">seg</span></div>` : ''}
             <div class="detail-row"><span class="detail-label">Equipamento:</span><span class="detail-value">${ex.equipment}</span></div>
             <div class="detail-row"><span class="detail-label">Dica:</span><span class="detail-value">${ex.tip}</span></div>
             ${noteHtml}
@@ -802,7 +802,7 @@ function restoreLoads() { const loads=loadLoads(); document.querySelectorAll('.l
 // ─── Rest persistence ───
 function loadRests() { try { return JSON.parse(localStorage.getItem(REST_KEY)||'{}'); } catch { return {}; } }
 function saveRest(input) { const rests=loadRests(); const k=input.dataset.restKey; input.value.trim() ? rests[k]=input.value.trim() : delete rests[k]; localStorage.setItem(REST_KEY, JSON.stringify(rests)); }
-function restoreRests() { const rests=loadRests(); document.querySelectorAll('.rest-input').forEach(i => { const k=i.dataset.restKey; if (rests[k]) i.value=rests[k]; }); }
+function restoreRests() { const rests=loadRests(); document.querySelectorAll(".rest-input").forEach(i => { const k=i.dataset.restKey; if (rests[k]) { i.value=rests[k]; } else if (i.placeholder && i.placeholder!=="—") { i.value=i.placeholder; saveRest(i); } }); }
 
 document.getElementById('weekToggle').addEventListener('click', function() {
   this.classList.toggle('open');
