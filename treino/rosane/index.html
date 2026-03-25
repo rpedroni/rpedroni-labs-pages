@@ -236,6 +236,19 @@
     .amrap-info ul { list-style: none; padding: 0; }
     .amrap-info ul li { font-size: 12px; color: var(--text-muted); padding: 3px 0; padding-left: 16px; position: relative; }
     .amrap-info ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent-hiit); }
+    .timer-bar { display: none; align-items: center; justify-content: space-between; padding: 14px 20px; background: rgba(52,211,153,0.06); border: 1px solid rgba(52,211,153,0.15); border-radius: var(--radius); margin-top: 8px; }
+    .timer-bar.active { display: flex; }
+    .timer-display { font-family: var(--font-display); font-size: 24px; font-weight: 800; color: var(--green); letter-spacing: 1px; }
+    .timer-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--green); opacity: 0.7; }
+    .timer-pulse { width: 10px; height: 10px; border-radius: 50%; background: var(--green); animation: pulse 1.5s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+    .start-btn, .stop-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; width: 100%; border: none; border-radius: var(--radius); font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s; -webkit-appearance: none; }
+    .start-btn { background: linear-gradient(135deg, var(--green), #2dd4a8); color: #000; margin-top: 16px; }
+    .start-btn:active { transform: scale(0.98); }
+    .start-btn.hidden { display: none; }
+    .stop-btn { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; margin-top: 8px; }
+    .stop-btn:active { transform: scale(0.98); }
+    .stop-btn.hidden { display: none; }
     .video-overlay { display: none; position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.92); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
     .video-overlay.active { display: flex; }
     .video-overlay video, .video-overlay iframe { max-width: 100%; max-height: 80vh; border-radius: 12px; border: none; }
@@ -260,6 +273,9 @@
   </div>
   <div class="week-goal" id="weekGoal"></div>
   <nav class="day-switcher" id="daySwitcher"></nav>
+  <button class="start-btn" id="startBtn" onclick="startSession()">▶ Iniciar Treino</button>
+  <div class="timer-bar" id="timerBar"><div><div class="timer-label">Tempo de Treino</div><div class="timer-display" id="timerDisplay">00:00</div></div><div class="timer-pulse"></div></div>
+  <button class="stop-btn hidden" id="stopBtn" onclick="stopSession()">⏹ Finalizar Sessão</button>
   <main id="workoutContent" class="initial-load"></main>
   <div class="session-complete" id="sessionComplete">
     <h3>Sessão Concluída! 💪</h3>
@@ -923,6 +939,22 @@ function renderAssessment(a) {
 
 document.getElementById('assessPanel').innerHTML = renderAssessment(ASSESSMENT);
 document.getElementById('assessToggle').addEventListener('click', function() { this.classList.toggle('open'); document.getElementById('assessPanel').classList.toggle('open'); });
+
+// ─── Session Timer ───
+const TIMER_KEY = 'maxresults-rosane-timer-v1';
+const HISTORY_KEY = 'maxresults-rosane-history-v1';
+let timerInterval = null; let sessionStartTime = null;
+function loadTimerState() { try { return JSON.parse(localStorage.getItem(TIMER_KEY) || 'null'); } catch { return null; } }
+function saveTimerState(state) { if (state) localStorage.setItem(TIMER_KEY, JSON.stringify(state)); else localStorage.removeItem(TIMER_KEY); }
+function loadHistory() { try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; } }
+function saveHistory(history) { localStorage.setItem(HISTORY_KEY, JSON.stringify(history)); }
+function formatTimer(ms) { const s=Math.floor(ms/1000); const m=Math.floor(s/60); return (m<10?'0':'')+m+':'+(s%60<10?'0':'')+(s%60); }
+function formatDuration(ms) { const m=Math.floor(ms/60000); if(m<60) return m+'min'; return Math.floor(m/60)+'h'+(m%60>0?m%60+'min':''); }
+function startSession() { sessionStartTime=Date.now(); saveTimerState({start:sessionStartTime,dayIndex:currentDayIndex}); document.getElementById('startBtn').classList.add('hidden'); document.getElementById('timerBar').classList.add('active'); document.getElementById('stopBtn').classList.remove('hidden'); timerInterval=setInterval(updateTimer,1000); updateTimer(); }
+function updateTimer() { if(!sessionStartTime) return; document.getElementById('timerDisplay').textContent=formatTimer(Date.now()-sessionStartTime); }
+function stopSession() { if(!sessionStartTime) return; const elapsed=Date.now()-sessionStartTime; clearInterval(timerInterval); const day=WEEK[currentDayIndex]; let total=0,done=0; if(day&&day.blocks){day.blocks.forEach((b,bi)=>{b.exercises.forEach((_,ei)=>{total++;if(completedExercises[exerciseKey(currentDayIndex,bi,ei)])done++;});});} const pct=total>0?Math.round((done/total)*100):0; const history=loadHistory(); history.push({date:new Date().toISOString(),dayIndex:currentDayIndex,dayLabel:day?day.label:'',dayName:day?day.day:'',duration:elapsed,completionPct:pct,weekKey:getWeekKey()}); saveHistory(history.filter(h=>new Date(h.date).getTime()>Date.now()-90*86400000)); sessionStartTime=null; saveTimerState(null); document.getElementById('startBtn').classList.remove('hidden'); document.getElementById('timerBar').classList.remove('active'); document.getElementById('stopBtn').classList.add('hidden'); document.getElementById('timerDisplay').textContent='00:00'; try{fetch('https://discord.com/api/webhooks/1486461383062061096/NaYJvJvQipulZ8Ux8D-alhPgliARc79TbcXf-sRQ0JNzLaLaRgdlhCq4NsErs79RR7PU',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:'✅ **Rosane** finalizou treino!\\n📅 '+new Date().toLocaleDateString('pt-BR')+' ('+day.day+') — '+day.label+'\\n⏱️ Tempo: '+formatDuration(elapsed)+'\\n📊 Exercícios: '+pct+'% ('+done+'/'+total+')',username:'Frequência — Rosane'})}).catch(function(){});}catch(e){} alert('Sessão finalizada! \nTempo: '+formatDuration(elapsed)+'\nExercícios: '+pct+'% concluídos'); }
+function restoreTimer() { const state=loadTimerState(); if(state&&state.start){ const elapsed=Date.now()-state.start; if(elapsed<3*3600000){ sessionStartTime=state.start; document.getElementById('startBtn').classList.add('hidden'); document.getElementById('timerBar').classList.add('active'); document.getElementById('stopBtn').classList.remove('hidden'); timerInterval=setInterval(updateTimer,1000); updateTimer(); } else { saveTimerState(null); } } }
+restoreTimer();
 
 // ─── Avatar photo ───
 const AVATAR_KEY = 'maxresults-rosane-avatar-v1';
