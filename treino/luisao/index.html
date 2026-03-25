@@ -158,6 +158,11 @@
     .rest-message { text-align: center; padding: 80px 20px; }
     .rest-message h2 { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 8px; }
     .rest-message p { color: var(--text-muted); font-size: 14px; }
+    .finish-btn { display: none; width: 100%; padding: 14px; margin-top: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text-dim); font-family: var(--font-display); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .finish-btn:hover { border-color: var(--accent-lift); color: var(--accent-lift); }
+    .finish-btn.show { display: block; }
+    .finish-btn.finished { background: rgba(52,211,153,0.08); border-color: var(--green); color: var(--green); }
+    .finish-info { font-size: 11px; color: var(--text-muted); margin-top: 6px; text-align: center; }
     .session-complete { display: none; text-align: center; padding: 36px 24px; margin-top: 28px; background: linear-gradient(135deg, rgba(52,211,153,0.06) 0%, rgba(52,211,153,0.02) 100%); border: 1px solid rgba(52,211,153,0.15); border-radius: var(--radius); }
     .session-complete.visible { display: block; animation: completeReveal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
     @keyframes completeReveal { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
@@ -265,11 +270,13 @@
     <h3>Sessão Concluída! 💪</h3>
     <p>Ótimo treino, Luisão! Descanse e se hidrate.</p>
   </div>
+  <button class="finish-btn" id="finishBtn" onclick="finishWorkout()">✅ Finalizar Treino</button>
+  <div class="finish-info" id="finishInfo"></div>
   <button class="week-toggle" id="weekToggle">Ver semana completa<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
   <div class="week-overview" id="weekOverview"></div>
   <button class="assess-toggle" id="assessToggle">📊 Avaliação Física<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
   <div class="assess-panel" id="assessPanel"></div>
-  <footer class="footer">Metodologia MaxResults &middot; Luisão Ribeiro<br>Gerado em 12/03/2026</footer>
+  <footer class="footer">Metodologia MaxResults &middot; Luisão Ribeiro<br>Gerado em 25/03/2026</footer>
 </div>
 <div class="video-overlay" id="videoOverlay" onclick="closeVideo()">
   <button class="video-close" onclick="closeVideo()">✕</button>
@@ -694,14 +701,34 @@ function buildWeek() {
   });
 }
 
-const WEEK_SCHEDULE = [
-  { dayName: 'Seg', rest: false, label: 'Push — Peito + Tríceps + Deltóide Ant.', blocks: PUSH_DAY },
-  { dayName: 'Ter', rest: false, label: 'Pull — Costas + Bíceps + Deltóide Post.', blocks: PULL_DAY },
-  { dayName: 'Qua', rest: true, label: 'Descanso' },
-  { dayName: 'Qui', rest: false, label: 'Legs — Quadríceps + Post. + Glúteos', blocks: LEGS_DAY },
-  { dayName: 'Sex', rest: false, label: 'Shoulders + Arms — Ênfase Ombros', blocks: SHOULDERS_DAY },
-  { dayName: 'Sáb', rest: true, label: 'Descanso' },
+const TRAINING_SLOTS = [
+  { label: 'Push — Peito + Tríceps + Deltóide Ant.', blocks: PUSH_DAY },
+  { label: 'Pull — Costas + Bíceps + Deltóide Post.', blocks: PULL_DAY },
+  { label: 'Legs — Quadríceps + Post. + Glúteos', blocks: LEGS_DAY },
+  { label: 'Shoulders + Arms — Ênfase Ombros', blocks: SHOULDERS_DAY },
 ];
+const ALL_DAYS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+const DAY_CONFIG_KEY = 'maxresults-luisao-days-v1';
+const DEFAULT_DAYS = ['Seg', 'Ter', 'Qui', 'Sex'];
+
+function loadDayConfig() {
+  try { return JSON.parse(localStorage.getItem(DAY_CONFIG_KEY)) || DEFAULT_DAYS; }
+  catch { return DEFAULT_DAYS; }
+}
+
+function buildSchedule() {
+  const chosen = loadDayConfig();
+  let slotIdx = 0;
+  return ALL_DAYS.map(day => {
+    if (chosen.includes(day) && slotIdx < TRAINING_SLOTS.length) {
+      const slot = TRAINING_SLOTS[slotIdx++];
+      return { dayName: day, rest: false, label: slot.label, blocks: slot.blocks };
+    }
+    return { dayName: day, rest: true, label: 'Descanso' };
+  });
+}
+
+let WEEK_SCHEDULE = buildSchedule();
 const WEEK = buildWeek();
 
 function getWeekKey() {
@@ -725,7 +752,62 @@ function findCurrentDay() {
   return 0;
 }
 
-function render() { renderWeekGoal(); renderDaySwitcher(); renderWorkout(); updateProgress(); renderWeekOverview(); restoreLoads(); restoreRests(); }
+function render() { renderWeekGoal(); renderDaySwitcher(); renderWorkout(); updateProgress(); updateFinishButton(); renderWeekOverview(); restoreLoads(); restoreRests(); }
+
+const FINISH_KEY = 'maxresults-luisao-finished-v1';
+function loadFinished() { try { return JSON.parse(localStorage.getItem(FINISH_KEY)||'{}'); } catch { return {}; } }
+
+function finishWorkout() {
+  const day = WEEK[currentDayIndex];
+  if (!day || day.rest) return;
+  let total = 0, done = 0;
+  const skipped = [];
+  day.blocks.forEach((b, bi) => {
+    b.exercises.forEach((ex, ei) => {
+      total++;
+      if (completedExercises[exerciseKey(currentDayIndex, bi, ei)]) { done++; }
+      else { skipped.push(ex.name); }
+    });
+  });
+  if (done === 0) { alert('Marque pelo menos 1 exercício antes de finalizar!'); return; }
+  const pct = Math.round((done / total) * 100);
+  const finished = loadFinished();
+  const weekKey = getWeekKey();
+  if (!finished[weekKey]) finished[weekKey] = {};
+  finished[weekKey][currentDayIndex] = { done, total, skipped, pct, ts: Date.now() };
+  localStorage.setItem(FINISH_KEY, JSON.stringify(finished));
+  const btn = document.getElementById('finishBtn');
+  btn.classList.add('finished');
+  btn.textContent = `✅ Finalizado (${done}/${total} — ${pct}%)`;
+  if (skipped.length > 0) {
+    document.getElementById('finishInfo').innerHTML = `⏭️ Pulados: ${skipped.join(', ')}`;
+  }
+}
+
+function updateFinishButton() {
+  const day = WEEK[currentDayIndex];
+  const btn = document.getElementById('finishBtn');
+  const info = document.getElementById('finishInfo');
+  if (!btn || !info) return;
+  if (!day || day.rest) { btn.classList.remove('show'); info.innerHTML = ''; return; }
+  let total = 0, done = 0;
+  day.blocks.forEach((b, bi) => { b.exercises.forEach((_, ei) => { total++; if (completedExercises[exerciseKey(currentDayIndex, bi, ei)]) done++; }); });
+  const finished = loadFinished();
+  const weekKey = getWeekKey();
+  const dayFinished = finished[weekKey]?.[currentDayIndex];
+  if (done === total && total > 0) { btn.classList.remove('show'); info.innerHTML = ''; return; }
+  if (dayFinished) {
+    btn.classList.add('show', 'finished');
+    btn.textContent = `✅ Finalizado (${dayFinished.done}/${dayFinished.total} — ${dayFinished.pct}%)`;
+    if (dayFinished.skipped?.length > 0) info.innerHTML = `⏭️ Pulados: ${dayFinished.skipped.join(', ')}`;
+    return;
+  }
+  if (done > 0) {
+    btn.classList.add('show'); btn.classList.remove('finished');
+    btn.textContent = `⏭️ Finalizar Treino (${done}/${total} feitos)`;
+    info.innerHTML = '';
+  } else { btn.classList.remove('show'); info.innerHTML = ''; }
+}
 
 function renderWeekGoal() {
   document.getElementById('weekGoal').innerHTML = `
@@ -737,7 +819,34 @@ function renderDaySwitcher() {
   document.getElementById('daySwitcher').innerHTML = WEEK.map((d, i) => {
     const cl = ['day-btn']; if (i === currentDayIndex) cl.push('active'); if (d.rest) cl.push('rest'); if (!d.rest && isDayComplete(i)) cl.push('completed-day');
     return `<button class="${cl.join(' ')}" ${d.rest?'disabled':''} onclick="selectDay(${i})">${d.day}<span class="day-num">${d.num}</span></button>`;
+  }).join('') + `<button class="day-btn" style="font-size:16px;min-width:36px;" onclick="openDayConfig()">⚙️</button>`;
+}
+
+function openDayConfig() {
+  const chosen = loadDayConfig();
+  const html = ALL_DAYS.map(d => {
+    const checked = chosen.includes(d) ? 'checked' : '';
+    return `<label style="display:flex;align-items:center;gap:8px;padding:8px 0;font-size:14px;color:var(--text);cursor:pointer;"><input type="checkbox" value="${d}" ${checked} style="width:18px;height:18px;accent-color:var(--accent);"> ${d}</label>`;
   }).join('');
+  const modal = document.createElement('div');
+  modal.id = 'dayConfigModal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;padding:20px;';
+  modal.innerHTML = `<div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:300px;width:100%;"><h3 style="font-family:var(--font-display);font-size:16px;font-weight:700;margin-bottom:16px;color:var(--text);">⚙️ Dias de Treino</h3>${html}<div style="display:flex;gap:8px;margin-top:16px;"><button onclick="saveDayConfig()" style="flex:1;padding:10px;border:none;border-radius:10px;background:var(--accent);color:#000;font-weight:700;cursor:pointer;">Salvar</button><button onclick="document.getElementById('dayConfigModal').remove()" style="flex:1;padding:10px;border:1px solid var(--border);border-radius:10px;background:transparent;color:var(--text-dim);cursor:pointer;">Cancelar</button></div></div>`;
+  document.body.appendChild(modal);
+}
+
+function saveDayConfig() {
+  const checks = document.querySelectorAll('#dayConfigModal input[type=checkbox]:checked');
+  const days = Array.from(checks).map(c => c.value);
+  if (days.length < 1) { alert('Selecione pelo menos 1 dia!'); return; }
+  localStorage.setItem(DAY_CONFIG_KEY, JSON.stringify(days));
+  WEEK_SCHEDULE = buildSchedule();
+  const newWeek = buildWeek();
+  WEEK.length = 0; newWeek.forEach(d => WEEK.push(d));
+  completedExercises = loadProgress();
+  currentDayIndex = findCurrentDay();
+  render();
+  document.getElementById('dayConfigModal').remove();
 }
 
 function renderWorkout() {
@@ -845,7 +954,7 @@ function toggleExercise(key) {
   saveProgress();
   const el = document.getElementById('ex-'+key);
   if (el) el.classList.toggle('completed', !!completedExercises[key]);
-  updateBlockProgress(); updateProgress(); renderDaySwitcher();
+  updateBlockProgress(); updateProgress(); updateFinishButton(); renderDaySwitcher();
 }
 
 function updateBlockProgress() {
