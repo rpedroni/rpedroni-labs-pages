@@ -517,6 +517,15 @@ const CARDIO_BIKE = {
   ]
 };
 
+const CARDIO_MAXCYCLE = {
+  type: 'cardio', label: 'Cardio',
+  title: 'MaxCycle Presencial', duration: '40-45 min',
+  meta: 'Aula de spinning com o Luisão — presencial',
+  exercises: [
+    { name: 'MaxCycle (Spinning)', muscle: 'Cardiovascular / MMII', duration: '40-45 min', equipment: 'Bike spinning (presencial)', tip: '🔥 Aula presencial com o Luisão. Ritmo guiado, resistências variadas. Zero impacto no joelho.', video: V.bike },
+  ]
+};
+
 // ─── Treino A — Anterior (Quad, Peito, Ombro, Core) — Iniciante c/ restrições ───
 const TREINO_A = [
   AQUEC_ARTICULAR,
@@ -549,7 +558,7 @@ const TREINO_A = [
       { name: 'Abdominal Supra', muscle: 'Abdômen', duration: '3x15', equipment: 'Colchonete', tip: 'Suba apenas o suficiente para contrair. Sem forçar a lombar — amplitude parcial se necessário.', video: V.abdomSupra },
     ]
   },
-  CARDIO_BIKE,
+  CARDIO_MAXCYCLE,
   ALONG_FINAL_A,
 ];
 
@@ -645,10 +654,10 @@ const TREINO_C = [
   },
   {
     type: 'cardio', label: 'Cardio',
-    title: 'Bike Ergométrica', duration: '25-30 min',
-    meta: '25-30 minutos em ritmo moderado — principal estímulo cardio da semana',
+    title: 'MaxCycle Presencial', duration: '40-45 min',
+    meta: 'Aula de spinning com o Luisão — presencial',
     exercises: [
-      { name: 'Bike Ergométrica', muscle: 'Cardiovascular', duration: '25-30 min', equipment: 'Bike ergométrica', tip: 'Ritmo moderado. SEM esteira ou corrida (impacto no joelho). Mantenha cadência confortável.', video: V.bike },
+      { name: 'MaxCycle (Spinning)', muscle: 'Cardiovascular / MMII', duration: '40-45 min', equipment: 'Bike spinning (presencial)', tip: '🔥 Aula presencial com o Luisão. Ritmo guiado, resistências variadas. Zero impacto no joelho.', video: V.bike },
     ]
   },
   ALONG_FINAL_C,
