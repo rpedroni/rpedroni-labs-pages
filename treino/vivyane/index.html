@@ -322,7 +322,7 @@
   <div class="week-overview" id="weekOverview"></div>
   <button class="assess-toggle" id="assessToggle">📊 Avaliação Física<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
   <div class="assess-panel" id="assessPanel"></div>
-  <footer class="footer">Metodologia MaxResults &middot; Luisão Ribeiro<br>Gerado em 26/03/2026</footer>
+  <footer class="footer">Metodologia MaxResults &middot; Luisão Ribeiro<br>Gerado em 27/03/2026</footer>
 </div>
 <div class="video-overlay" id="videoOverlay" onclick="closeVideo()">
   <button class="video-close" onclick="closeVideo()">✕</button>
@@ -1016,34 +1016,40 @@ const ASSESSMENTS = [
     results: { imc: 29.2, fatPercent: 29.79, leanPercent: 70.21, leanMass: 55.4, fatMass: 23.5, idealWeight: 70, sumSkinfolds: 0 },
     perimetry: {},
   },
+  {
+    date: '28/09/2025', label: 'Avaliação 2 (set/25)',
+    basics: { age: 42, height: 165, weight: 84.4 },
+    results: { imc: 31.0, fatPercent: 32.79, leanPercent: 67.21, leanMass: 56.73, fatMass: 27.67, idealWeight: 70, sumSkinfolds: 179.7 },
+    perimetry: { ombro: 99.5, torax: 99.5, bracoEsq: 33.5, bracoDir: 33.2, cintura: 83.0, abdomen: 98.5, quadril: 123.5, coxaEsq: 72.5, coxaDir: 73.5, pernaEsq: 39.5, pernaDir: 39.5 },
+  },
 ];
 
 const ASSESSMENT = {
-  date: '28/09/2025',
+  date: '27/03/2026',
   protocol: 'Pollock, 1984 — 7 Dobras',
-  nextAssessment: '27/12/2025 (vencida)',
-  basics: { age: 42, height: 165, weight: 84.4 },
+  nextAssessment: '25/06/2026',
+  basics: { age: 42, height: 165, weight: 83.45 },
   perimetry: [
-    { label: 'Ombro', value: 99.5 }, { label: 'Tórax', value: 99.5 },
-    { label: 'Braço Esq.', value: 33.5 }, { label: 'Braço Dir.', value: 33.2 },
-    { label: 'Cintura', value: 83.0 }, { label: 'Abdômen', value: 98.5 },
-    { label: 'Quadril', value: 123.5 },
-    { label: 'Coxa Esq.', value: 72.5 }, { label: 'Coxa Dir.', value: 73.5 },
-    { label: 'Perna Esq.', value: 39.5 }, { label: 'Perna Dir.', value: 39.5 },
+    { label: 'Ombro', value: 101.0 }, { label: 'Tórax', value: 100.2 },
+    { label: 'Braço Esq.', value: 33.2 }, { label: 'Braço Dir.', value: 33.5 },
+    { label: 'Cintura', value: 80.0 }, { label: 'Abdômen', value: 95.0 },
+    { label: 'Quadril', value: 121.5 },
+    { label: 'Coxa Esq.', value: 73.0 }, { label: 'Coxa Dir.', value: 74.0 },
+    { label: 'Perna Esq.', value: 38.5 }, { label: 'Perna Dir.', value: 39.5 },
   ],
   skinfolds: [
-    { label: 'Tricipital', value: 24.7 }, { label: 'Subescapular', value: 34.4 },
-    { label: 'Supra-ilíaca', value: 17.6 }, { label: 'Peitoral', value: 10.9 },
-    { label: 'Axilar Média', value: 19.7 }, { label: 'Abdominal', value: 21.8 },
-    { label: 'Coxa', value: 50.6 },
+    { label: 'Tricipital', value: 22.2 }, { label: 'Subescapular', value: 32.3 },
+    { label: 'Supra-ilíaca', value: 20.9 }, { label: 'Peitoral', value: 12.1 },
+    { label: 'Axilar Média', value: 19.2 }, { label: 'Abdominal', value: 26.0 },
+    { label: 'Coxa', value: 43.1 },
   ],
   results: {
-    imc: { value: 31.0, classification: 'Obesidade grau I' },
-    idealFat: 20, fatPercent: 32.79, leanPercent: 67.21,
-    leanMass: 56.73, fatMass: 27.67, idealWeight: 70,
-    sumSkinfolds: 179.7,
+    imc: { value: 30.65, classification: 'Obesidade grau I' },
+    idealFat: 20, fatPercent: 32.29, leanPercent: 67.71,
+    leanMass: 56.5, fatMass: 26.95, idealWeight: 75,
+    sumSkinfolds: 175.8,
   },
-  objective: 'Emagrecimento',
+  objective: 'Emagrecimento e fortalecimento',
   emphasis: 'Glúteos, pernas e barriga',
 };
 
