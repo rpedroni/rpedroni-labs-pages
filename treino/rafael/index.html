@@ -1141,7 +1141,7 @@
 
   <footer class="footer">
     Metodologia MaxResults &middot; Luisão Ribeiro<br>
-    Gerado em 06/03/2026
+    Gerado em 30/03/2026
   </footer>
 </div>
 
@@ -1150,9 +1150,9 @@ const ATHLETE = 'Rafael André';
 
 const WEEKLY_GOALS = [
   { icon: '🔥', type: 'fat', text: '<strong>Hipertrofia:</strong> Ganhar massa magra + resiliência física para dança/canto/atuação' },
-  { icon: '🏋️', type: 'strength', text: '<strong>Treinos:</strong> 3x por semana, 1h30-2h — foco em execução e consistência' },
+  { icon: '🏋️', type: 'strength', text: '<strong>Treinos:</strong> 3x por semana, 1h–1h30 — bi-sets + cardio 15min' },
   { icon: '🧘', type: 'assessment', text: '<strong>Postura:</strong> Melhorar região postural e pélvica' },
-  { icon: '🫀', type: 'cardio', text: '<strong>Cardio:</strong> Spinning ao final de cada treino para condicionamento' },
+  { icon: '🫀', type: 'cardio', text: '<strong>Cardio:</strong> 15min bike/esteira + dança às sextas' },
 ];
 
 // ─── Video mapping ───
@@ -1191,23 +1191,21 @@ const TREINO_A = [
     ]
   },
   {
-    type: 'lift', label: 'Tri-Set 1',
-    title: 'Crucifixo ↔ Canivete ↔ Agachamento Salto',
-    meta: '3 séries de\n- 15 a 20 crucifixos\n- 15 a 20 abdominais (direto)\n- 15 a 20 agachamentos com salto',
+    type: 'lift', label: 'Bi-Set 2',
+    title: 'Crucifixo ↔ Abdominal Canivete',
+    meta: '3 séries de 15 a 20 repetições · Sem descanso',
     exercises: [
       { name: 'Crucifixo com Halteres', muscle: 'Peitoral', duration: '3x15-20', video: V(1) },
       { name: 'Abdominal Canivete Alternado', muscle: 'Abdômen', duration: '3x15-20', video: V(41) },
-      { name: 'Agachamento com Salto', muscle: 'Pernas', duration: '3x15-20', video: V(195) },
     ]
   },
   {
-    type: 'lift', label: 'Tri-Set 2',
-    title: 'Supino Inclinado ↔ Tríceps Banco ↔ Prancha',
-    meta: '3 séries de:\n- 15 a 20 supinos inclinados (use halteres e caneleiras nos braços para ficar bem pesado)\n- 15 a 20 tríceps banco pernas esticadas\n- 1 min. prancha',
+    type: 'lift', label: 'Bi-Set 3',
+    title: 'Supino Inclinado ↔ Tríceps Banco',
+    meta: '3 séries de 15 a 20 repetições · Sem descanso\n(Supino: use halteres e caneleiras nos braços para ficar bem pesado)',
     exercises: [
       { name: 'Supino Inclinado com Halteres', muscle: 'Peitoral superior', duration: '3x15-20', video: V(143) },
       { name: 'Tríceps Banco com Pernas Esticadas', muscle: 'Tríceps', duration: '3x15-20', video: V(14) },
-      { name: 'Abdominal Prancha Isométrica', muscle: 'Core', duration: '3x1min', video: V(145) },
     ]
   },
   {
@@ -1221,9 +1219,9 @@ const TREINO_A = [
   {
     type: 'cardio', label: 'Cardio Final',
     title: 'Bike Spinning',
-    meta: 'Faça uma aula de Spinning ou 45 minutos de esteira, ergométrica ou elíptico buscando maior distância a cada treino.',
+    meta: '15 minutos de bike, esteira ou elíptico. Ritmo moderado — foco em manter a frequência cardíaca.',
     exercises: [
-      { name: 'Bike Spinning', muscle: 'Cardio', duration: '45 min' },
+      { name: 'Bike Spinning', muscle: 'Cardio', duration: '15 min' },
     ]
   },
 ];
@@ -1262,12 +1260,19 @@ const TREINO_B = [
     ]
   },
   {
-    type: 'lift', label: 'Tri-Set 1',
-    title: 'Afundo ↔ Desenvolvimento ↔ Panturrilha',
-    meta: 'Afundo com Barra Livre\n12 - 12 - 8 - 8 (aumentando a carga)\nDesenvolvimento Barra Reta\n12 - 12 - 8 - 8 (aumentando a carga)\nPanturrilha na Parede\n4 x15',
+    type: 'lift', label: 'Bi-Set 2',
+    title: 'Afundo ↔ Desenvolvimento',
+    meta: '4 séries: 12-12-8-8 (aumentando a carga) · Sem descanso',
     exercises: [
       { name: 'Afundo com Barra Livre', muscle: 'Pernas', duration: '12-12-8-8', video: V(762) },
       { name: 'Desenvolvimento Barra Reta', muscle: 'Ombros', duration: '12-12-8-8', video: V(504) },
+    ]
+  },
+  {
+    type: 'lift', label: 'Isolado',
+    title: 'Panturrilha na Parede',
+    meta: '4 séries de 15 repetições',
+    exercises: [
       { name: 'Panturrilha na Parede', muscle: 'Panturrilha', duration: '4x15', video: V(157) },
     ]
   },
@@ -1291,9 +1296,9 @@ const TREINO_B = [
   {
     type: 'cardio', label: 'Cardio Final',
     title: 'Bike Spinning',
-    meta: 'Faça uma aula de Spinning ou 45 minutos de esteira, ergométrica ou elíptico buscando maior distância a cada treino.',
+    meta: '15 minutos de bike, esteira ou elíptico. Ritmo moderado — foco em manter a frequência cardíaca.',
     exercises: [
-      { name: 'Bike Spinning', muscle: 'Cardio', duration: '45 min' },
+      { name: 'Bike Spinning', muscle: 'Cardio', duration: '15 min' },
     ]
   },
 ];
@@ -1356,9 +1361,9 @@ const TREINO_C = [
   {
     type: 'cardio', label: 'Cardio Final',
     title: 'Bike Spinning',
-    meta: 'Faça uma aula de Spinning ou 45 minutos de esteira, ergométrica ou elíptico buscando maior distância a cada treino.',
+    meta: '15 minutos de bike, esteira ou elíptico. Ritmo moderado — foco em manter a frequência cardíaca.',
     exercises: [
-      { name: 'Bike Spinning', muscle: 'Cardio', duration: '45 min' },
+      { name: 'Bike Spinning', muscle: 'Cardio', duration: '15 min' },
     ]
   },
 ];
