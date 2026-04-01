@@ -322,7 +322,7 @@
   <div class="week-overview" id="weekOverview"></div>
   <button class="assess-toggle" id="assessToggle">📊 Avaliação Física<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
   <div class="assess-panel" id="assessPanel"></div>
-  <footer class="footer">Metodologia MaxResults &middot; Luisão Ribeiro<br>Gerado em 31/03/2026</footer>
+  <footer class="footer">Metodologia MaxResults &middot; Luisão Ribeiro<br>Gerado em 01/04/2026</footer>
 </div>
 <div class="video-overlay" id="videoOverlay" onclick="closeVideo()">
   <button class="video-close" onclick="closeVideo()">✕</button>
@@ -333,10 +333,10 @@
 const ATHLETE = 'Ian';
 
 const WEEKLY_GOALS = [
-  { icon: '💪', type: 'strength', text: '<strong>Hipertrofia:</strong> 4x/semana — frente e posteriores' },
-  { icon: '📈', type: 'strength', text: '<strong>Progressão:</strong> 4x12 nos principais — testar e atualizar os pesos' },
+  { icon: '🔥', type: 'fat', text: '<strong>Emagrecimento:</strong> Full Body 3x/semana — máxima queima calórica' },
+  { icon: '📈', type: 'strength', text: '<strong>Progressão:</strong> 4x12 — aumente a carga quando completar 12 reps com boa execução' },
+  { icon: '🫀', type: 'cardio', text: '<strong>Cardio:</strong> 20min esteira/elíptico após cada treino' },
   { icon: '📋', type: 'assessment', text: '<strong>Avaliação Física:</strong> <a href="https://wa.me/5541999775758?text=Oi%20Luisão!%20Quero%20agendar%20minha%20avaliação%20física%20🏋️" target="_blank" style="color:var(--accent-lift);text-decoration:underline;">Agendar com Luisão</a>' },
-  { icon: '⚠️', type: 'assessment', text: '<strong>Renovação:</strong> treino vencido desde 20/03/2026 — vamos atualizar em breve' },
 ];
 
 const V = {
@@ -465,126 +465,122 @@ const CARDIO_ELIPTICO = {
   ]
 };
 
-// ─── Treino A — Frente ───
+// ─── Treino A — Full Body (Ênfase Empurrar) ───
 const TREINO_A = [
   AQUEC_ARTICULAR,
   AQUEC_MUSCULAR_A,
   MOBILIDADE_A,
   {
     type: 'lift', label: 'Bi-Set 1',
-    title: 'Supino Reto ↔ Agachamento com Halter na Frente', duration: '4x12 · Sem descanso',
-    meta: '4 séries de 12 repetições em cada exercício',
+    title: 'Leg Press 45 ↔ Supino Reto', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Banco Supino Reto', muscle: 'Peitoral', duration: '4x12', equipment: 'Banco + barra/halteres', tip: 'Controle a descida e empurre com estabilidade. Teste e atualize os pesos.', video: V.supinoReto },
-      { name: 'Agachamento com Halter na Frente', muscle: 'Quadríceps / Glúteos', duration: '4x12', equipment: 'Halter', tip: 'Segure o halter na frente do corpo, desça com postura e suba controlando.', video: V.agachHalterFrente },
-    ]
-  },
-  {
-    type: 'solo', label: 'Simples',
-    title: 'Cadeira Extensora', duration: '4x12',
-    meta: '4 séries de 12 repetições · descanso 60s',
-    exercises: [
-      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '4x12', equipment: 'Máquina extensora', tip: 'Movimento controlado, carga inicial registrada em 8.', video: V.cadeiraExt },
+      { name: 'Leg Press 45', muscle: 'Quadríceps / Glúteos', duration: '4x12', equipment: 'Máquina Leg Press', tip: 'Pés firmes na plataforma. Desça controlando e suba sem travar joelhos.', video: V.legPress },
+      { name: 'Banco Supino Reto', muscle: 'Peitoral', duration: '4x12', equipment: 'Banco + barra', tip: 'Controle a descida e empurre com estabilidade. Teste e atualize os pesos.', video: V.supinoReto },
     ]
   },
   {
     type: 'lift', label: 'Bi-Set 2',
-    title: 'Leg Press 45 ↔ Supino Inclinado com Halteres', duration: '4x12 · Sem descanso',
-    meta: '4 séries de 12 repetições em cada exercício',
+    title: 'Cadeira Extensora ↔ Elevação Lateral', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Leg Press 45', muscle: 'Quadríceps / Glúteos', duration: '4x12', equipment: 'Máquina Leg Press', tip: 'Pés firmes na plataforma. Desça controlando e suba sem travar joelhos.', video: V.legPress },
-      { name: 'Supino Inclinado com Halteres', muscle: 'Peitoral superior', duration: '4x12', equipment: 'Halteres + banco inclinado', tip: 'Mantenha os cotovelos estáveis e controle bem a descida.', video: V.supinoInclinado },
+      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '4x12', equipment: 'Máquina extensora', tip: 'Movimento controlado, segure a contração no topo por 1s.', video: V.cadeiraExt },
+      { name: 'Elevação Lateral com Halteres', muscle: 'Ombros', duration: '4x12', equipment: 'Halteres', tip: 'Eleve até a linha dos ombros sem roubar com o tronco.', video: V.elevLateral },
     ]
   },
   {
     type: 'lift', label: 'Bi-Set 3',
-    title: 'Elevação Lateral ↔ Tríceps Banco', duration: '4x12 · Sem descanso',
-    meta: '4 séries de 12 repetições em cada exercício',
+    title: 'Puxada Aberta ↔ Abdominal Supra', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Elevação Lateral com Halteres', muscle: 'Ombros', duration: '4x12', equipment: 'Halteres', tip: 'Eleve até a linha dos ombros, sem roubar com o tronco.', video: V.elevLateral },
-      { name: 'Tríceps Banco com Pernas Dobradas', muscle: 'Tríceps', duration: '4x12', equipment: 'Banco', tip: 'Pernas dobradas para facilitar a execução. Desça e suba com controle.', video: V.tricepsBanco },
+      { name: 'Puxada Aberta Barra Reta', muscle: 'Dorsal', duration: '4x12', equipment: 'Puxador', tip: 'Puxe a barra até a linha do peito e contraia as escápulas.', video: V.puxadaAberta },
+      { name: 'Abdominal Supra Solo', muscle: 'Abdômen', duration: '4x12', equipment: 'Colchonete', tip: 'Suba com controle, focando em contrair o abdômen.', video: V.abdomSupra },
     ]
   },
   CARDIO_ESTEIRA,
   ALONG_FINAL_A,
 ];
 
-// ─── Treino B — Posteriores ───
+// ─── Treino B — Full Body (Ênfase Puxar) ───
 const TREINO_B = [
   AQUEC_ARTICULAR,
   AQUEC_MUSCULAR_B,
   MOBILIDADE_B,
   {
     type: 'lift', label: 'Bi-Set 1',
-    title: 'Puxada Aberta ↔ Terra com Halteres', duration: '4x12 · Sem descanso',
-    meta: '4 séries de 12 repetições em cada exercício',
+    title: 'Terra c/ Halteres ↔ Remada Curvada', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Puxada Aberta Barra Reta', muscle: 'Dorsal', duration: '4x12', equipment: 'Puxador', tip: 'Puxe a barra até a linha do peito e contraia as escápulas.', video: V.puxadaAberta },
       { name: 'Levantamento terra com halteres', muscle: 'Posteriores / Glúteos', duration: '4x12', equipment: 'Halteres', tip: 'Halteres próximos ao corpo, quadril vai para trás e coluna neutra.', video: V.terraHalteres },
-    ]
-  },
-  {
-    type: 'solo', label: 'Simples',
-    title: 'Cadeira Flexora', duration: '4x12',
-    meta: '4 séries de 12 repetições · descanso 60s',
-    exercises: [
-      { name: 'Cadeira Flexora', muscle: 'Posteriores', duration: '4x12', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica e mantenha o quadril estabilizado.', video: V.cadeiraFlexora },
-    ]
-  },
-  {
-    type: 'lift', label: 'Bi-Set 2',
-    title: 'Afundo com Halteres ↔ Remada Curvada', duration: '4x12 · Sem descanso',
-    meta: '4 séries de 12 repetições em cada exercício',
-    exercises: [
-      { name: 'Afundo com Halteres', muscle: 'Quadríceps / Glúteos', duration: '4x12', equipment: 'Halteres', tip: 'Passo firme, desça controlando e mantenha o tronco estável.', video: V.afundoHalteres },
       { name: 'Remada Curvada com Halteres (Pegada Neutra)', muscle: 'Costas', duration: '4x12', equipment: 'Halteres', tip: 'Tronco inclinado, puxe os halteres para a cintura sem balançar.', video: V.remadaCurvadaHalteres },
     ]
   },
   {
+    type: 'lift', label: 'Bi-Set 2',
+    title: 'Cadeira Flexora ↔ Supino Inclinado', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
+    exercises: [
+      { name: 'Cadeira Flexora', muscle: 'Posteriores', duration: '4x12', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica e mantenha o quadril estabilizado.', video: V.cadeiraFlexora },
+      { name: 'Supino Inclinado com Halteres', muscle: 'Peitoral superior', duration: '4x12', equipment: 'Halteres + banco inclinado', tip: 'Mantenha os cotovelos estáveis e controle a descida.', video: V.supinoInclinado },
+    ]
+  },
+  {
     type: 'lift', label: 'Bi-Set 3',
-    title: 'Rosca Direta ↔ Abdominal Supra', duration: '4x12 · Sem descanso',
-    meta: '4 séries de 12 repetições em cada exercício',
+    title: 'Rosca Direta ↔ Tríceps Banco', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
     exercises: [
       { name: 'Rosca Direta Barra Reta', muscle: 'Bíceps', duration: '4x12', equipment: 'Barra reta', tip: 'Cotovelos fixos ao lado do corpo. Suba controlando, sem balanço.', video: V.roscaBarra },
-      { name: 'Abdominal Supra Solo', muscle: 'Abdômen', duration: '4x12', equipment: 'Colchonete', tip: 'Suba com controle, focando em contrair o abdômen.', video: V.abdomSupra },
+      { name: 'Tríceps Banco com Pernas Dobradas', muscle: 'Tríceps', duration: '4x12', equipment: 'Banco', tip: 'Pernas dobradas. Desça e suba com controle.', video: V.tricepsBanco },
     ]
   },
   CARDIO_ELIPTICO,
   ALONG_FINAL_B,
 ];
 
-// ─── Dynamic week dates ───
-function getMonday(d) {
-  const dt = new Date(d);
-  const day = dt.getDay();
-  const diff = dt.getDate() - day + (day === 0 ? -6 : 1);
-  return new Date(dt.setDate(diff));
-}
-
-function pad(n) { return n < 10 ? '0' + n : '' + n; }
-
-function buildWeek() {
-  const monday = getMonday(new Date());
-  const DAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-  return WEEK_SCHEDULE.map((s, i) => {
-    const dt = new Date(monday);
-    dt.setDate(monday.getDate() + i);
-    const dateStr = dt.getFullYear() + '-' + pad(dt.getMonth()+1) + '-' + pad(dt.getDate());
-    const entry = { day: s.dayName, date: dateStr, num: dt.getDate(), rest: s.rest, label: s.label };
-    if (s.blocks) entry.blocks = s.blocks;
-    return entry;
-  });
-}
+// ─── Treino C — Full Body (Ênfase Composto) ───
+const TREINO_C = [
+  AQUEC_ARTICULAR,
+  AQUEC_MUSCULAR_A,
+  MOBILIDADE_A,
+  {
+    type: 'lift', label: 'Bi-Set 1',
+    title: 'Agachamento Halter ↔ Puxada Aberta', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
+    exercises: [
+      { name: 'Agachamento com Halter na Frente', muscle: 'Quadríceps / Glúteos', duration: '4x12', equipment: 'Halter', tip: 'Segure o halter na frente do corpo, desça com postura e suba controlando.', video: V.agachHalterFrente },
+      { name: 'Puxada Aberta Barra Reta', muscle: 'Dorsal', duration: '4x12', equipment: 'Puxador', tip: 'Puxe até a linha do peito, contraia escápulas.', video: V.puxadaAberta },
+    ]
+  },
+  {
+    type: 'lift', label: 'Bi-Set 2',
+    title: 'Afundo c/ Halteres ↔ Supino Reto', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
+    exercises: [
+      { name: 'Afundo com Halteres', muscle: 'Quadríceps / Glúteos', duration: '4x12', equipment: 'Halteres', tip: 'Passo firme, desça controlando e mantenha o tronco estável.', video: V.afundoHalteres },
+      { name: 'Banco Supino Reto', muscle: 'Peitoral', duration: '4x12', equipment: 'Banco + barra', tip: 'Controle a descida e empurre com estabilidade.', video: V.supinoReto },
+    ]
+  },
+  {
+    type: 'lift', label: 'Bi-Set 3',
+    title: 'Elevação Lateral ↔ Abdominal Supra', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
+    exercises: [
+      { name: 'Elevação Lateral com Halteres', muscle: 'Ombros', duration: '4x12', equipment: 'Halteres', tip: 'Eleve até a linha dos ombros, sem roubar com o tronco.', video: V.elevLateral },
+      { name: 'Abdominal Supra Solo', muscle: 'Abdômen', duration: '4x12', equipment: 'Colchonete', tip: 'Suba com controle, focando em contrair o abdômen.', video: V.abdomSupra },
+    ]
+  },
+  CARDIO_ESTEIRA,
+  ALONG_FINAL_A,
+];
 
 const TRAINING_SLOTS = [
-  { label: 'Treino A — Frente', blocks: TREINO_A },
-  { label: 'Treino A — Frente', blocks: TREINO_A },
-  { label: 'Treino B — Posteriores', blocks: TREINO_B },
-  { label: 'Treino B — Posteriores', blocks: TREINO_B },
+  { label: 'Treino A — Full Body (Empurrar)', blocks: TREINO_A },
+  { label: 'Treino B — Full Body (Puxar)', blocks: TREINO_B },
+  { label: 'Treino C — Full Body (Composto)', blocks: TREINO_C },
 ];
 const ALL_DAYS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 const DAY_CONFIG_KEY = 'maxresults-ian-days-v1';
-const DEFAULT_DAYS = ['Seg', 'Ter', 'Qui', 'Sex'];
+const DEFAULT_DAYS = ['Seg', 'Qua', 'Sex'];
 function loadDayConfig() {
   try { return JSON.parse(localStorage.getItem(DAY_CONFIG_KEY)) || DEFAULT_DAYS; }
   catch { return DEFAULT_DAYS; }
