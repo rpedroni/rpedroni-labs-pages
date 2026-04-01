@@ -322,7 +322,7 @@
   <div class="week-overview" id="weekOverview"></div>
   <button class="assess-toggle" id="assessToggle">📊 Avaliação Física<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
   <div class="assess-panel" id="assessPanel"></div>
-  <footer class="footer">Metodologia MaxResults &middot; Luisão Ribeiro<br>Gerado em 27/03/2026</footer>
+  <footer class="footer">Metodologia MaxResults &middot; Luisão Ribeiro<br>Gerado em 01/04/2026</footer>
 </div>
 <div class="video-overlay" id="videoOverlay" onclick="closeVideo()">
   <button class="video-close" onclick="closeVideo()">✕</button>
@@ -333,10 +333,10 @@
 const ATHLETE = 'Vivyane';
 
 const WEEKLY_GOALS = [
-  { icon: '🏋️', type: 'strength', text: '<strong>Emagrecimento:</strong> A/B alternado + C cardio/core, 5x/semana, 60min' },
-  { icon: '💪', type: 'strength', text: '<strong>Volume:</strong> 3x15 — foco em aprender os movimentos com controle' },
-  { icon: '⚠️', type: 'assessment', text: '<strong>Restrições:</strong> Joelho esquerdo fraturado · Dor ciático · Lesão vértebras — amplitude reduzida, tudo em máquinas' },
+  { icon: '🔥', type: 'fat', text: '<strong>Emagrecimento:</strong> Musculação Seg/Qua/Sex + MaxCycle + Caminhada Ter/Qui' },
+  { icon: '📈', type: 'strength', text: '<strong>Progressão:</strong> 4x12 — aumente a carga quando completar 12 reps com boa execução' },
   { icon: '🎯', type: 'assessment', text: '<strong>Ênfase:</strong> Glúteos, pernas e barriga' },
+  { icon: '📋', type: 'assessment', text: '<strong>Avaliação Física:</strong> <a href="https://wa.me/5541999775758?text=Oi%20Luisão!%20Quero%20agendar%20minha%20avaliação%20física%20🏋️" target="_blank" style="color:var(--accent-lift);text-decoration:underline;">Agendar com Luisão</a>' },
 ];
 
 const V = {
@@ -526,149 +526,132 @@ const CARDIO_MAXCYCLE = {
   ]
 };
 
-// ─── Treino A — Anterior (Quad, Peito, Ombro, Core) — Iniciante c/ restrições ───
+// ─── Treino A — Anterior (Quad, Peito, Ombro) ───
 const TREINO_A = [
   AQUEC_ARTICULAR,
   AQUEC_MUSCULAR_A,
   MOBILIDADE_A,
   {
     type: 'lift', label: 'Bi-Set 1',
-    title: 'Leg Press 45° ↔ Flexão de Braço', duration: '3x15 · Sem descanso',
-    meta: '3 séries de 15 · Sem descanso entre exercícios',
+    title: 'Leg Press 45° ↔ Flexão de Braço', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Leg Press 45°', muscle: 'Quadríceps / Glúteos', duration: '3x15', equipment: 'Máquina Leg Press', tip: 'Pés mais altos no apoio para aliviar o joelho. Amplitude ~90°. Não travar os joelhos.', video: V.legPress },
-      { name: 'Flexão de Braço (joelhos no chão)', muscle: 'Peitoral / Tríceps', duration: '3x15', equipment: 'Colchonete', tip: 'Joelhos apoiados no chão. Desça controlando até o peito quase tocar o chão. Sem forçar a lombar.', video: V.flexaoBraco },
+      { name: 'Leg Press 45°', muscle: 'Quadríceps / Glúteos', duration: '4x12', equipment: 'Máquina Leg Press', tip: 'Pés na largura dos ombros. Desça controlando e empurre sem travar os joelhos.', video: V.legPress },
+      { name: 'Flexão de Braço (joelhos no chão)', muscle: 'Peitoral / Tríceps', duration: '4x12', equipment: 'Colchonete', tip: 'Joelhos apoiados no chão. Desça controlando até o peito quase tocar o chão.', video: V.flexaoBraco },
     ]
   },
   {
     type: 'lift', label: 'Bi-Set 2',
-    title: 'Cadeira Extensora ↔ Desenvolvimento c/ Halteres', duration: '3x15 · Sem descanso',
-    meta: '3 séries de 15 · Sem descanso entre exercícios',
+    title: 'Cadeira Extensora ↔ Desenvolvimento c/ Halteres', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '3x15', equipment: 'Máquina extensora', tip: '⚠️ NÃO estender totalmente — parar a ~70% da extensão (proteção joelho esquerdo). Contração controlada.', video: V.cadeiraExt },
-      { name: 'Desenvolvimento com Halteres', muscle: 'Ombros', duration: '3x15', equipment: 'Halteres + banco', tip: 'Sentada com apoio nas costas. Empurre para cima sem travar cotovelos. Carga leve.', video: V.desenvHalteres },
+      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '4x12', equipment: 'Máquina extensora', tip: 'Movimento controlado, segure a contração no topo por 1s.', video: V.cadeiraExt },
+      { name: 'Desenvolvimento com Halteres', muscle: 'Ombros', duration: '4x12', equipment: 'Halteres + banco', tip: 'Sentada com apoio nas costas. Empurre para cima sem travar cotovelos.', video: V.desenvHalteres },
     ]
   },
   {
     type: 'lift', label: 'Bi-Set 3',
-    title: 'Abdução Máquina ↔ Abdominal no Chão', duration: '3x15 · Sem descanso',
-    meta: '3 séries de 15 · Sem descanso entre exercícios',
+    title: 'Abdução Máquina ↔ Abdominal Supra', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Abdução de Quadril Máquina', muscle: 'Abdutores / Glúteo Médio', duration: '3x15', equipment: 'Máquina abdutora', tip: 'Foco na contração do glúteo médio. Abra as pernas com controle.', video: V.abdQuadril },
-      { name: 'Abdominal Supra', muscle: 'Abdômen', duration: '3x15', equipment: 'Colchonete', tip: 'Suba apenas o suficiente para contrair. Sem forçar a lombar — amplitude parcial se necessário.', video: V.abdomSupra },
+      { name: 'Abdução de Quadril Máquina', muscle: 'Abdutores / Glúteo Médio', duration: '4x12', equipment: 'Máquina abdutora', tip: 'Foco na contração do glúteo médio. Abra as pernas com controle.', video: V.abdQuadril },
+      { name: 'Abdominal Supra', muscle: 'Abdômen', duration: '4x12', equipment: 'Colchonete', tip: 'Suba o suficiente para contrair. Controle a descida.', video: V.abdomSupra },
     ]
   },
   CARDIO_MAXCYCLE,
   ALONG_FINAL_A,
 ];
 
-// ─── Treino B — Posterior (Post. coxa, Glúteos, Costas, Bíceps) — Iniciante c/ restrições ───
+// ─── Treino B — Posterior (Post. coxa, Glúteos, Costas, Bíceps) ───
 const TREINO_B = [
   AQUEC_ARTICULAR,
   AQUEC_MUSCULAR_B,
   MOBILIDADE_B,
   {
     type: 'lift', label: 'Bi-Set 1',
-    title: 'Cadeira Flexora ↔ Remada Curvada c/ Halteres', duration: '3x15 · Sem descanso',
-    meta: '3 séries de 15 · Sem descanso entre exercícios',
+    title: 'Cadeira Flexora ↔ Remada Curvada c/ Halteres', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Cadeira Flexora', muscle: 'Post. coxa', duration: '3x15', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica. Mantenha o quadril no banco.', video: V.cadeiraFlexora },
-      { name: 'Remada Curvada com Halteres', muscle: 'Costas (meio)', duration: '3x15', equipment: 'Halteres', tip: 'Tronco inclinado ~45°. Puxe os halteres em direção ao abdômen. Vai aquecer as costas.', video: V.remadaCurvadaHalter },
+      { name: 'Cadeira Flexora', muscle: 'Post. coxa', duration: '4x12', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica. Mantenha o quadril no banco.', video: V.cadeiraFlexora },
+      { name: 'Remada Curvada com Halteres', muscle: 'Costas (meio)', duration: '4x12', equipment: 'Halteres', tip: 'Tronco inclinado ~45°. Puxe os halteres em direção ao abdômen.', video: V.remadaCurvadaHalter },
     ]
   },
   {
     type: 'lift', label: 'Bi-Set 2',
-    title: 'Glúteo Máquina ↔ Remada Unilateral c/ Halter', duration: '3x15 · Sem descanso',
-    meta: '3 séries de 15 · Sem descanso entre exercícios',
+    title: 'Glúteo Máquina ↔ Remada Unilateral c/ Halter', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Glúteo Máquina (Kickback)', muscle: 'Glúteos', duration: '3x15', equipment: 'Máquina de glúteo', tip: 'Foco na contração máxima no topo. Controle a volta. Não forçar a lombar.', video: V.gluteoMaq },
-      { name: 'Remada Unilateral com Halter', muscle: 'Costas', duration: '3x15', equipment: 'Halter + banco', tip: 'Apoie um joelho e uma mão no banco. Puxe o halter até a cintura. Alterne os lados.', video: V.remadaUnilateral },
+      { name: 'Glúteo Máquina (Kickback)', muscle: 'Glúteos', duration: '4x12', equipment: 'Máquina de glúteo', tip: 'Foco na contração máxima no topo. Controle a volta.', video: V.gluteoMaq },
+      { name: 'Remada Unilateral com Halter', muscle: 'Costas', duration: '4x12', equipment: 'Halter + banco', tip: 'Apoie um joelho e uma mão no banco. Puxe o halter até a cintura. Alterne os lados.', video: V.remadaUnilateral },
     ]
   },
   {
     type: 'lift', label: 'Bi-Set 3',
-    title: 'Elevação Pélvica no Solo ↔ Rosca Direta c/ Halteres', duration: '3x15 · Sem descanso',
-    meta: '3 séries de 15 · Sem descanso entre exercícios',
+    title: 'Elevação Pélvica no Solo ↔ Rosca Direta c/ Halteres', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Elevação Pélvica no Solo', muscle: 'Glúteos', duration: '3x15', equipment: 'Colchonete', tip: 'Deitada de costas, joelhos flexionados. Eleve o quadril contraindo o glúteo. Sem carga adicional por enquanto (proteção lombar).', video: V.elevPelvica },
-      { name: 'Rosca Direta com Halteres', muscle: 'Bíceps', duration: '3x15', equipment: 'Halteres', tip: 'Cotovelos fixos ao lado do corpo. Sem balançar o tronco.', video: V.roscaDireta },
+      { name: 'Elevação Pélvica no Solo', muscle: 'Glúteos', duration: '4x12', equipment: 'Colchonete', tip: 'Deitada de costas, joelhos flexionados. Eleve o quadril contraindo o glúteo no topo.', video: V.elevPelvica },
+      { name: 'Rosca Direta com Halteres', muscle: 'Bíceps', duration: '4x12', equipment: 'Halteres', tip: 'Cotovelos fixos ao lado do corpo. Sem balançar o tronco.', video: V.roscaDireta },
     ]
   },
-  CARDIO_BIKE,
+  CARDIO_MAXCYCLE,
   ALONG_FINAL_B,
 ];
 
-// ─── Dynamic week dates ───
-function getMonday(d) {
-  const dt = new Date(d);
-  const day = dt.getDay();
-  const diff = dt.getDate() - day + (day === 0 ? -6 : 1);
-  return new Date(dt.setDate(diff));
-}
-
-function pad(n) { return n < 10 ? '0' + n : '' + n; }
-
-function buildWeek() {
-  const monday = getMonday(new Date());
-  const DAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-  const MONTHS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-  return WEEK_SCHEDULE.map((s, i) => {
-    const dt = new Date(monday);
-    dt.setDate(monday.getDate() + i);
-    const dateStr = dt.getFullYear() + '-' + pad(dt.getMonth()+1) + '-' + pad(dt.getDate());
-    const entry = {
-      day: s.dayName,
-      date: dateStr,
-      num: dt.getDate(),
-      rest: s.rest,
-      label: s.label,
-    };
-    if (s.blocks) entry.blocks = s.blocks;
-    return entry;
-  });
-}
-
-// ─── Treino C — Cardio + Core + Mobilidade (dia 5) ───
-const TREINO_C = [
-  AQUEC_ARTICULAR,
-  {
-    type: 'warmup', label: 'Mobilidade Especial',
-    title: 'Foco Lombar / Joelho / Ciático', duration: '2x30s cada',
-    meta: 'Mobilidade terapêutica — 2 séries de 30 segundos cada',
-    exercises: [
-      { name: 'Gato-Vaca', muscle: 'Lombar / Core', duration: '2x30s', equipment: 'Colchonete', tip: 'De quatro, alterne entre arquear e arredondar a coluna. Respiração profunda.', video: V.gatoVaca },
-      { name: 'Joelhos ao Peito (alternado)', muscle: 'Lombar', duration: '2x30s', equipment: 'Colchonete', tip: 'Deitada, puxe um joelho ao peito de cada vez. 30 segundos cada lado.', video: V.alongGluteos },
-      { name: 'Alongamento do Piriforme', muscle: 'Glúteo / Ciático', duration: '2x30s', equipment: 'Colchonete', tip: 'Deitada, cruze a perna e puxe o joelho oposto ao peito. Alivia a dor ciática. 30s cada lado.', video: V.alongPiriforme },
-      { name: 'Mobilidade de Quadril (90-90)', muscle: 'Quadril', duration: '2x30s', equipment: 'Colchonete', tip: 'Sentada no chão, pernas em 90 graus. Gire alternando os lados.', video: V.mobQuadril },
-    ]
-  },
-  {
-    type: 'lift', label: 'Core',
-    title: 'Fortalecimento Abdominal', duration: '3 exercícios',
-    meta: '3 séries cada — foco em core sem comprimir a lombar',
-    exercises: [
-      { name: 'Prancha Isométrica', muscle: 'Core / Abdômen', duration: '3x20s', equipment: 'Colchonete', tip: 'Apoie nos antebraços e pontas dos pés. Corpo reto. Mantenha 20 segundos. Progressão gradual.', video: V.prancha },
-      { name: 'Abdominal Supra', muscle: 'Abdômen superior', duration: '3x15', equipment: 'Colchonete', tip: 'Amplitude parcial. Sem forçar a lombar.', video: V.abdomSupra },
-      { name: 'Elevação de Pernas (joelhos flexionados)', muscle: 'Abdômen inferior', duration: '3x12', equipment: 'Colchonete', tip: 'Deitada, eleve as pernas com joelhos flexionados. Controle a descida. Protege a lombar.', video: V.elevPernas },
-    ]
-  },
+// ─── Treino C — Caminhada no Parque (Ter/Qui) ───
+const TREINO_CAMINHADA = [
   {
     type: 'cardio', label: 'Cardio',
-    title: 'MaxCycle Presencial', duration: '55 min',
-    meta: 'Aula de spinning com o Luisão — presencial',
+    title: 'Caminhada no Parque', duration: '30 min+',
+    meta: 'Mínimo 30 minutos de caminhada ao ar livre',
     exercises: [
-      { name: 'MaxCycle (Spinning)', muscle: 'Cardiovascular / MMII', duration: '55 min', equipment: 'Bike spinning (presencial)', tip: '🔥 Aula presencial com o Luisão. Ritmo guiado, resistências variadas. Zero impacto no joelho.', video: V.bike },
+      { name: 'Caminhada no Parque', muscle: 'Cardiovascular', duration: '30+ min', equipment: 'Nenhum', tip: 'Ritmo moderado, pelo menos 30 minutos. Aproveite o ar livre! Se quiser, pode aumentar o tempo.', video: V.bike },
     ]
   },
-  ALONG_FINAL_C,
+];
+
+// ─── Treino D — Full Body Extra (Sexta) ───
+const TREINO_SEXTA = [
+  AQUEC_ARTICULAR,
+  AQUEC_MUSCULAR_A,
+  MOBILIDADE_A,
+  {
+    type: 'lift', label: 'Bi-Set 1',
+    title: 'Leg Press 45° ↔ Remada Curvada c/ Halteres', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
+    exercises: [
+      { name: 'Leg Press 45°', muscle: 'Quadríceps / Glúteos', duration: '4x12', equipment: 'Máquina Leg Press', tip: 'Desça controlando e empurre sem travar os joelhos.', video: V.legPress },
+      { name: 'Remada Curvada com Halteres', muscle: 'Costas', duration: '4x12', equipment: 'Halteres', tip: 'Tronco inclinado ~45°. Puxe em direção ao abdômen.', video: V.remadaCurvadaHalter },
+    ]
+  },
+  {
+    type: 'lift', label: 'Bi-Set 2',
+    title: 'Glúteo Máquina ↔ Flexão de Braço', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
+    exercises: [
+      { name: 'Glúteo Máquina (Kickback)', muscle: 'Glúteos', duration: '4x12', equipment: 'Máquina de glúteo', tip: 'Foco na contração máxima no topo.', video: V.gluteoMaq },
+      { name: 'Flexão de Braço (joelhos no chão)', muscle: 'Peitoral / Tríceps', duration: '4x12', equipment: 'Colchonete', tip: 'Desça controlando até o peito quase tocar o chão.', video: V.flexaoBraco },
+    ]
+  },
+  {
+    type: 'lift', label: 'Bi-Set 3',
+    title: 'Cadeira Flexora ↔ Abdominal Supra', duration: '4x12 · Sem descanso',
+    meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
+    exercises: [
+      { name: 'Cadeira Flexora', muscle: 'Post. coxa', duration: '4x12', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica.', video: V.cadeiraFlexora },
+      { name: 'Abdominal Supra', muscle: 'Abdômen', duration: '4x12', equipment: 'Colchonete', tip: 'Suba o suficiente para contrair.', video: V.abdomSupra },
+    ]
+  },
+  CARDIO_MAXCYCLE,
+  ALONG_FINAL_A,
 ];
 
 const TRAINING_SLOTS = [
-  { label: 'Treino A — Anterior', blocks: TREINO_A },
-  { label: 'Treino B — Posterior', blocks: TREINO_B },
-  { label: 'Treino A — Anterior', blocks: TREINO_A },
-  { label: 'Treino B — Posterior', blocks: TREINO_B },
-  { label: 'Treino C — Cardio + Core', blocks: TREINO_C },
+  { label: 'Treino A — Anterior + MaxCycle', blocks: TREINO_A },
+  { label: '🚶 Caminhada no Parque', blocks: TREINO_CAMINHADA },
+  { label: 'Treino B — Posterior + MaxCycle', blocks: TREINO_B },
+  { label: '🚶 Caminhada no Parque', blocks: TREINO_CAMINHADA },
+  { label: 'Treino C — Full Body + MaxCycle', blocks: TREINO_SEXTA },
 ];
 const ALL_DAYS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 const DAY_CONFIG_KEY = 'maxresults-vivyane-days-v1';
@@ -742,7 +725,7 @@ function renderWorkout() {
   document.getElementById('headerDate').textContent = document.getElementById('weekBadge')?.textContent || '';
   if (day.rest) { content.innerHTML = `<div class="rest-message"><h2>Dia de Descanso 😴</h2><p>Recuperação é parte do treino. Alongue e descanse.</p></div>`; document.getElementById('sessionComplete').classList.remove('visible'); return; }
 
-  content.innerHTML = `<div class="elbow-alert">⚠️ <strong>Joelho esquerdo fraturado · Dor ciático · Lesão vértebras</strong> — Exercícios em máquinas com amplitude reduzida. Extensora a ~70%. Sem saltos, sem agachamento livre, sem carga axial pesada. Se sentir dor, <em>pare imediatamente</em> e avise o Luisão.</div>` + day.blocks.map((block, bi) => {
+  content.innerHTML = day.blocks.map((block, bi) => {
     const doneCount = block.exercises.filter((_, ei) => completedExercises[exerciseKey(currentDayIndex, bi, ei)]).length;
     const total = block.exercises.length;
     const blockDone = doneCount === total;
