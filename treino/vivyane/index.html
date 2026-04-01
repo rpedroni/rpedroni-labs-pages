@@ -335,7 +335,7 @@ const ATHLETE = 'Vivyane';
 const WEEKLY_GOALS = [
   { icon: '🔥', type: 'fat', text: '<strong>Emagrecimento:</strong> Musculação Seg/Qua/Sex + MaxCycle + Caminhada Ter/Qui' },
   { icon: '📈', type: 'strength', text: '<strong>Progressão:</strong> 4x12 — aumente a carga quando completar 12 reps com boa execução' },
-  { icon: '🎯', type: 'assessment', text: '<strong>Ênfase:</strong> Glúteos, pernas e barriga' },
+  { icon: '🎯', type: 'assessment', text: '<strong>Ênfase:</strong> Quadril e tríceps (presente em todos os treinos de musculação)' },
   { icon: '📋', type: 'assessment', text: '<strong>Avaliação Física:</strong> <a href="https://wa.me/5541999775758?text=Oi%20Luisão!%20Quero%20agendar%20minha%20avaliação%20física%20🏋️" target="_blank" style="color:var(--accent-lift);text-decoration:underline;">Agendar com Luisão</a>' },
 ];
 
@@ -551,11 +551,11 @@ const TREINO_A = [
   },
   {
     type: 'lift', label: 'Bi-Set 3',
-    title: 'Abdução Máquina ↔ Abdominal Supra', duration: '4x12 · Sem descanso',
+    title: 'Abdução Máquina ↔ Tríceps na Polia c/ Corda', duration: '4x12 · Sem descanso',
     meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
     exercises: [
       { name: 'Abdução de Quadril Máquina', muscle: 'Abdutores / Glúteo Médio', duration: '4x12', equipment: 'Máquina abdutora', tip: 'Foco na contração do glúteo médio. Abra as pernas com controle.', video: V.abdQuadril },
-      { name: 'Abdominal Supra', muscle: 'Abdômen', duration: '4x12', equipment: 'Colchonete', tip: 'Suba o suficiente para contrair. Controle a descida.', video: V.abdomSupra },
+      { name: 'Tríceps na Polia com Corda', muscle: 'Tríceps', duration: '4x12', equipment: 'Polia + corda', tip: 'Cotovelos fixos ao lado do corpo. Estenda completamente e abra a corda no final.', video: V.tricepsCorda },
     ]
   },
   CARDIO_MAXCYCLE,
@@ -587,11 +587,11 @@ const TREINO_B = [
   },
   {
     type: 'lift', label: 'Bi-Set 3',
-    title: 'Elevação Pélvica no Solo ↔ Rosca Direta c/ Halteres', duration: '4x12 · Sem descanso',
+    title: 'Adução Máquina ↔ Tríceps Francês c/ Halter', duration: '4x12 · Sem descanso',
     meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Elevação Pélvica no Solo', muscle: 'Glúteos', duration: '4x12', equipment: 'Colchonete', tip: 'Deitada de costas, joelhos flexionados. Eleve o quadril contraindo o glúteo no topo.', video: V.elevPelvica },
-      { name: 'Rosca Direta com Halteres', muscle: 'Bíceps', duration: '4x12', equipment: 'Halteres', tip: 'Cotovelos fixos ao lado do corpo. Sem balançar o tronco.', video: V.roscaDireta },
+      { name: 'Adução de Quadril Máquina', muscle: 'Adutores / Quadril', duration: '4x12', equipment: 'Máquina adutora', tip: 'Feche as pernas com controle, segure a contração por 1s.', video: V.aducao },
+      { name: 'Tríceps Francês com Halter', muscle: 'Tríceps', duration: '4x12', equipment: 'Halter + banco', tip: 'Sentada com apoio. Segure o halter acima da cabeça e desça atrás da nuca com controle.', video: V.tricepsFrances },
     ]
   },
   CARDIO_MAXCYCLE,
@@ -635,11 +635,11 @@ const TREINO_SEXTA = [
   },
   {
     type: 'lift', label: 'Bi-Set 3',
-    title: 'Cadeira Flexora ↔ Abdominal Supra', duration: '4x12 · Sem descanso',
+    title: 'Abdução Máquina ↔ Tríceps Banco', duration: '4x12 · Sem descanso',
     meta: '4 séries de 12 repetições · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Cadeira Flexora', muscle: 'Post. coxa', duration: '4x12', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica.', video: V.cadeiraFlexora },
-      { name: 'Abdominal Supra', muscle: 'Abdômen', duration: '4x12', equipment: 'Colchonete', tip: 'Suba o suficiente para contrair.', video: V.abdomSupra },
+      { name: 'Abdução de Quadril Máquina', muscle: 'Abdutores / Glúteo Médio', duration: '4x12', equipment: 'Máquina abdutora', tip: 'Foco na contração do glúteo médio.', video: V.abdQuadril },
+      { name: 'Tríceps Banco com Pernas Dobradas', muscle: 'Tríceps', duration: '4x12', equipment: 'Banco', tip: 'Pernas dobradas. Desça controlando e suba firme. Boa contração no topo.', video: V.tricepsBanco },
     ]
   },
   CARDIO_MAXCYCLE,
