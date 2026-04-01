@@ -586,6 +586,27 @@ function loadDayConfig() {
   catch { return DEFAULT_DAYS; }
 }
 
+function getMonday(d) {
+  const dt = new Date(d);
+  const day = dt.getDay();
+  const diff = dt.getDate() - day + (day === 0 ? -6 : 1);
+  return new Date(dt.setDate(diff));
+}
+
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+function buildWeek() {
+  const monday = getMonday(new Date());
+  return WEEK_SCHEDULE.map((s, i) => {
+    const dt = new Date(monday);
+    dt.setDate(monday.getDate() + i);
+    const dateStr = dt.getFullYear() + '-' + pad(dt.getMonth()+1) + '-' + pad(dt.getDate());
+    const entry = { day: s.dayName, date: dateStr, num: dt.getDate(), rest: s.rest, label: s.label };
+    if (s.blocks) entry.blocks = s.blocks;
+    return entry;
+  });
+}
+
 function buildSchedule() {
   const chosen = loadDayConfig();
   let slotIdx = 0;
