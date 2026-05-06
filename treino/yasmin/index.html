@@ -314,7 +314,7 @@
   <div class="assess-panel" id="assessPanel"></div>
   <button class="report-toggle" id="reportToggle" onclick="toggleReport()">📊 Relatório de Frequência<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
   <div class="report-panel" id="reportPanel"></div>
-  <footer class="footer">Metodologia MaxResults &middot; Luisão Ribeiro<br>Gerado em 27/02/2026</footer>
+  <footer class="footer">Metodologia MaxResults &middot; Luisão Ribeiro<br>Gerado em 06/05/2026</footer>
 </div>
 <div class="video-overlay" id="videoOverlay" onclick="closeVideo()">
   <button class="video-close" onclick="closeVideo()">✕</button>
@@ -322,12 +322,14 @@
 </div>
 <script>
 const ATHLETE = 'Yasmin';
+const STUDENT_SLUG = 'yasmin';
+const CYCLE_ID = 'yasmin-2026-05-05';
 
 const WEEKLY_GOALS = [
-  { icon: '🍑', type: 'strength', text: '<strong>Foco Glúteos e Pernas:</strong> Hipertrofia com ênfase em membros inferiores — seu objetivo principal!' },
-  { icon: '🏋️', type: 'strength', text: '<strong>3x15:</strong> 3 séries de 15 repetições. Aumente a carga só quando ficar fácil!' },
-  { icon: '🏠', type: 'assessment', text: '<strong>Treino em Casa:</strong> Barra + anilhas + caneleiras. Adapte o que precisar e avise o Luisão!' },
-
+  { icon: '🍑', type: 'strength', text: '<strong>Foco Glúteos:</strong> saúde geral + fortalecimento com ênfase em glúteos e membros inferiores.' },
+  { icon: '⚖️', type: 'strength', text: '<strong>Equilíbrio A/B:</strong> neste ciclo é importante alternar bem os dois treinos — não concentrar só no posterior.' },
+  { icon: '⏱️', type: 'strength', text: '<strong>1h por treino:</strong> constância e execução boa > inventar moda.' },
+  { icon: '🏠', type: 'assessment', text: '<strong>Treino em Casa:</strong> barra + anilhas + caneleiras. Adapte o que precisar e avise o Luisão.' },
 ];
 
 // ─── Video URLs ───
@@ -481,10 +483,10 @@ function buildWeek() {
 }
 
 const TRAINING_SLOTS = [
-  { label: 'Treino A — Anterior', blocks: TREINO_A },
-  { label: 'Treino B — Posterior', blocks: TREINO_B },
-  { label: 'Treino A — Anterior', blocks: TREINO_A },
-  { label: 'Treino B — Posterior', blocks: TREINO_B },
+  { slotId: 'A', label: 'Treino A — Anterior', blocks: TREINO_A },
+  { slotId: 'B', label: 'Treino B — Posterior', blocks: TREINO_B },
+  { slotId: 'A', label: 'Treino A — Anterior', blocks: TREINO_A },
+  { slotId: 'B', label: 'Treino B — Posterior', blocks: TREINO_B },
 ];
 const ALL_DAYS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 const DAY_CONFIG_KEY = 'maxresults-yasmin-days-v1';
@@ -501,7 +503,7 @@ function buildSchedule() {
   return ALL_DAYS.map(day => {
     if (chosen.includes(day) && slotIdx < TRAINING_SLOTS.length) {
       const slot = TRAINING_SLOTS[slotIdx++];
-      return { dayName: day, rest: false, label: slot.label, blocks: slot.blocks };
+      return { dayName: day, rest: false, label: slot.label, slotId: slot.slotId, blocks: slot.blocks };
     }
     return { dayName: day, rest: true, label: 'Descanso' };
   });
@@ -520,6 +522,7 @@ function getWeekKey() {
 const STORAGE_KEY = 'maxresults-yasmin-' + getWeekKey() + '-v1';
 const LOAD_KEY = 'maxresults-yasmin-loads-v1';
 const REST_KEY = 'maxresults-yasmin-rest-v1';
+const SESSION_KEY = `maxresults-${STUDENT_SLUG}-${CYCLE_ID}-sessions-v1`;
 let currentDayIndex = 0;
 let completedExercises = loadProgress();
 
@@ -843,8 +846,8 @@ const ASSESSMENT = {
     leanMass: 40.01, fatMass: 9.99,
     sumMeasures: 415,
   },
-  objective: 'Hipertrofia — foco glúteos e pernas',
-  emphasis: 'Glúteo e membros inferiores',
+  objective: 'Saúde geral / reabilitação com foco em glúteos',
+  emphasis: 'Glúteos',
 };
 
 function renderAssessment(a) {
@@ -917,7 +920,7 @@ loadAvatar();
 
 // ─── Session Timer + Frequency Report ───
 const TIMER_KEY = 'maxresults-yasmin-timer-v1';
-const HISTORY_KEY = 'maxresults-yasmin-history-v1';
+const HISTORY_KEY = SESSION_KEY;
 let timerInterval = null;
 let sessionStartTime = null;
 
@@ -991,7 +994,10 @@ function stopSession() {
   const history = loadHistory();
   history.push({
     date: new Date().toISOString(),
+    studentSlug: STUDENT_SLUG,
+    cycleId: CYCLE_ID,
     dayIndex: currentDayIndex,
+    slotId: day ? (day.slotId || '') : '',
     dayLabel: day ? day.label : '',
     dayName: day ? day.day : '',
     duration: elapsed,
@@ -1013,7 +1019,7 @@ function stopSession() {
 
   // Show completion message
   renderReport();
-  try{fetch('https://discord.com/api/webhooks/1486461383062061096/NaYJvJvQipulZ8Ux8D-alhPgliARc79TbcXf-sRQ0JNzLaLaRgdlhCq4NsErs79RR7PU',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:'✅ **Yasmin** finalizou treino!\n📅 '+new Date().toLocaleDateString('pt-BR')+' ('+day.day+') — '+day.label+'\n⏱️ Tempo: '+formatDuration(elapsed)+'\n📊 Exercícios: '+pct+'% ('+done+'/'+total+')',username:'Frequência — Yasmin'})}).catch(function(){});}catch(e){}alert('Sessão finalizada! \nTempo: ' + formatDuration(elapsed) + '\nExercícios: ' + pct + '% concluídos');
+  try{fetch('https://discord.com/api/webhooks/1486461383062061096/NaYJvJvQipulZ8Ux8D-alhPgliARc79TbcXf-sRQ0JNzLaLaRgdlhCq4NsErs79RR7PU',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:'✅ **Yasmin** finalizou treino!\n📅 '+new Date().toLocaleDateString('pt-BR')+' ('+day.day+') — '+day.label+'\n🧬 Ciclo: '+CYCLE_ID+'\n🆔 Slot: '+(day.slotId || '-')+'\n⏱️ Tempo: '+formatDuration(elapsed)+'\n📊 Exercícios: '+pct+'% ('+done+'/'+total+')',username:'Frequência — Yasmin'})}).catch(function(){});}catch(e){}alert('Sessão finalizada! \nTempo: ' + formatDuration(elapsed) + '\nExercícios: ' + pct + '% concluídos');
 }
 
 function restoreTimer() {
