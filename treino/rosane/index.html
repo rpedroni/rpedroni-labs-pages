@@ -524,6 +524,33 @@ const ALL_DAYS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 const DAY_CONFIG_KEY = 'maxresults-rosane-days-v1';
 const DEFAULT_DAYS = ['Seg', 'Qua', 'Sex'];
 
+function getMonday(d) {
+  const dt = new Date(d);
+  const day = dt.getDay();
+  const diff = dt.getDate() - day + (day === 0 ? -6 : 1);
+  return new Date(dt.setDate(diff));
+}
+
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+function buildWeek() {
+  const monday = getMonday(new Date());
+  return WEEK_SCHEDULE.map((s, i) => {
+    const dt = new Date(monday);
+    dt.setDate(monday.getDate() + i);
+    const dateStr = dt.getFullYear() + '-' + pad(dt.getMonth()+1) + '-' + pad(dt.getDate());
+    const entry = {
+      day: s.dayName,
+      date: dateStr,
+      num: dt.getDate(),
+      rest: s.rest,
+      label: s.label,
+    };
+    if (s.blocks) entry.blocks = s.blocks;
+    return entry;
+  });
+}
+
 function loadDayConfig() {
   try { return JSON.parse(localStorage.getItem(DAY_CONFIG_KEY)) || DEFAULT_DAYS; }
   catch { return DEFAULT_DAYS; }
@@ -586,13 +613,13 @@ function closeDayModal() { document.getElementById('dayModal').classList.remove(
 function limitDaySelection() {
   const checked = document.querySelectorAll('#dayOptions input:checked');
   const unchecked = document.querySelectorAll('#dayOptions input:not(:checked)');
-  unchecked.forEach(cb => cb.disabled = checked.length >= 4);
+  unchecked.forEach(cb => cb.disabled = checked.length >= 3);
 }
 
 function saveDayConfig() {
   const checked = [...document.querySelectorAll('#dayOptions input:checked')].map(cb => cb.value);
   if (checked.length < 1) { alert('Selecione pelo menos 1 dia!'); return; }
-  if (checked.length > 4) { alert('Máximo 4 dias!'); return; }
+  if (checked.length > 3) { alert('Máximo 3 dias!'); return; }
   localStorage.setItem(DAY_CONFIG_KEY, JSON.stringify(checked));
   WEEK_SCHEDULE = buildSchedule();
   WEEK = buildWeek();
