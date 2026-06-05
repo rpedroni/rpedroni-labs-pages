@@ -319,7 +319,7 @@
   <div class="week-overview" id="weekOverview"></div>
   <button class="assess-toggle" id="assessToggle">📊 Avaliação Física<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
   <div class="assess-panel" id="assessPanel"></div>
-  <footer class="footer">Metodologia MaxResults &middot; Luisão Ribeiro<br>Gerado em 25/02/2026</footer>
+  <footer class="footer">Metodologia MaxResults &middot; Luisão Ribeiro<br>Gerado em 05/06/2026</footer>
 </div>
 <div class="video-overlay" id="videoOverlay" onclick="closeVideo()">
   <button class="video-close" onclick="closeVideo()">✕</button>
@@ -330,10 +330,12 @@
 const ATHLETE = 'Daíne';
 
 const WEEKLY_GOALS = [
-  { icon: '🏋️', type: 'strength', text: '<strong>Emagrecimento:</strong> ABC 3x/semana — musculação + MaxLift + cardio' },
-  { icon: '💪', type: 'strength', text: '<strong>Progressão Gradual:</strong> 3x15-20 — aumente a carga somente quando se sentir segura' },
-  { icon: '📋', type: 'assessment', text: '<strong>Avaliação Física:</strong> <a href="https://wa.me/5541999775758?text=Oi%20Luisão!%20Quero%20agendar%20minha%20avaliação%20física%20🏋️" target="_blank" style="color:var(--accent-lift);text-decoration:underline;">Fale com o Luisão</a>' },
-  { icon: '🥗', type: 'assessment', text: '<strong>Alimentação:</strong> Manter acompanhamento nutricional — atenção ao consumo de doces (ansiedade)' },
+  { icon: '🏋️', type: 'strength', text: '<strong>Programa Junho:</strong> ABC Full Body 3x/sem — musculação + MaxLift + MaxCycle' },
+  { icon: '💪', type: 'strength', text: '<strong>Intensidade Moderada:</strong> 3x12-15 — sobe a carga só quando se sentir firme nas 15' },
+  { icon: '🔥', type: 'fat', text: '<strong>MaxCycle Presencial:</strong> aula guiada do Luisão no lugar da bike — zero impacto na lombar' },
+  { icon: '🧘', type: 'assessment', text: '<strong>Respiração + relaxamento:</strong> 3 min ao final — ajuda a baixar o estresse (9/10) e a ansiedade' },
+  { icon: '📋', type: 'assessment', text: '<strong>Avaliação Física:</strong> <a href="https://wa.me/5541999775758?text=Oi%20Luisão!%20Quero%20agendar%20minha%20avaliação%20física%20🏋️" target="_blank" style="color:var(--accent-lift);text-decoration:underline;">vencida — agenda com o Luisão</a>' },
+  { icon: '🥗', type: 'assessment', text: '<strong>Alimentação:</strong> Manter acompanhamento nutricional — atenção ao doce (gatilho de ansiedade)' },
 ];
 
 const V = {
@@ -366,6 +368,8 @@ const V = {
   bike: 'https://vd.mfitpersonal.com.br/518/mp4/518.mp4',
   bomDia: 'https://vd.mfitpersonal.com.br/269/mp4/269.mp4',
   agachLivre: 'https://vd.mfitpersonal.com.br/52/mp4/52.mp4',
+  maxlift3aq: 'https://1drv.ms/v/c/437d19de9d024724/IQAkRwKd3hl9IIBDXOUAAAAAAcpS0aYRHYfXg37biRry5dA',
+  respiracao: 'yt:LiUnFJ8P4gM',
 };
 
 // ─── Shared blocks ───
@@ -484,140 +488,160 @@ const MAXLIFT_BT = {
   ]
 };
 
-const CARDIO_BIKE = {
-  type: 'cardio', label: 'Cardio Final',
-  title: 'Bike', duration: '15–20 min',
+const MAXLIFT_AQ = {
+  type: 'warmup', label: 'Aula MaxLift',
+  title: 'MaxLift Mix 3 — Aquecimento', duration: '~5 min',
   exercises: [
-    { name: 'Bike Spinning', muscle: 'Cardio', duration: '15-20 min', equipment: 'Bicicleta ergométrica', tip: 'Intensidade moderada. Cadência confortável. Ótimo cardio sem impacto na lombar.', video: V.bike },
+    { name: 'MaxLift Mix 3 – Aquecimento', muscle: 'Corpo todo', duration: '~5 min', equipment: 'Aula em vídeo', tip: 'Siga o vídeo da aula MaxLift Mix 3. Foco em aquecer e elevar a frequência cardíaca.', video: V.maxlift3aq },
   ]
 };
 
-// ─── Treino A — Anterior + MaxLift Bíceps & Tríceps ───
+const CARDIO_MAXCYCLE = {
+  type: 'cardio', label: 'Cardio Final',
+  title: 'MaxCycle Presencial', duration: '~55 min',
+  exercises: [
+    { name: 'MaxCycle (Spinning)', muscle: 'Cardiovascular / MMII', duration: '55 min', equipment: 'Bike spinning (presencial)', tip: '🔥 Aula presencial com o Luisão. Ritmo guiado, resistências variadas. Zero impacto na lombar.', video: V.bike },
+  ]
+};
+
+const RELAX_FINAL = {
+  type: 'warmup', label: 'Respiração',
+  title: 'Respiração + Relaxamento', duration: '~3 min',
+  meta: 'Fim de treino — baixa o estresse e a ansiedade',
+  exercises: [
+    { name: 'Respiração 4-7-8', muscle: 'Sistema nervoso', duration: '~3 min', equipment: 'Nenhum', tip: 'Sentada ou deitada. Inspire 4s pelo nariz, segure 7s, expire 8s pela boca. 4 ciclos. Ajuda a desligar o modo estresse depois do treino.', video: V.respiracao },
+  ]
+};
+
+// ─── Treino A — Anterior + MaxLift Bíceps & Tríceps + MaxCycle ───
 const TREINO_A = [
   AQUEC_ARTICULAR,
   AQUEC_MUSCULAR_A,
   MOBILIDADE_A,
   {
     type: 'lift', label: 'Bi-Set 1',
-    title: 'Leg Press 45° ↔ Supino Reto Barra', duration: '3x15-20 · Sem descanso',
-    meta: '3 séries de 15-20 · Sem descanso entre exercícios',
+    title: 'Leg Press 45° ↔ Supino Reto Barra', duration: '3x12-15 · Sem descanso',
+    meta: '3 séries de 12-15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Leg Press 45°', muscle: 'Quadríceps / Glúteos', duration: '3x15-20', equipment: 'Máquina Leg Press', tip: 'Pés na largura dos ombros. Desça controlando até ~90° e empurre sem travar os joelhos. Sem impacto na lombar!', video: V.legPress },
-      { name: 'Supino Reto com Barra', muscle: 'Peitoral', duration: '3x15-20', equipment: 'Barra + banco', tip: 'Desça a barra até a linha do peito e empurre controlando. Mantenha os pés no chão.', video: V.supinoBarra },
+      { name: 'Leg Press 45°', muscle: 'Quadríceps / Glúteos', duration: '3x12-15', equipment: 'Máquina Leg Press', tip: 'Pés na largura dos ombros. Desça controlando até ~90° e empurre sem travar os joelhos. Sem impacto na lombar!', video: V.legPress },
+      { name: 'Supino Reto com Barra', muscle: 'Peitoral', duration: '3x12-15', equipment: 'Barra + banco', tip: 'Desça a barra até a linha do peito e empurre controlando. Mantenha os pés no chão.', video: V.supinoBarra },
     ]
   },
   {
     type: 'lift', label: 'Bi-Set 2',
-    title: 'Cadeira Extensora ↔ Crucifixo Máquina', duration: '3x15-20 · Sem descanso',
-    meta: '3 séries de 15-20 · Sem descanso entre exercícios',
+    title: 'Cadeira Extensora ↔ Crucifixo Máquina', duration: '3x12-15 · Sem descanso',
+    meta: '3 séries de 12-15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '3x15-20', equipment: 'Máquina extensora', tip: 'Movimento controlado, segure a contração no topo por 1s. Ótimo para fortalecer sem sobrecarregar a lombar.', video: V.cadeiraExt },
-      { name: 'Crucifixo Máquina', muscle: 'Peitoral', duration: '3x15-20', equipment: 'Máquina crucifixo', tip: 'Feche os braços na frente do peito com controle. Segure a contração. Desça devagar.', video: V.crucifixoMaq },
+      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '3x12-15', equipment: 'Máquina extensora', tip: 'Movimento controlado, segure a contração no topo por 1s. Ótimo para fortalecer sem sobrecarregar a lombar.', video: V.cadeiraExt },
+      { name: 'Crucifixo Máquina', muscle: 'Peitoral', duration: '3x12-15', equipment: 'Máquina crucifixo', tip: 'Feche os braços na frente do peito com controle. Segure a contração. Desça devagar.', video: V.crucifixoMaq },
     ]
   },
   {
     type: 'lift', label: 'Bi-Set 3',
-    title: 'Adução Máquina ↔ Desenvolvimento Neutro', duration: '3x15-20 · Sem descanso',
-    meta: '3 séries de 15-20 · Sem descanso entre exercícios',
+    title: 'Adução Máquina ↔ Desenvolvimento Neutro', duration: '3x12-15 · Sem descanso',
+    meta: '3 séries de 12-15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Adução de Quadril Máquina', muscle: 'Adutores', duration: '3x15-20', equipment: 'Máquina adutora', tip: 'Feche as pernas com controle, segure a contração por 1s. Desça devagar.', video: V.aducao },
-      { name: 'Desenvolvimento com Halteres (Neutro)', muscle: 'Ombros', duration: '3x15-20', equipment: 'Halteres + banco', tip: 'Sentada com apoio nas costas. Pegada neutra (palmas viradas). Empurre para cima sem travar cotovelos.', video: V.desenvNeutro },
+      { name: 'Adução de Quadril Máquina', muscle: 'Adutores', duration: '3x12-15', equipment: 'Máquina adutora', tip: 'Feche as pernas com controle, segure a contração por 1s. Desça devagar.', video: V.aducao },
+      { name: 'Desenvolvimento com Halteres (Neutro)', muscle: 'Ombros', duration: '3x12-15', equipment: 'Halteres + banco', tip: 'Sentada com apoio nas costas. Pegada neutra (palmas viradas). Empurre para cima sem travar cotovelos.', video: V.desenvNeutro },
     ]
   },
   MAXLIFT_BT,
-  CARDIO_BIKE,
+  CARDIO_MAXCYCLE,
   ALONG_FINAL_A,
+  RELAX_FINAL,
 ];
 
-// ─── Treino B — Posterior + MaxLift Bíceps & Tríceps ───
+// ─── Treino B — Posterior + MaxLift Aquecimento + MaxCycle ───
 const TREINO_B = [
   AQUEC_ARTICULAR,
+  MAXLIFT_AQ,
   AQUEC_MUSCULAR_B,
   MOBILIDADE_B,
   {
     type: 'lift', label: 'Bi-Set 1',
-    title: 'Cadeira Flexora ↔ Puxada Frontal', duration: '3x15-20 · Sem descanso',
-    meta: '3 séries de 15-20 · Sem descanso entre exercícios',
+    title: 'Cadeira Flexora ↔ Puxada Frontal', duration: '3x12-15 · Sem descanso',
+    meta: '3 séries de 12-15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Cadeira Flexora', muscle: 'Post. coxa', duration: '3x15-20', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica. Não deixe o peso cair. Mantenha o quadril no banco.', video: V.cadeiraFlexora },
-      { name: 'Puxada Frontal', muscle: 'Costas (dorsal)', duration: '3x15-20', equipment: 'Puxador', tip: 'Pegada aberta pronada. Puxe a barra até a linha do peito, contraindo as escápulas.', video: V.puxadaFrontal },
+      { name: 'Cadeira Flexora', muscle: 'Post. coxa', duration: '3x12-15', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica. Não deixe o peso cair. Mantenha o quadril no banco.', video: V.cadeiraFlexora },
+      { name: 'Puxada Frontal', muscle: 'Costas (dorsal)', duration: '3x12-15', equipment: 'Puxador', tip: 'Pegada aberta pronada. Puxe a barra até a linha do peito, contraindo as escápulas.', video: V.puxadaFrontal },
     ]
   },
   {
     type: 'lift', label: 'Bi-Set 2',
-    title: 'Glúteos Coice Polia ↔ Remada Baixa', duration: '3x15-20 · Sem descanso',
-    meta: '3 séries de 15-20 · Sem descanso entre exercícios',
+    title: 'Glúteos Coice Polia ↔ Remada Baixa', duration: '3x12-15 · Sem descanso',
+    meta: '3 séries de 12-15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Glúteos Coice na Polia', muscle: 'Glúteos', duration: '3x15-20', equipment: 'Polia baixa + caneleira', tip: 'Empurre a perna para trás contraindo o glúteo no topo. Desça controlando. Sem forçar a lombar.', video: V.gluteosCoice },
-      { name: 'Remada Baixa', muscle: 'Costas (meio)', duration: '3x15-20', equipment: 'Polia + triângulo', tip: 'Puxe em direção ao abdômen contraindo as escápulas. Sem balançar o tronco.', video: V.remadaBaixa },
+      { name: 'Glúteos Coice na Polia', muscle: 'Glúteos', duration: '3x12-15', equipment: 'Polia baixa + caneleira', tip: 'Empurre a perna para trás contraindo o glúteo no topo. Desça controlando. Sem forçar a lombar.', video: V.gluteosCoice },
+      { name: 'Remada Baixa', muscle: 'Costas (meio)', duration: '3x12-15', equipment: 'Polia + triângulo', tip: 'Puxe em direção ao abdômen contraindo as escápulas. Sem balançar o tronco.', video: V.remadaBaixa },
     ]
   },
   {
     type: 'lift', label: 'Bi-Set 3',
-    title: 'Abdução Máquina ↔ Crucifixo Inverso', duration: '3x15-20 · Sem descanso',
-    meta: '3 séries de 15-20 · Sem descanso entre exercícios',
+    title: 'Abdução Máquina ↔ Crucifixo Inverso', duration: '3x12-15 · Sem descanso',
+    meta: '3 séries de 12-15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Abdução de Quadril Máquina', muscle: 'Abdutores / Glúteo Médio', duration: '3x15-20', equipment: 'Máquina abdutora', tip: 'Abra as pernas com controle, segure a contração por 1s. Feche devagar.', video: V.abdQuadril },
-      { name: 'Crucifixo Inverso Máquina', muscle: 'Post. ombro / Costas', duration: '3x15-20', equipment: 'Máquina crucifixo', tip: 'Braços abertos para trás, contraindo as escápulas. Controle o retorno.', video: V.crucifixoInv },
+      { name: 'Abdução de Quadril Máquina', muscle: 'Abdutores / Glúteo Médio', duration: '3x12-15', equipment: 'Máquina abdutora', tip: 'Abra as pernas com controle, segure a contração por 1s. Feche devagar.', video: V.abdQuadril },
+      { name: 'Crucifixo Inverso Máquina', muscle: 'Post. ombro / Costas', duration: '3x12-15', equipment: 'Máquina crucifixo', tip: 'Braços abertos para trás, contraindo as escápulas. Controle o retorno.', video: V.crucifixoInv },
     ]
   },
-  MAXLIFT_BT,
-  CARDIO_BIKE,
+  CARDIO_MAXCYCLE,
   ALONG_FINAL_B,
+  RELAX_FINAL,
 ];
 
-// ─── Treino C — Full Body (musculação pura) ───
+// ─── Treino C — Full Body + MaxCycle ───
 const TREINO_C = [
   AQUEC_ARTICULAR,
   AQUEC_MUSCULAR_C,
   MOBILIDADE_C,
   {
     type: 'lift', label: 'Bi-Set 1',
-    title: 'Leg Press 45° ↔ Supino Reto Barra', duration: '3x15-20 · Sem descanso',
-    meta: '3 séries de 15-20 · Sem descanso entre exercícios',
+    title: 'Leg Press 45° ↔ Supino Reto Barra', duration: '3x12-15 · Sem descanso',
+    meta: '3 séries de 12-15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Leg Press 45°', muscle: 'Quadríceps / Glúteos', duration: '3x15-20', equipment: 'Máquina Leg Press', tip: 'Pés na largura dos ombros. Desça controlando até ~90° e empurre sem travar os joelhos.', video: V.legPress },
-      { name: 'Supino Reto com Barra', muscle: 'Peitoral', duration: '3x15-20', equipment: 'Barra + banco', tip: 'Desça a barra até a linha do peito e empurre controlando.', video: V.supinoBarra },
+      { name: 'Leg Press 45°', muscle: 'Quadríceps / Glúteos', duration: '3x12-15', equipment: 'Máquina Leg Press', tip: 'Pés na largura dos ombros. Desça controlando até ~90° e empurre sem travar os joelhos.', video: V.legPress },
+      { name: 'Supino Reto com Barra', muscle: 'Peitoral', duration: '3x12-15', equipment: 'Barra + banco', tip: 'Desça a barra até a linha do peito e empurre controlando.', video: V.supinoBarra },
     ]
   },
   {
     type: 'lift', label: 'Bi-Set 2',
-    title: 'Cadeira Flexora ↔ Puxada Frontal', duration: '3x15-20 · Sem descanso',
-    meta: '3 séries de 15-20 · Sem descanso entre exercícios',
+    title: 'Cadeira Flexora ↔ Puxada Frontal', duration: '3x12-15 · Sem descanso',
+    meta: '3 séries de 12-15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Cadeira Flexora', muscle: 'Post. coxa', duration: '3x15-20', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica. Mantenha o quadril no banco.', video: V.cadeiraFlexora },
-      { name: 'Puxada Frontal', muscle: 'Costas (dorsal)', duration: '3x15-20', equipment: 'Puxador', tip: 'Pegada aberta, puxe até a linha do peito contraindo escápulas.', video: V.puxadaFrontal },
+      { name: 'Cadeira Flexora', muscle: 'Post. coxa', duration: '3x12-15', equipment: 'Máquina flexora', tip: 'Controle a fase excêntrica. Mantenha o quadril no banco.', video: V.cadeiraFlexora },
+      { name: 'Puxada Frontal', muscle: 'Costas (dorsal)', duration: '3x12-15', equipment: 'Puxador', tip: 'Pegada aberta, puxe até a linha do peito contraindo escápulas.', video: V.puxadaFrontal },
     ]
   },
   {
     type: 'lift', label: 'Bi-Set 3',
-    title: 'Cadeira Extensora ↔ Desenvolvimento Neutro', duration: '3x15-20 · Sem descanso',
-    meta: '3 séries de 15-20 · Sem descanso entre exercícios',
+    title: 'Cadeira Extensora ↔ Desenvolvimento Neutro', duration: '3x12-15 · Sem descanso',
+    meta: '3 séries de 12-15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '3x15-20', equipment: 'Máquina extensora', tip: 'Movimento controlado, contração no topo. Sem solavancos.', video: V.cadeiraExt },
-      { name: 'Desenvolvimento com Halteres (Neutro)', muscle: 'Ombros', duration: '3x15-20', equipment: 'Halteres + banco', tip: 'Sentada com apoio. Pegada neutra, empurre para cima controlando.', video: V.desenvNeutro },
+      { name: 'Cadeira Extensora', muscle: 'Quadríceps', duration: '3x12-15', equipment: 'Máquina extensora', tip: 'Movimento controlado, contração no topo. Sem solavancos.', video: V.cadeiraExt },
+      { name: 'Desenvolvimento com Halteres (Neutro)', muscle: 'Ombros', duration: '3x12-15', equipment: 'Halteres + banco', tip: 'Sentada com apoio. Pegada neutra, empurre para cima controlando.', video: V.desenvNeutro },
     ]
   },
   {
     type: 'lift', label: 'Bi-Set 4',
-    title: 'Glúteos 4 Apoios ↔ Rosca Direta', duration: '3x15-20 · Sem descanso',
-    meta: '3 séries de 15-20 · Sem descanso entre exercícios',
+    title: 'Glúteos 4 Apoios ↔ Rosca Direta', duration: '3x12-15 · Sem descanso',
+    meta: '3 séries de 12-15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Glúteos 4 Apoios c/ Caneleira', muscle: 'Glúteos', duration: '3x15-20', equipment: 'Caneleira', tip: 'De quatro, estenda a perna para trás com controle. Segure a contração no topo.', video: V.gluteos4apoios },
-      { name: 'Rosca Direta com Halteres', muscle: 'Bíceps', duration: '3x15-20', equipment: 'Halteres', tip: 'Cotovelos fixos ao lado do corpo. Suba controlando sem balançar o tronco.', video: V.roscaDireta },
+      { name: 'Glúteos 4 Apoios c/ Caneleira', muscle: 'Glúteos', duration: '3x12-15', equipment: 'Caneleira', tip: 'De quatro, estenda a perna para trás com controle. Segure a contração no topo.', video: V.gluteos4apoios },
+      { name: 'Rosca Direta com Halteres', muscle: 'Bíceps', duration: '3x12-15', equipment: 'Halteres', tip: 'Cotovelos fixos ao lado do corpo. Suba controlando sem balançar o tronco.', video: V.roscaDireta },
     ]
   },
   {
     type: 'lift', label: 'Bi-Set 5',
-    title: 'Tríceps Corda ↔ Abdominal Supra', duration: '3x15-20 · Sem descanso',
-    meta: '3 séries de 15-20 · Sem descanso entre exercícios',
+    title: 'Tríceps Corda ↔ Abdominal Supra', duration: '3x12-15 · Sem descanso',
+    meta: '3 séries de 12-15 · Sem descanso entre exercícios',
     exercises: [
-      { name: 'Tríceps na Polia com Corda', muscle: 'Tríceps', duration: '3x15-20', equipment: 'Polia + corda', tip: 'Cotovelos fixos ao lado do corpo. Estenda completamente e abra a corda no final.', video: V.tricepsCorda },
-      { name: 'Abdominal Supra', muscle: 'Abdômen', duration: '3x15-20', equipment: 'Colchonete', tip: 'Suba apenas o suficiente para contrair o abdômen. Sem forçar a lombar — amplitude parcial se necessário.', video: V.abdomSupra },
+      { name: 'Tríceps na Polia com Corda', muscle: 'Tríceps', duration: '3x12-15', equipment: 'Polia + corda', tip: 'Cotovelos fixos ao lado do corpo. Estenda completamente e abra a corda no final.', video: V.tricepsCorda },
+      { name: 'Abdominal Supra', muscle: 'Abdômen', duration: '3x12-15', equipment: 'Colchonete', tip: 'Suba apenas o suficiente para contrair o abdômen. Sem forçar a lombar — amplitude parcial se necessário.', video: V.abdomSupra },
     ]
   },
-  CARDIO_BIKE,
+  CARDIO_MAXCYCLE,
   ALONG_FINAL_C,
+  RELAX_FINAL,
 ];
 
 // ─── Dynamic week dates ───
@@ -651,9 +675,9 @@ function buildWeek() {
 }
 
 const TRAINING_SLOTS = [
-  { label: 'Treino A — Anterior + MaxLift B&T', blocks: TREINO_A },
-  { label: 'Treino B — Posterior + MaxLift B&T', blocks: TREINO_B },
-  { label: 'Treino C — Full Body', blocks: TREINO_C },
+  { label: 'Treino A — Anterior + MaxLift B&T + MaxCycle', blocks: TREINO_A },
+  { label: 'Treino B — Posterior + MaxLift Aq + MaxCycle', blocks: TREINO_B },
+  { label: 'Treino C — Full Body + MaxCycle', blocks: TREINO_C },
 ];
 const ALL_DAYS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 const DAY_CONFIG_KEY = 'maxresults-daine-days-v1';
